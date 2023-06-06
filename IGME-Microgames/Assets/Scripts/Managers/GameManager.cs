@@ -9,39 +9,27 @@ public class GameManager : MonoBehaviour
     private Queue<string> playlist;
     public int minigameDuplicates = 2;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
+    /// <summary>
+    /// Plays the next minigame in the queue.
+    /// </summary>
     public void PlayNext()
     {
-        /*foreach(string minigame in playlist)
+        /*foreach (string minigame in playlist)
         {
             Debug.Log(minigame);
         }*/
         string nextSceneName = playlist.Dequeue();
-        string thisSceneName = SceneManager.GetActiveScene().name;
 
-        SceneManager.UnloadSceneAsync(thisSceneName);
+        ClearScenes();
         SceneManager.LoadSceneAsync(nextSceneName, LoadSceneMode.Additive);
-
-        SceneManager.sceneLoaded += NextSceneLoaded;
     }
 
-    private void NextSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        SceneManager.SetActiveScene(scene);
 
-        Debug.Log(SceneManager.sceneCount);
-        Debug.Log(SceneManager.GetActiveScene().name);
-    }
-
+    /// <summary>
+    /// Compiles the available minigames into a shuffled queue.
+    /// </summary>
+    /// <param name="rooms">room objects that the player has in their agency.</param>
     public void BuildPlaylist(Room[] rooms)
     {
         List<string> activeMinigames = new List<string>();
@@ -76,8 +64,15 @@ public class GameManager : MonoBehaviour
         PlayNext();
     }
 
+    /// <summary>
+    /// clears scenes then loads score scene
+    /// TODO: Updates account progression
+    /// </summary>
+    /// <param name="score"></param>
     public void EndMinigame(int score)
     {
+        ClearScenes();
+        SceneManager.LoadSceneAsync("MinigameScore", LoadSceneMode.Additive);
     }
 
     /// <summary>
@@ -97,5 +92,28 @@ public class GameManager : MonoBehaviour
             list[n] = value;
         }
 
+    }
+
+    /// <summary>
+    /// returns to the agency.
+    /// </summary>
+    public void EndStreak()
+    {
+        ClearScenes();
+        SceneManager.LoadSceneAsync("Agency", LoadSceneMode.Additive);
+    }
+
+    /// <summary>
+    /// unloads all scenes except the gameManagerScene. 
+    /// </summary>
+    private void ClearScenes()
+    {
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            if(SceneManager.GetSceneAt(i).name != "GameManagerScene")
+            {
+                SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i).name);
+            }
+        }
     }
 }

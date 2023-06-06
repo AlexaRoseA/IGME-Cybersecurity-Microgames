@@ -6,11 +6,12 @@ public enum RoomState
 {
     off,
     on,
-    fresh
+    fresh //When a room is first bought, it will be fresh- it will be first in the playlist next time. 
 }
 
 public class Room : MonoBehaviour
 {
+    //For now, minigameScene is instance editable- when rooms are set up this will be private
     public string minigameScene;
     public int highscore;
     public int agentLevel;
@@ -19,18 +20,6 @@ public class Room : MonoBehaviour
 
     public string MinigameScene { get { return minigameScene; } }
     public RoomState roomState;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void Challenge()
     {
