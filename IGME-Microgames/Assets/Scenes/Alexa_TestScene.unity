@@ -217,7 +217,7 @@ GameObject:
   m_Component:
   - component: {fileID: 501949399}
   - component: {fileID: 501949398}
-  - component: {fileID: 501949400}
+  - component: {fileID: 501949397}
   m_Layer: 0
   m_Name: InputManager
   m_TagString: Untagged
