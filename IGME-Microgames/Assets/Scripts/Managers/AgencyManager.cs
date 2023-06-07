@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.Tilemaps;
 
 public enum InteractionMode
 {
     Move,
-    Place,
-    Destroy
+    Floor,
+    Wall,
+    Furniture
 }
 
 public class AgencyManager : LevelManager
 {
-    public GameObject agencyRoot;
+    public Tilemap furnitureMap;
     public InteractionMode interactionMode;
     public TMP_Text interactionModeButtonText;
+    public Movement playerMovement;
 
     void Start()
     {
@@ -33,15 +36,31 @@ public class AgencyManager : LevelManager
     /// </summary>
     public void PlayGame()
     {
-        gameManager.BuildPlaylist(gameObject.GetComponentsInChildren<Room>());
+        TileBase[] baseTiles = furnitureMap.GetTilesBlock(new BoundsInt(0, 0, 0, 6, 10, 0));
+        List<FurnitureTile> furnitureList = new List<FurnitureTile>();
+
+        foreach(TileBase tile in baseTiles) 
+        {
+            if(tile is FurnitureTile)
+            {
+                furnitureList.Add((FurnitureTile)tile);
+            }
+        }
+        
+        gameManager.BuildPlaylist(furnitureList);
     }
 
     public void SwitchInteractionMode()
     {
         interactionMode++;
-        if((int)interactionMode == 3)
+        if((int)interactionMode == 4)
         {
             interactionMode = InteractionMode.Move;
+            playerMovement.enabled = true;
+        }
+        else
+        {
+            playerMovement.enabled = false;
         }
         interactionModeButtonText.text = interactionMode.ToString();
     }

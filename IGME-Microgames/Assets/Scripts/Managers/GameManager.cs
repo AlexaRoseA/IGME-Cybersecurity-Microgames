@@ -23,12 +23,6 @@ public class GameManager : MonoBehaviour
     //TODO: load data
     void Start()
     {
-        tiles = new Tile[6, 10];
-        tiles[0, 0] = Tile.wall;
-
-        Debug.Log(tiles[0, 0]);
-        Debug.Log(tiles[1, 0]);
-        Debug.Log(tiles[0, 1]);
     }
 
 
@@ -52,25 +46,25 @@ public class GameManager : MonoBehaviour
     /// Compiles the available minigames into a shuffled queue.
     /// </summary>
     /// <param name="rooms">room objects that the player has in their agency.</param>
-    public void BuildPlaylist(Room[] rooms)
+    public void BuildPlaylist(List<FurnitureTile> minigameFurniture)
     {
         List<string> activeMinigames = new List<string>();
         playlist = new Queue<string>();
 
-        foreach(Room room in rooms)
+        foreach(FurnitureTile tile in minigameFurniture)
         {
-            switch(room.roomState)
+            switch(tile.roomState)
             {
                     //if its fresh, its first in the playlist and will show up later. 
                 case RoomState.fresh:
-                    playlist.Enqueue(room.MinigameScene);
-                    room.roomState = RoomState.on;
+                    playlist.Enqueue(tile.MinigameScene);
+                    tile.roomState = RoomState.on;
                     goto case RoomState.on;
 
                 case RoomState.on:
                     for(int i = 0; i < minigameDuplicates; i++)
                     {
-                        activeMinigames.Add(room.MinigameScene);
+                        activeMinigames.Add(tile.MinigameScene);
                     }
                     break;
             }

@@ -19,7 +19,7 @@ public class Builder : MonoBehaviour
 
     public TileBase floorTemplate;
     public TileBase wallTemplate;
-    public TileBase furnitureTemplate;
+    public Tile furnitureTemplate;
 
     private void Awake()
     {
@@ -76,18 +76,27 @@ public class Builder : MonoBehaviour
         {
             case InteractionMode.Move:
                 break;
-            case InteractionMode.Place:
+            case InteractionMode.Floor:
                 if (floorTile == null)
                 {
                     wall.SetTile(tilePos, null);
                     floor.SetTile(tilePos, Instantiate(floorTemplate));
                 }
                 break;
-            case InteractionMode.Destroy:
+            case InteractionMode.Wall:
                 if (wallTile == null)
                 {
                     wall.SetTile(tilePos, Instantiate(wallTemplate));
                     floor.SetTile(tilePos, null);
+                }
+                break;
+            case InteractionMode.Furniture:
+                if(furnitureTile == null && wallTile == null)
+                {
+                    FurnitureTile newFurniture = ScriptableObject.CreateInstance<FurnitureTile>();
+                    newFurniture.minigameScene = "MG_Test";
+                    newFurniture.sprite = furnitureTemplate.sprite;
+                    furniture.SetTile(tilePos, newFurniture);
                 }
                 break;
         }
