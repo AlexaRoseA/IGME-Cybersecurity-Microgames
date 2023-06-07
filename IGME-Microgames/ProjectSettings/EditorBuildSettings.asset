@@ -5,7 +5,19 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/GameManagerScene.unity
+    guid: b625b250fbc313c4e9c50f1f92d25d11
+  - enabled: 1
+    path: Assets/Scenes/Agency.unity
+    guid: 3367bcf069c7fa440b96effbf2d08e11
+  - enabled: 1
+    path: Assets/Scenes/MG_Test.unity
+    guid: 8f8227295b31c07479b4c252b7f9ab79
+  - enabled: 1
+    path: Assets/Scenes/MinigameScore.unity
+    guid: 864f98e515aff74449501f5b813bfef0
   m_configObjects: {}
