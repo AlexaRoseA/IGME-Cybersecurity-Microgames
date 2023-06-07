@@ -3,11 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum Tile
+{
+    floor,
+    wall,
+    minigame
+}
+
+
 public class GameManager : MonoBehaviour
 {
+    public int currency;
+    public int playerLevel;
+    public Tile[,] tiles; 
 
     private Queue<string> playlist;
     public int minigameDuplicates = 2;
+
+    //TODO: load data
+    void Start()
+    {
+        tiles = new Tile[6, 10];
+        tiles[0, 0] = Tile.wall;
+
+        Debug.Log(tiles[0, 0]);
+        Debug.Log(tiles[1, 0]);
+        Debug.Log(tiles[0, 1]);
+    }
 
 
     /// <summary>

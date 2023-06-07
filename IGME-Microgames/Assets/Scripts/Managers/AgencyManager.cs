@@ -7,6 +7,15 @@ public class AgencyManager : LevelManager
 {
     public GameObject agencyRoot;
 
+    void Start()
+    {
+        base.Start();
+
+        //load agency from GameManager
+
+
+    }
+
 
     /// <summary>
     /// called by the play game button in the agency. 
