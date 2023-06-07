@@ -7,90 +7,52 @@ public class BinaryChanger : MonoBehaviour
 {
     // Start is called before the first frame update
 
+    TextMeshProUGUI guiText;
+    int startColor;
+
     void Start()
     {
-        
-        StartCoroutine(LoopBetween(gameObject.GetComponent<TextMeshProUGUI>()));
-    }
+        int startNum = Random.Range(0, 2);
+        startColor = Random.Range(0, 2);
 
+        guiText = gameObject.GetComponent<TextMeshProUGUI>();
 
-    IEnumerator LoopBetween(TextMeshProUGUI text)
-    {
-        int ranNum = Random.Range(0, 3);
-
-        Debug.Log("Hello! " + ranNum);
-
-
-        switch (ranNum)
+        if (startColor == 0)
         {
-            case 0:
-                StartCoroutine(NumberChange(text));
-                break;
-            case 1:
-                StartCoroutine(ColorChange(text));
-                break;
-            case 2:
-                StartCoroutine(FadeInOut(text));
-                break;
+            guiText.color = Color.white;
+        }
+        else
+        {
+            guiText.color = Color.green;
         }
 
-        yield return null;
+        guiText.text = startNum.ToString();
+        gameObject.GetComponent<Animator>().SetInteger("ranFade", startNum);
     }
 
-    IEnumerator NumberChange(TextMeshProUGUI text)
+    public void NumberChange()
     {
-        Debug.Log("Num change");
-        if(text.text == "0")
-        {
-            text.text = "1";
-        } else
-        {
-            text.text = "0";
-        }
-        yield return LoopBetween(text);
+        //Debug.Log("Num change");
+        //if(guiText.text == "0")
+        //{
+        //    guiText.text = "1";
+        //} else
+        //{
+        //    guiText.text = "0";
+        //}
     }
 
-    IEnumerator ColorChange(TextMeshProUGUI text)
+    public void ColorChange()
     {
-        Color c = new Color(0, 1, 0, 1);
-        Debug.Log("Color change: " + c);
-        text.color = c;
-        yield return LoopBetween(text);
-    }
-
-    IEnumerator FadeInOut(TextMeshProUGUI text)
-    {
-        //forever
-        bool fadeEnded = false;
-        while (!fadeEnded)
-        {
-            // fade out
-            yield return Fade(text, 0);
-            // wait
-            yield return new WaitForSeconds(0.3f);
-            // fade in
-            yield return Fade(text, 1);
-            // wait
-            yield return new WaitForSeconds(0.3f);
-            fadeEnded = true;
-        }
-        yield return LoopBetween(text);
-    }
-
-    IEnumerator Fade(TextMeshProUGUI text, int alpha)
-    {
-
-        Color initialColor = text.color;
-        Color targetColor = new Color(initialColor.r, initialColor.g, initialColor.b, alpha);
-
-        float elapsedTime = 0f;
-
-        while (elapsedTime < 0.5f)
-        {
-            elapsedTime += Time.deltaTime;
-            text.color = Color.Lerp(initialColor, targetColor, elapsedTime / 0.5f);
-            yield return null;
-        }
+        //Debug.Log(guiText.color.a);
+        //if (guiText.color == Color.green)
+        //{
+        //    guiText.color = Color.white;
+        //}
+        //else if (guiText.color == Color.white)
+        //{
+        //    guiText.color = Color.green;
+        //}
     }
 
 }
