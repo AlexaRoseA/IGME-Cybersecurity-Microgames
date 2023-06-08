@@ -1,7 +1,7 @@
 ﻿title: FuzzBuzz_PoetStart
 tags:
 ---
-Poet: WELCOME TO FUZZ BUZZ, ORACLE!
+Poet: WELCOME TO FUZZ BUZZ, <color=red>ORACLE!</color>
 Poet: MY NAME IS POET, AND WE'RE GOING TO DO SOME TESTING!
 Poet: WARNING: INVALID INPUTS UNBOUNDED!
 ===
