@@ -4,14 +4,35 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
-
+public enum PurchaseState
+{
+    ForSale,
+    Purchased,
+    Placed
+}
 
 public class AgencyManager : LevelManager
 {
 
     public GameObject agencyParent;
 
+    public GameObject[] workstationPrefabs;
+    private PurchaseState[] purchaseStates;
+
+    public GameObject workstationShopCardPrefab;
+    
+    protected override void Start()
+    {
+        base.Start();
+
+        purchaseStates = new PurchaseState[workstationPrefabs.Length];
+
+        purchaseStates[0] = PurchaseState.ForSale;
+        purchaseStates[1] = PurchaseState.Purchased;
+        purchaseStates[2] = PurchaseState.Placed;
+    }
 
     /// <summary>
     /// called by the play game button in the agency. 
@@ -30,9 +51,58 @@ public class AgencyManager : LevelManager
             }
         }*/
 
-        Workstation[] workstations = agencyParent.GetComponentsInChildren<Workstation>();
-        
-        gameManager.BuildPlaylist(workstations);
+        //Workstation[] workstations = agencyParent.GetComponentsInChildren<Workstation>();
+
+        //gameManager.BuildPlaylist(workstations);
+
+        OpenShop();
     }
 
+
+    public void OpenShop()
+    {
+        for(int i = 0; i < workstationPrefabs.Length; i++)
+        {
+            GameObject workstationCard = Instantiate(workstationShopCardPrefab, Vector3.zero, Quaternion.identity);
+
+            Workstation workstation = workstationPrefabs[i].GetComponent<Workstation>();
+
+            Transform cardBG = workstationCard.transform.Find("Canvas").Find("CardBG");
+
+            int x = i % 3 * 302 + 92;
+            int y = 1346 - (i / 3 * 402);
+
+            cardBG.position = new Vector3(x, y, 0f);
+
+            TMP_Text jobTitle = cardBG.Find("WorkstationName").gameObject.GetComponent<TMP_Text>();
+            Button purchaseButton = cardBG.Find("PurchaseButton").gameObject.GetComponent<Button>();
+            TMP_Text purchaseText = cardBG.Find("PurchaseButton").Find("Text (TMP)").gameObject.GetComponent<TMP_Text>();
+            Image img = cardBG.Find("WorkstationImg").gameObject.GetComponent<Image>();
+
+            jobTitle.text = workstation.jobTitle;
+            
+
+
+            switch (purchaseStates[i])
+            {
+                case PurchaseState.ForSale:
+                    purchaseText.text = "$" + workstation.price;
+                    break;
+
+                case PurchaseState.Purchased:
+                    purchaseText.text = "Place";
+                    break;
+
+                case PurchaseState.Placed:
+                    purchaseText.text = "Placed";
+                    purchaseButton.interactable = false;
+                    break;
+            }
+        }
+    }
+
+    public void Purchase(int prefabIndex)
+    {
+
+    }
 }

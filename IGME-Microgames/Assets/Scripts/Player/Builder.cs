@@ -34,6 +34,8 @@ public class Builder : MonoBehaviour
     public TileBase furnitureTemplate;
     public GameObject furniturePrefab;
 
+    private GameObject placingWorkstation;
+
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -59,6 +61,10 @@ public class Builder : MonoBehaviour
     /// <param name="context"></param>
     private void TouchPressed(InputAction.CallbackContext context)
     {
+        if(interactionMode == InteractionMode.Furniture)
+        {
+
+        }
         SetTileAtWorldPos(TouchScreenToWorld());
     }
 
@@ -136,7 +142,7 @@ public class Builder : MonoBehaviour
     public void SwitchInteractionMode()
     {
         interactionMode++;
-        if ((int)interactionMode == 4)
+        if ((int)interactionMode == 3)
         {//loop back to 0, and since 0 is move reenable movement. 
             interactionMode = InteractionMode.Move;
 

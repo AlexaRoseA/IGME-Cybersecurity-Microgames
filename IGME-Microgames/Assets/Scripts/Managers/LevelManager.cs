@@ -10,7 +10,7 @@ public class LevelManager : MonoBehaviour
 {
     protected GameManager gameManager;
     // Start is called before the first frame update
-    protected void Start()
+    protected virtual void Start()
     {
         gameManager = GetGameManager();
         if (gameManager == null)

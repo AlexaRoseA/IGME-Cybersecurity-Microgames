@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
 
         foreach(Workstation tile in workstations)
         {
-            if(tile.enabled)
+            if(tile.active)
             {
                 if(tile.fresh)
                 {
