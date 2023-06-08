@@ -25,9 +25,9 @@ public class Phase1App : MonoBehaviour
 
     // General Minigame Variables
     private int choosePopup;
-    private float val = 0;
-    private float valGet = 0;
-    TextMeshProUGUI current;
+    private float userValue = 0;
+    private float userGoal = 0;
+    private TextMeshProUGUI current;
 
     // Word spelling Minigame Variables
     private List<string> words;
@@ -72,8 +72,8 @@ public class Phase1App : MonoBehaviour
     private void GenerateNewPopUp()
     {
         choosePopup = Random.Range(0, popupList.Count);
-        currentPopup = Instantiate(ReturnPopup(choosePopup), new Vector3(Random.Range(600, Screen.width - 600), Random.Range(600, Screen.height - 600), 0f), Quaternion.identity, transform);
-        ResetGameType();
+        currentPopup = Instantiate(ReturnPopup(), new Vector3(Random.Range(600, Screen.width - 600), Random.Range(600, Screen.height - 600), 0f), Quaternion.identity, transform);
+        ResetGame();
     }
 
     /// <summary>
@@ -81,7 +81,7 @@ public class Phase1App : MonoBehaviour
     /// </summary>
     /// <param name="choosePopup"></param>
     /// <returns></returns>
-    private GameObject ReturnPopup(int choosePopup)
+    private GameObject ReturnPopup()
     {
         return popupList[choosePopup];
     }
@@ -89,7 +89,7 @@ public class Phase1App : MonoBehaviour
     /// <summary>
     /// Resets each minigame based on the current popup index.
     /// </summary>
-    private void ResetGameType()
+    private void ResetGame()
     {
         switch (choosePopup)
         {
@@ -100,8 +100,8 @@ public class Phase1App : MonoBehaviour
 
             case 0:
                 currentPopup.GetComponentInChildren<Button>().onClick.AddListener(delegate { UpdateClicks(); });
-                val = 0;
-                valGet = Random.Range(10, 21);
+                userValue = 0;
+                userGoal = Random.Range(10, 21);
                 break;
 
             // Slider popup minigame:
@@ -113,8 +113,8 @@ public class Phase1App : MonoBehaviour
                 currentPopup.GetComponentInChildren<Slider>().onValueChanged.AddListener(SetText);
                 current = GameObject.Find("CurrentSliderValue").GetComponent<TextMeshProUGUI>();
 
-                valGet = Random.Range(1, 101);
-                GameObject.Find("GoalSliderValue").GetComponent<TextMeshProUGUI>().text = valGet.ToString();
+                userGoal = Random.Range(1, 101);
+                GameObject.Find("GoalSliderValue").GetComponent<TextMeshProUGUI>().text = userGoal.ToString();
                 break;
 
             // Spelling popup minigame:
@@ -175,12 +175,12 @@ public class Phase1App : MonoBehaviour
     /// </summary>
     public void UpdateClicks()
     {
-        val++;
+        userValue++;
         Debug.Log("KEEP GOING!");
 
-        if (val >= valGet)
+        if (userValue >= userGoal)
         {
-            Debug.Log("WOW NEXT PHASE");
+            Debug.Log("NEXT PHASE");
             DestroyPopup();
         }
     }
@@ -195,9 +195,9 @@ public class Phase1App : MonoBehaviour
     {
         current.text = value.ToString();
 
-        if (value <= valGet + 5 && value >= valGet - 5)
+        if (value <= userGoal + 5 && value >= userGoal - 5)
         {
-            Debug.Log("WOW NEXT PHASE");
+            Debug.Log("NEXT PHASE");
             DestroyPopup();
         }
         else
@@ -227,7 +227,7 @@ public class Phase1App : MonoBehaviour
 
         if (currentletters == currentword)
         {
-            Debug.Log("WOW NEXT PHASE");
+            Debug.Log("NEXT PHASE");
             DestroyPopup();
         }
         else if (currentletters.Length >= 4)
