@@ -59,9 +59,20 @@ public class Phase1App : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (helper.GetTimer() && currentPopup == null)
+        if (helper.GetPhase() == "application")
         {
-            GenerateNewPopUp();
+            if (helper.GetTimer() && currentPopup == null)
+            {
+                GenerateNewPopUp();
+            }
+            else if (!helper.GetTimer())
+            {
+                List<string> phaseNext = new List<string>();
+                phaseNext.Add("blackbox");
+                phaseNext.Add("whitebox");
+                helper.GenerateNextPhase(phaseNext);
+                this.gameObject.SetActive(false);
+            }
         }
     }
 

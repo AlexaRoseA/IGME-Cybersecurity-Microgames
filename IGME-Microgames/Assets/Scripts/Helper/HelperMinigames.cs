@@ -9,23 +9,29 @@ public class HelperMinigames : MonoBehaviour
     // Start is called before the first frame update
     private float timeRemaining = 10;
     private bool timerIsRunning = false;
+    [SerializeField] TextMeshProUGUI timeText;
 
-    [SerializeField] MinigameUIManager minigameMan;
+    private string currentPhase;
+    private InMemoryVariableStorage variableStorage;
 
     void Start()
     {
-
+        variableStorage = FindObjectOfType<InMemoryVariableStorage>();
+        variableStorage.SetValue("$currentPhase", "none");
+        variableStorage.TryGetValue("$currentPhase", out currentPhase);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (timerIsRunning && minigameMan != null)
+        Debug.Log(currentPhase);
+
+        if (timerIsRunning)
         {
             if (timeRemaining > 0)
             {
                 timeRemaining -= Time.deltaTime;
-                DisplayTime(timeRemaining, minigameMan.GetTimeText());
+                DisplayTime(timeRemaining, GetTimeText());
             }
             else
             {
@@ -43,8 +49,18 @@ public class HelperMinigames : MonoBehaviour
     [YarnCommand("StartTimer")]
     public void StartTimer(float time)
     {
-        timeRemaining = time;
+        variableStorage.TryGetValue("$currentPhase", out currentPhase);
+        if (timeRemaining == 0)
+        {
+            timeRemaining = time;
+        }
+        
         timerIsRunning = true;
+    }
+
+    public void StopTimer()
+    {
+        timerIsRunning = false;
     }
 
     private void DisplayTime(float displayTime, TextMeshProUGUI timerText)
@@ -58,5 +74,32 @@ public class HelperMinigames : MonoBehaviour
     public bool GetTimer()
     {
         return timerIsRunning;
+    }
+
+    public TextMeshProUGUI GetTimeText()
+    {
+        return timeText;
+    }
+
+    public void SetPhase(string phaseName)
+    {
+        currentPhase = phaseName;
+        variableStorage.SetValue("$currentPhase", currentPhase);
+    }
+
+    public string GetPhase()
+    {
+        return currentPhase;
+    }
+
+    public void GenerateNextPhase(List<string> phaseNames)
+    {
+        int chooseNextPhase = Random.Range(0, phaseNames.Count);
+        SetPhase(phaseNames[chooseNextPhase]);
+    }
+
+    public float GetTimeRemaining()
+    {
+        return timeRemaining;
     }
 }

@@ -2,6 +2,29 @@
 tags:
 ---
 Poet: WELCOME TO FUZZ BUZZ, <color=red>ORACLE!</color>
-Poet: MY NAME IS POET, AND WE'RE GOING TO DO SOME TESTING!
+Poet: MY NAME IS POET, AND WE'RE GOING TO <color=red>OVERWHELM THIS PROGRAM!</color>
 Poet: WARNING: INVALID INPUTS UNBOUNDED!
+<<set $currentPhase to "application">>
+===
+
+title: FuzzBuzz_PoetWhiteBox
+tags:
+---
+<<if $currentPhase is "whitebox">>
+    Poet: TESTS CREATED, TIME TO SHINE <color=red>ORACLE!</color> 
+    Poet: FOLLOW ALL THE PATHS...
+    Poet: STOP THOSE PESKY BUGS AT EVERY CORNER!
+<<endif>>
+
+===
+
+title: FuzzBuzz_PoetBlackBox
+tags:
+---
+<<if $currentPhase is "blackbox">>
+    Poet: TESTS CREATED, TIME TO SHINE <color=red>ORACLE!</color> 
+    Poet: THE VOID IS HUNGRY TODAY!
+    Poet: SEEMS LIKE THERE'S <color=red>UNWANTED VISITORS</color> INSIDE OUR SYSTEM! 
+    Poet: <color=red>INITIATE: OPERATION SHAKEBUG!</color>! 
+<<endif>>
 ===
