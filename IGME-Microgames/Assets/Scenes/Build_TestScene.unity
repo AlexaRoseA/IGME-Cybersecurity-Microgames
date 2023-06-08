@@ -297,7 +297,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1675364317}
-  agencyManager: {fileID: 2017908818}
+  agencyParent: {fileID: 2017908817}
+  interactionMode: 0
+  interactionModeButtonText: {fileID: 692980754}
   floor: {fileID: 917044679}
   wall: {fileID: 2102732438}
   furniture: {fileID: 1988818540}
@@ -1784,9 +1786,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agencyParent: {fileID: 2017908817}
-  interactionMode: 0
-  interactionModeButtonText: {fileID: 692980754}
-  playerMovement: {fileID: 501949400}
 --- !u!4 &2017908819
 Transform:
   m_ObjectHideFlags: 0
@@ -1886,8 +1885,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2017908818}
-        m_TargetAssemblyTypeName: AgencyManager, Assembly-CSharp
+      - m_Target: {fileID: 501949401}
+        m_TargetAssemblyTypeName: Builder, Assembly-CSharp
         m_MethodName: SwitchInteractionMode
         m_Mode: 1
         m_Arguments:

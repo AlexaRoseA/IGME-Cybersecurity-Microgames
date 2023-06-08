@@ -15,9 +15,10 @@ public class GameManager : MonoBehaviour
 {
     public int currency;
     public int playerLevel;
-    public Tile[,] tiles; 
 
     private Queue<string> playlist;
+
+    //how many times will each minigame show up in the queue?
     public int minigameDuplicates = 2;
 
     //TODO: load data
@@ -31,6 +32,11 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void PlayNext()
     {
+        if(playlist.Count == 0)
+        {
+            Debug.LogWarning("Tried to play next minigame, but there are no minigames in the queue");
+            return;
+        }
         /*foreach (string minigame in playlist)
         {
             Debug.Log(minigame);
@@ -111,7 +117,7 @@ public class GameManager : MonoBehaviour
     public void EndStreak()
     {
         ClearScenes();
-        SceneManager.LoadSceneAsync("Agency", LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync("Build_TestScene", LoadSceneMode.Additive);
     }
 
     /// <summary>

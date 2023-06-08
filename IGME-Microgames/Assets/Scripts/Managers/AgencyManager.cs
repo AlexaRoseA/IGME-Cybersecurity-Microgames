@@ -5,29 +5,12 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.Tilemaps;
 
-public enum InteractionMode
-{
-    Move,
-    Floor,
-    Wall,
-    Furniture
-}
+
 
 public class AgencyManager : LevelManager
 {
+
     public GameObject agencyParent;
-    public InteractionMode interactionMode;
-    public TMP_Text interactionModeButtonText;
-    public Movement playerMovement;
-
-    void Start()
-    {
-        base.Start();
-
-        //load agency from GameManager
-
-
-    }
 
 
     /// <summary>
@@ -52,18 +35,4 @@ public class AgencyManager : LevelManager
         gameManager.BuildPlaylist(workstations);
     }
 
-    public void SwitchInteractionMode()
-    {
-        interactionMode++;
-        if((int)interactionMode == 4)
-        {
-            interactionMode = InteractionMode.Move;
-            playerMovement.enabled = true;
-        }
-        else
-        {
-            playerMovement.enabled = false;
-        }
-        interactionModeButtonText.text = interactionMode.ToString();
-    }
 }
