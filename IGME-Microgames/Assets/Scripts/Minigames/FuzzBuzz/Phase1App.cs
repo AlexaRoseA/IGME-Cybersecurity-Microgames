@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,6 +32,7 @@ public class Phase1App : MonoBehaviour
     private TextMeshProUGUI current;
 
     // Word spelling Minigame Variables
+    [SerializeField] TextAsset wordfile;
     private List<string> words;
     private string currentletters;
     private string currentword;
@@ -47,8 +50,7 @@ public class Phase1App : MonoBehaviour
         popupList.Add(popupSlider);
         popupList.Add(popupText);
 
-        words.Add("Cats");
-        words.Add("Dogs");
+        ReadWords();
     }
 
     /// <summary>
@@ -241,5 +243,14 @@ public class Phase1App : MonoBehaviour
         }
 
 
+    }
+
+    /// <summary>
+    /// Reads all the words from the wordfile list
+    /// </summary>
+    private void ReadWords()
+    {
+        string[] AllWords = File.ReadAllLines(AssetDatabase.GetAssetPath(wordfile));
+        words = new List<string>(AllWords);
     }
 }
