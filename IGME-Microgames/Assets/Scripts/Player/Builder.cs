@@ -19,7 +19,8 @@ public class Builder : MonoBehaviour
 
     public TileBase floorTemplate;
     public TileBase wallTemplate;
-    public Tile furnitureTemplate;
+    public TileBase furnitureTemplate;
+    public GameObject furniturePrefab;
 
     private void Awake()
     {
@@ -93,12 +94,18 @@ public class Builder : MonoBehaviour
             case InteractionMode.Furniture:
                 if(furnitureTile == null && wallTile == null)
                 {
-                    FurnitureTile newFurniture = ScriptableObject.CreateInstance<FurnitureTile>();
-                    newFurniture.minigameScene = "MG_Test";
-                    newFurniture.sprite = furnitureTemplate.sprite;
-                    furniture.SetTile(tilePos, newFurniture);
+                    furniture.SetTile(tilePos, Instantiate(furnitureTemplate));
+                    InitFurniture(furniture.CellToWorld(tilePos));
                 }
                 break;
         }
+    }
+
+    private void InitFurniture(Vector3 worldPos)
+    {
+        GameObject newFurniture = Instantiate(furniturePrefab, worldPos, Quaternion.identity);
+        newFurniture.GetComponent<Workstation>().minigameScene = "MG_Test";
+
+        newFurniture.transform.parent = agencyManager.agencyParent.transform;
     }
 }

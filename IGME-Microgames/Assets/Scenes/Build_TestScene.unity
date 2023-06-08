@@ -304,6 +304,7 @@ MonoBehaviour:
   floorTemplate: {fileID: 11400000, guid: d6666042d6f998048a81663277e982da, type: 2}
   wallTemplate: {fileID: 11400000, guid: 475a98b62b101844787b9f833f5f83bd, type: 2}
   furnitureTemplate: {fileID: 11400000, guid: 419e504e14644ef49a96ffb9f988a4a8, type: 2}
+  furniturePrefab: {fileID: 949492836694267894, guid: de719a90911e96b4e8e352418bdb15b9, type: 3}
 --- !u!1 &526265303
 GameObject:
   m_ObjectHideFlags: 0
@@ -1782,7 +1783,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e42be281492e14a4baef8cf2ff08dbe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  furnitureMap: {fileID: 1988818540}
+  agencyParent: {fileID: 2017908817}
   interactionMode: 0
   interactionModeButtonText: {fileID: 692980754}
   playerMovement: {fileID: 501949400}

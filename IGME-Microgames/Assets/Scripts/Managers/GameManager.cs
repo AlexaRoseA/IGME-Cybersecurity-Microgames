@@ -46,27 +46,22 @@ public class GameManager : MonoBehaviour
     /// Compiles the available minigames into a shuffled queue.
     /// </summary>
     /// <param name="rooms">room objects that the player has in their agency.</param>
-    public void BuildPlaylist(List<FurnitureTile> minigameFurniture)
+    public void BuildPlaylist(Workstation[] workstations)
     {
         List<string> activeMinigames = new List<string>();
         playlist = new Queue<string>();
 
-        foreach(FurnitureTile tile in minigameFurniture)
+        foreach(Workstation tile in workstations)
         {
-            switch(tile.roomState)
+            if(tile.enabled)
             {
+                if(tile.fresh)
+                {
                     //if its fresh, its first in the playlist and will show up later. 
-                case RoomState.fresh:
-                    playlist.Enqueue(tile.MinigameScene);
-                    tile.roomState = RoomState.on;
-                    goto case RoomState.on;
-
-                case RoomState.on:
-                    for(int i = 0; i < minigameDuplicates; i++)
-                    {
-                        activeMinigames.Add(tile.MinigameScene);
-                    }
-                    break;
+                    playlist.Enqueue(tile.minigameScene);
+                    tile.fresh = false;
+                }
+                activeMinigames.Add(tile.minigameScene);
             }
         }
 

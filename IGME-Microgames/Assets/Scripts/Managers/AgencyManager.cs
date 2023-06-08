@@ -15,7 +15,7 @@ public enum InteractionMode
 
 public class AgencyManager : LevelManager
 {
-    public Tilemap furnitureMap;
+    public GameObject agencyParent;
     public InteractionMode interactionMode;
     public TMP_Text interactionModeButtonText;
     public Movement playerMovement;
@@ -36,7 +36,7 @@ public class AgencyManager : LevelManager
     /// </summary>
     public void PlayGame()
     {
-        TileBase[] baseTiles = furnitureMap.GetTilesBlock(new BoundsInt(0, 0, 0, 6, 10, 0));
+        /*TileBase[] baseTiles = furnitureMap.GetTilesBlock(new BoundsInt(0, 0, 0, 6, 10, 0));
         List<FurnitureTile> furnitureList = new List<FurnitureTile>();
 
         foreach(TileBase tile in baseTiles) 
@@ -45,9 +45,11 @@ public class AgencyManager : LevelManager
             {
                 furnitureList.Add((FurnitureTile)tile);
             }
-        }
+        }*/
+
+        Workstation[] workstations = agencyParent.GetComponentsInChildren<Workstation>();
         
-        gameManager.BuildPlaylist(furnitureList);
+        gameManager.BuildPlaylist(workstations);
     }
 
     public void SwitchInteractionMode()
