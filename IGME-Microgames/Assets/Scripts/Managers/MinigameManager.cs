@@ -9,7 +9,7 @@ public class MinigameManager : MonoBehaviour
     // Time text
     private float timeRemaining = 10;
     private bool timerIsRunning = false;
-    [SerializeField] TextMeshProUGUI timeText;
+    private TextMeshProUGUI timeText;
 
     // Keep track of the current phase name
     private string currentPhase;
@@ -27,7 +27,9 @@ public class MinigameManager : MonoBehaviour
     private GameObject chosen;
     private bool phaseComplete = false;
 
+    // Score Variables
     private int score;
+    private TextMeshProUGUI scoreText;
 
     #region Start/Middle/End General Methods
 
@@ -54,8 +56,14 @@ public class MinigameManager : MonoBehaviour
     /// </summary>
     void Update()
     {
+        if (timeText != null)
+        {
+            UpdateScoreUI(scoreText);
+        }
+
         if (timerIsRunning)
         {
+
             if (timeRemaining > 0)
             {
                 timeRemaining -= Time.deltaTime;
@@ -248,6 +256,14 @@ public class MinigameManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Update the timer text UI
+    /// </summary>
+    public void UpdateTimerText()
+    {
+        timeText = GameObject.FindGameObjectWithTag("Timer").GetComponent<TextMeshProUGUI>();
+    }
+
+    /// <summary>
     /// Returns the passed in timer text UI element
     /// </summary>
     /// <returns></returns>
@@ -260,7 +276,7 @@ public class MinigameManager : MonoBehaviour
     #region Score Updating
     public void UpdateScore(int amount)
     {
-        score += amount;
+        SetScore(score += amount);
     }
 
     public int GetScore()
@@ -275,7 +291,23 @@ public class MinigameManager : MonoBehaviour
 
     public void ResetScore()
     {
-        score = 0;
+        SetScore(0);
+    }
+
+    private void UpdateScoreUI(TextMeshProUGUI textScore)
+    {
+        if(scoreText != null)
+        {
+            textScore.text = score.ToString();
+        }
+    }
+
+    /// <summary>
+    /// Update the score text
+    /// </summary>
+    public void UpdateScoreText()
+    {
+        scoreText = GameObject.FindGameObjectWithTag("Score").GetComponent<TextMeshProUGUI>();
     }
     #endregion
 }

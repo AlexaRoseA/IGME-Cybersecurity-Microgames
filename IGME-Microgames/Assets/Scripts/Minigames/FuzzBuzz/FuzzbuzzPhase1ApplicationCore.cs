@@ -52,6 +52,7 @@ public class FuzzbuzzPhase1ApplicationCore : MonoBehaviour
         popupList.Add(popupText);
 
         ReadWords();
+        helper.UpdateTimerText();
     }
 
     /// <summary>
