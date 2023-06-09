@@ -11,7 +11,7 @@ using UnityEngine.UI;
 * 2023 Alexa Amoriello, IGME PROJECT H4CKB0X
 *
 * This script is phase 1 of the minigame FUZZ BUZZ, which is an adaptation
-* to teach players about fuzzign in cybersecurity about application fuzzing.
+* to teach players about fuzzing in cybersecurity about application fuzzing.
 *
 * ************************************************************************/
 

@@ -4,24 +4,39 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/* **************************************************************************
+* 
+* 2023 Alexa Amoriello, IGME PROJECT H4CKB0X
+*
+* This script is phase 1 of the minigame FUZZ BUZZ, which is an adaptation
+* to teach players about fuzzign in cybersecurity about file upload fuzzing.
+*
+* ************************************************************************/
+
 public class FuzzbuzzPhase1FileCore : MonoBehaviour
 {
-    // Start is called before the first frame update
+    // Sprite and box list information
     [SerializeField] List<Texture2D> textures;
     private List<Sprite> finalSprites;
     [SerializeField] List<GameObject> imageBoxes;
+    private List<string> endings;
 
+    // Minigame Helper
     private MinigameManager helper;
 
-    private List<string> endings;
-    private bool enableButtonClicking = false;
-
+    // Keeping track of local variables needed across methods
     private int uploadValue = 10;
     private float currentMultiply = 0;
-
+    private bool enableButtonClicking = false;
     private GameObject boxTracker = null;
-    private int imageIndex = -1; 
+    private int imageIndex = -1;
 
+    #region Start/Middle/End General Methods and Helpers
+
+    /// <summary>
+    /// Set up the helper, convert textures to sprites,
+    /// and add photo endings to the list
+    /// </summary>
     void Start()
     {
         helper = GameObject.FindObjectOfType<MinigameManager>();
@@ -42,18 +57,18 @@ public class FuzzbuzzPhase1FileCore : MonoBehaviour
         endings.Add(".ico");
         endings.Add(".apng");
 
-        foreach(GameObject box in imageBoxes)
-        {
-            box.transform.GetChild(0).GetComponent<Button>().interactable = enableButtonClicking;
-        }
-
         foreach(Texture2D t in textures)
         {
             finalSprites.Add(ConvertToSprite(t));
         }
     }
 
-    // Update is called once per frame
+
+
+    /// <summary>
+    /// Run the game if the timer is started and enable button clicking
+    /// on the buttons due to them starting as interactable = false
+    /// </summary>
     void Update()
     {
         if (helper.GetPhase() == "file")
@@ -72,30 +87,6 @@ public class FuzzbuzzPhase1FileCore : MonoBehaviour
         }
     }
 
-    public void UpdateBox(GameObject fileBox)
-    {
-        int priorIndex = imageIndex;
-
-        while (imageIndex == priorIndex)
-        {
-            imageIndex = Random.Range(0, finalSprites.Count);
-        }
-        
-
-        boxTracker = fileBox;
-
-        fileBox.transform.GetChild(0).GetComponent<Image>().sprite = finalSprites[imageIndex];
-        fileBox.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textures[imageIndex].name + endings[Random.Range(0, endings.Count)];
-
-        RollForMultiplier(fileBox.transform.GetChild(2).gameObject);
-    }
-    
-    public void UploadImage(GameObject fileBox)
-    {
-        helper.UpdateScore(uploadValue);
-        UpdateBox(fileBox);
-    }
-
     /// <summary>
     /// Convert images to sprite
     /// </summary>
@@ -105,6 +96,50 @@ public class FuzzbuzzPhase1FileCore : MonoBehaviour
     {
         return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
     }
+
+    #endregion
+
+    #region Clicking either box or multiplier
+
+    /// <summary>
+    /// Generate a random image that ISN'T the image it was prior
+    /// Set the filebox sprite to the new image as well as the text to have the
+    /// image name and a random custom ending.
+    /// 
+    /// Finally, roll for multiplier popup chance.
+    /// </summary>
+    /// <param name="fileBox"></param>
+    public void UpdateBox(GameObject fileBox)
+    {
+        int priorIndex = imageIndex;
+
+        while (imageIndex == priorIndex)
+        {
+            imageIndex = Random.Range(0, finalSprites.Count);
+        }
+
+        boxTracker = fileBox;
+
+        fileBox.transform.GetChild(0).GetComponent<Image>().sprite = finalSprites[imageIndex];
+        fileBox.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = textures[imageIndex].name + endings[Random.Range(0, endings.Count)];
+
+        RollForMultiplier(fileBox.transform.GetChild(2).gameObject);
+    }
+    
+    /// <summary>
+    /// Update image if the image is clicked on with no multiplier 
+    /// Then, update the box to a new image.
+    /// </summary>
+    /// <param name="fileBox"></param>
+    public void UploadImage(GameObject fileBox)
+    {
+        helper.UpdateScore(uploadValue);
+        UpdateBox(fileBox);
+    }
+
+    #endregion
+
+    #region Multiplier 
 
     /// <summary>
     /// Roll randomly for a chance to get a multiplier
@@ -167,4 +202,5 @@ public class FuzzbuzzPhase1FileCore : MonoBehaviour
         UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.SetActive(false);
         UpdateBox(boxTracker);
     }
+    #endregion
 }
