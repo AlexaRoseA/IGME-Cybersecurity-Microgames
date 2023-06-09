@@ -223,7 +223,6 @@ public class MinigameManager : MonoBehaviour
 
     }
 
-
     /// <summary>
     /// Get the name of the current phase
     /// </summary>
