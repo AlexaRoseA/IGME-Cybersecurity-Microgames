@@ -18,12 +18,16 @@ public class AgencyManager : LevelManager
 
     public GameObject agencyParent;
 
+    public GameObject shopUI;
+
     public GameObject[] workstationPrefabs;
     private PurchaseState[] purchaseStates;
 
     public GameObject workstationShopCardPrefab;
 
     private GameObject[] workstationCards;
+
+    public Behaviour[] disableWhileInShop;
 
 
     protected override void Start()
@@ -32,7 +36,7 @@ public class AgencyManager : LevelManager
 
         purchaseStates = new PurchaseState[workstationPrefabs.Length];
 
-        purchaseStates[0] = PurchaseState.ForSale;
+        purchaseStates[0] = PurchaseState.Placed;
         purchaseStates[1] = PurchaseState.Purchased;
 
         InitShop();
@@ -63,66 +67,107 @@ public class AgencyManager : LevelManager
 
     public void OpenShop()
     {
+        shopUI.SetActive(true);
 
+        foreach(Behaviour comp in disableWhileInShop)
+        {
+            if(comp is Selectable) //ui elements that have interactable
+            {
+                ((Selectable)comp).interactable = false;
+            }
+            else
+            {
+                comp.enabled = false;
+            }
+            
+        }
     }
 
     public void CloseShop()
     {
+        shopUI.SetActive(false);
 
+        foreach (Behaviour comp in disableWhileInShop)
+        {
+            if (comp is Selectable)
+            {
+                ((Selectable)comp).interactable = true;
+            }
+            else
+            {
+                comp.enabled = true;
+            }
+        }
     }
 
+    /// <summary>
+    /// initalizes the shop, creating shop cards for each workstation prefab. 
+    /// </summary>
     private void InitShop()
     {
         workstationCards = new GameObject[workstationPrefabs.Length];
         for (int i = 0; i < workstationPrefabs.Length; i++)
         {
             workstationCards[i] = Instantiate(workstationShopCardPrefab, Vector3.zero, Quaternion.identity);
-            Workstation workstation = workstationPrefabs[i].GetComponent<Workstation>();
+            workstationCards[i].transform.SetParent(shopUI.transform);
 
+            Workstation workstation = workstationPrefabs[i].GetComponent<Workstation>();
+            
             Transform cardBG = workstationCards[i].transform.Find("Canvas").Find("CardBG");
 
+            //TODO: make this responsive
             int x = i % 3 * 302 + 92;
-            int y = 1346 - (i / 3 * 402);
+            int y = 1296 - (i / 3 * 402);
 
             cardBG.position = new Vector3(x, y, 0f);
 
             TMP_Text jobTitle = cardBG.Find("WorkstationName").gameObject.GetComponent<TMP_Text>();
-            Button purchaseButton = cardBG.Find("PurchaseButton").gameObject.GetComponent<Button>();
-            TMP_Text purchaseText = cardBG.Find("PurchaseButton").Find("Text (TMP)").gameObject.GetComponent<TMP_Text>();
             Image img = cardBG.Find("WorkstationImg").gameObject.GetComponent<Image>();
 
             jobTitle.text = workstation.jobTitle;
-
-
-
-            switch (purchaseStates[i])
-            {
-                case PurchaseState.ForSale:
-                    purchaseText.text = "$" + workstation.price;
-                    purchaseButton.onClick.AddListener(() => Purchase(workstation));
-                    break;
-
-                case PurchaseState.Purchased:
-                    purchaseText.text = "Place";
-                    purchaseButton.onClick.AddListener(() => Place(workstation));
-                    break;
-
-                case PurchaseState.Placed:
-                    purchaseText.text = "Placed";
-                    purchaseButton.interactable = false;
-                    break;
-            }
-            workstationCards[i].SetActive(false);
+            UpdatePurchaseStateDisplay(i);
         }
+        shopUI.SetActive(false);
     }
 
-    public void Purchase(Workstation workstation)
+    public void Purchase(int prefabIndex)
     {
-        Debug.Log("Purchasing " + workstation.jobTitle);
+        Debug.Log("Purchasing " + prefabIndex);
+        purchaseStates[prefabIndex] = PurchaseState.Purchased;
+        UpdatePurchaseStateDisplay(prefabIndex);
     }
 
-    public void Place(Workstation workstation)
+    public void Place(int prefabIndex)
     {
-        Debug.Log("Placing " + workstation.jobTitle);
+        Debug.Log("Placing " + prefabIndex);
+        purchaseStates[prefabIndex] = PurchaseState.Placed;
+        UpdatePurchaseStateDisplay(prefabIndex);
+
+        CloseShop();
+    }
+
+    private void UpdatePurchaseStateDisplay(int i)
+    {
+        Transform cardBG = workstationCards[i].transform.Find("Canvas").Find("CardBG");
+        Button purchaseButton = cardBG.Find("PurchaseButton").gameObject.GetComponent<Button>();
+        TMP_Text purchaseText = cardBG.Find("PurchaseButton").Find("Text (TMP)").gameObject.GetComponent<TMP_Text>();
+
+        switch (purchaseStates[i])
+        {
+            case PurchaseState.ForSale:
+                purchaseText.text = "$" + workstationPrefabs[i].GetComponent<Workstation>().price;
+                purchaseButton.onClick.AddListener(() => Purchase(i));
+                break;
+
+            case PurchaseState.Purchased:
+                purchaseText.text = "Place";
+                purchaseButton.onClick.AddListener(() => Place(i));
+                break;
+
+            case PurchaseState.Placed:
+                purchaseText.text = "Placed";
+                purchaseButton.interactable = false;
+                break;
+        }
     }
 }
