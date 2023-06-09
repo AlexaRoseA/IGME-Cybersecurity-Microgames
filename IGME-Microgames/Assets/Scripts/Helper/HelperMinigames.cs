@@ -6,26 +6,48 @@ using Yarn.Unity;
 
 public class HelperMinigames : MonoBehaviour
 {
-    // Start is called before the first frame update
+    // Time text
     private float timeRemaining = 10;
     private bool timerIsRunning = false;
     [SerializeField] TextMeshProUGUI timeText;
 
+    // Keep track of the current phase name
     private string currentPhase;
-    private InMemoryVariableStorage variableStorage;
 
+    // Keep track of the current phase index and game title
+    private int phaseNum = 1;
+    [SerializeField] string gameTitle;
+
+    // Variable storage for YarnSpinner and dialog running
+    private InMemoryVariableStorage variableStorage;
+    public DialogueRunner dialogueRunner;
+
+    // All the potential phase instances
+    public List<GameObject> phases = new List<GameObject>();
+    public GameObject chosen;
+    public bool phaseComplete = false;
+
+    /// <summary>
+    /// Sets the variables at start in Yarnspinner and default start phase
+    /// </summary>
     void Start()
     {
         variableStorage = FindObjectOfType<InMemoryVariableStorage>();
         variableStorage.SetValue("$currentPhase", "none");
         variableStorage.TryGetValue("$currentPhase", out currentPhase);
+
+        variableStorage.SetValue("$timeRemaining", 0);
+        variableStorage.TryGetValue("$timeRemaining", out timeRemaining);
+
+        SetPhase(false);
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Displays the time every update and changes phase if the
+    /// timer runs out to the next phase.
+    /// </summary>
     void Update()
     {
-        Debug.Log(currentPhase);
-
         if (timerIsRunning)
         {
             if (timeRemaining > 0)
@@ -38,68 +60,181 @@ public class HelperMinigames : MonoBehaviour
                 Debug.Log("Time has run out!");
                 timeRemaining = 0;
                 timerIsRunning = false;
+
+                DestroyImmediate(chosen);
+                SetPhase();
             }
         }
     }
 
     /// <summary>
-    /// Start the timer
+    /// Determines the phase options
+    /// </summary>
+    private void ChoosePhaseOption()
+    {
+        // List to store the subphases
+        List<GameObject> subphaseChoices = new List<GameObject>();
+
+        // Loop through all of the phases
+        // and grab the matching subphase numbered ones 
+        foreach (GameObject choice in phases)
+        {
+            // Split the name of the phase by underscore
+            string[] splitName = choice.name.Split('_');
+
+            // If the middle (GAMENAME_PHASE#_PHASENAME) matches the desired phase,
+            // Add to the subphases to choose from list
+            if (splitName[1] == "Phase" + phaseNum)
+            {
+                subphaseChoices.Add(choice);
+            }
+        }
+
+        // If the count generate is 0 (reasons):
+        // - The game is over
+        // - Prefab is not inside the minigame helper that links to said phase
+        // - Prefab is not named correctly
+        // Format: GAMENAME_PHASE#_PHASENAME
+
+        if (subphaseChoices.Count == 0)
+        {
+            Debug.Log("If this is not the intended outcome, please check the helper prefab list fields and/or prefab names!");
+            EndGame();
+            chosen = null;
+        }
+        else
+        {
+            // Set the chosen gameobject to be a random subphase choice
+            chosen = subphaseChoices[Random.Range(0, subphaseChoices.Count)];
+            string[] chosenSplit = chosen.name.Split('_');
+
+            // Set the current phase name to be the last string under split
+            // Format: GAMENAME_PHASE#_PHASENAME
+            currentPhase = chosenSplit[2].ToLower();
+        }
+    }
+
+    /// <summary>
+    /// Start the timer through Unity code
     /// </summary>
     /// <param name="time">time </param>
-    [YarnCommand("StartTimer")]
     public void StartTimer(float time)
     {
         variableStorage.TryGetValue("$currentPhase", out currentPhase);
+
         if (timeRemaining == 0)
         {
             timeRemaining = time;
         }
-        
+
         timerIsRunning = true;
     }
 
+    /// <summary>
+    /// Start the timer from YarnSpinner (button or via code)
+    /// </summary>
+    /// <param name="time">time </param>
+    [YarnCommand("StartTimer")]
+    public void StartTimer()
+    {
+        variableStorage.TryGetValue("$currentPhase", out currentPhase);
+        variableStorage.TryGetValue("$timeRemaining", out timeRemaining);
+
+        timerIsRunning = true;
+    }
+
+    /// <summary>
+    /// Stop timer forcefully
+    /// </summary>
     public void StopTimer()
     {
         timerIsRunning = false;
     }
 
+    /// <summary>
+    /// Display the time in Minutes and Seconds on the UI
+    /// </summary>
+    /// <param name="displayTime">The time to display</param>
+    /// <param name="timerText"> the UI element to cast the time onto</param>
     private void DisplayTime(float displayTime, TextMeshProUGUI timerText)
     {
         displayTime += 1;
         float minutes = Mathf.FloorToInt(displayTime / 60);
         float seconds = Mathf.FloorToInt(displayTime % 60);
-        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds); 
+        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
+    /// <summary>
+    /// Returns if the timer is running or not
+    /// </summary>
+    /// <returns></returns>
     public bool GetTimer()
     {
         return timerIsRunning;
     }
 
+    /// <summary>
+    /// Returns the passed in timer text UI element
+    /// </summary>
+    /// <returns></returns>
     public TextMeshProUGUI GetTimeText()
     {
         return timeText;
     }
 
-    public void SetPhase(string phaseName)
+    /// <summary>
+    /// Sets the phase
+    /// </summary>
+    /// <param name="increasePhaseNum">Optional parameter, set to true by default but can add false if start of the minigame!</param>
+    public void SetPhase(bool increasePhaseNum = true)
     {
-        currentPhase = phaseName;
-        variableStorage.SetValue("$currentPhase", currentPhase);
+        if (increasePhaseNum)
+        {
+            phaseNum++;
+        }
+
+        ChoosePhaseOption();
+
+        if (chosen != null)
+        {
+            variableStorage.SetValue("$currentPhase", currentPhase);
+            dialogueRunner.StartDialogue(gameTitle + "_Phase" + phaseNum);
+            chosen = Instantiate(chosen);
+        }
+        else
+        {
+            variableStorage.SetValue("$currentPhase", "none");
+            currentPhase = "none";
+        }
+
     }
 
+    /// <summary>
+    /// Get the name of the current phase
+    /// </summary>
+    /// <returns></returns>
     public string GetPhase()
     {
         return currentPhase;
     }
 
-    public void GenerateNextPhase(List<string> phaseNames)
-    {
-        int chooseNextPhase = Random.Range(0, phaseNames.Count);
-        SetPhase(phaseNames[chooseNextPhase]);
-    }
 
+    /// <summary>
+    /// Get the time remaining (not converted)
+    /// </summary>
+    /// <returns></returns>
     public float GetTimeRemaining()
     {
         return timeRemaining;
     }
+
+    /// <summary>
+    /// Base end the game method
+    /// </summary>
+    private void EndGame()
+    {
+        // end game
+        Debug.Log("Game Ended!");
+    }
+
 }
