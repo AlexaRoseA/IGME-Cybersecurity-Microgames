@@ -17,13 +17,12 @@ using UnityEngine.UI;
 
 public class Phase1App : MonoBehaviour
 {
-    private HelperMinigames helper;
+    private MinigameManager helper;
 
     // Popup list and current popup variable
     [SerializeField] GameObject popupButton, popupSlider, popupText;
     private List<GameObject> popupList;
     private GameObject currentPopup = null;
-    
 
     // General Minigame Variables
     private int choosePopup;
@@ -43,7 +42,7 @@ public class Phase1App : MonoBehaviour
     /// </summary>
     void Start()
     {
-        helper = GameObject.FindObjectOfType<HelperMinigames>();
+        helper = GameObject.FindObjectOfType<MinigameManager>();
         popupList = new List<GameObject>();
         words = new List<string>();
 
@@ -66,11 +65,6 @@ public class Phase1App : MonoBehaviour
             {
                 GenerateNewPopUp();
             }
-            //else if (!helper.GetTimer())
-            //{
-            //    helper.SetPhase(false);
-            //    this.gameObject.SetActive(false);
-            //}
         }
     }
 

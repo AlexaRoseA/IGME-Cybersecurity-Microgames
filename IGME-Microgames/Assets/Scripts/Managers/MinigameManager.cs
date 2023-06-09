@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using Yarn.Unity;
 
-public class HelperMinigames : MonoBehaviour
+public class MinigameManager : MonoBehaviour
 {
     // Time text
     private float timeRemaining = 10;
@@ -24,8 +24,10 @@ public class HelperMinigames : MonoBehaviour
 
     // All the potential phase instances
     public List<GameObject> phases = new List<GameObject>();
-    public GameObject chosen;
-    public bool phaseComplete = false;
+    private GameObject chosen;
+    private bool phaseComplete = false;
+
+    #region Start/Middle/End General Methods
 
     /// <summary>
     /// Sets the variables at start in Yarnspinner and default start phase
@@ -68,51 +70,17 @@ public class HelperMinigames : MonoBehaviour
     }
 
     /// <summary>
-    /// Determines the phase options
+    /// Base end the game method
     /// </summary>
-    private void ChoosePhaseOption()
+    private void EndGame()
     {
-        // List to store the subphases
-        List<GameObject> subphaseChoices = new List<GameObject>();
-
-        // Loop through all of the phases
-        // and grab the matching subphase numbered ones 
-        foreach (GameObject choice in phases)
-        {
-            // Split the name of the phase by underscore
-            string[] splitName = choice.name.Split('_');
-
-            // If the middle (GAMENAME_PHASE#_PHASENAME) matches the desired phase,
-            // Add to the subphases to choose from list
-            if (splitName[1] == "Phase" + phaseNum)
-            {
-                subphaseChoices.Add(choice);
-            }
-        }
-
-        // If the count generate is 0 (reasons):
-        // - The game is over
-        // - Prefab is not inside the minigame helper that links to said phase
-        // - Prefab is not named correctly
-        // Format: GAMENAME_PHASE#_PHASENAME
-
-        if (subphaseChoices.Count == 0)
-        {
-            Debug.Log("If this is not the intended outcome, please check the helper prefab list fields and/or prefab names!");
-            EndGame();
-            chosen = null;
-        }
-        else
-        {
-            // Set the chosen gameobject to be a random subphase choice
-            chosen = subphaseChoices[Random.Range(0, subphaseChoices.Count)];
-            string[] chosenSplit = chosen.name.Split('_');
-
-            // Set the current phase name to be the last string under split
-            // Format: GAMENAME_PHASE#_PHASENAME
-            currentPhase = chosenSplit[2].ToLower();
-        }
+        // end game
+        Debug.Log("Game Ended!");
     }
+
+    #endregion
+
+    #region Timer Methods
 
     /// <summary>
     /// Start the timer through Unity code
@@ -164,22 +132,56 @@ public class HelperMinigames : MonoBehaviour
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
-    /// <summary>
-    /// Returns if the timer is running or not
-    /// </summary>
-    /// <returns></returns>
-    public bool GetTimer()
-    {
-        return timerIsRunning;
-    }
+    #endregion
+
+    #region Phase Switching and Setting
 
     /// <summary>
-    /// Returns the passed in timer text UI element
+    /// Determines the phase options
     /// </summary>
-    /// <returns></returns>
-    public TextMeshProUGUI GetTimeText()
+    private void ChoosePhaseOption()
     {
-        return timeText;
+        // List to store the subphases
+        List<GameObject> subphaseChoices = new List<GameObject>();
+
+        // Loop through all of the phases
+        // and grab the matching subphase numbered ones 
+        foreach (GameObject choice in phases)
+        {
+            // Split the name of the phase by underscore
+            string[] splitName = choice.name.Split('_');
+
+            // If the middle (GAMENAME_PHASE#_PHASENAME) matches the desired phase,
+            // Add to the subphases to choose from list
+            if (splitName[1] == "Phase" + phaseNum)
+            {
+
+                subphaseChoices.Add(choice);
+            }
+        }
+
+        // If the count generate is 0 (reasons):
+        // - The game is over
+        // - Prefab is not inside the minigame helper that links to said phase
+        // - Prefab is not named correctly
+        // Format: GAMENAME_PHASE#_PHASENAME
+
+        if (subphaseChoices.Count == 0)
+        {
+            Debug.Log("If this is not the intended outcome, please check the helper prefab list fields and/or prefab names!");
+            EndGame();
+            chosen = null;
+        }
+        else
+        {
+            // Set the chosen gameobject to be a random subphase choice
+            chosen = subphaseChoices[Random.Range(0, subphaseChoices.Count)];
+            string[] chosenSplit = chosen.name.Split('_');
+
+            // Set the current phase name to be the last string under split
+            // Format: GAMENAME_PHASE#_PHASENAME
+            currentPhase = chosenSplit[2].ToLower();
+        }
     }
 
     /// <summary>
@@ -209,6 +211,10 @@ public class HelperMinigames : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region Useful Getters/Setters
+
     /// <summary>
     /// Get the name of the current phase
     /// </summary>
@@ -229,12 +235,21 @@ public class HelperMinigames : MonoBehaviour
     }
 
     /// <summary>
-    /// Base end the game method
+    /// Returns if the timer is running or not
     /// </summary>
-    private void EndGame()
+    /// <returns></returns>
+    public bool GetTimer()
     {
-        // end game
-        Debug.Log("Game Ended!");
+        return timerIsRunning;
     }
 
+    /// <summary>
+    /// Returns the passed in timer text UI element
+    /// </summary>
+    /// <returns></returns>
+    public TextMeshProUGUI GetTimeText()
+    {
+        return timeText;
+    }
+    #endregion
 }
