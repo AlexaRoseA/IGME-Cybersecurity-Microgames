@@ -11,11 +11,11 @@ using UnityEngine.UI;
 * 2023 Alexa Amoriello, IGME PROJECT H4CKB0X
 *
 * This script is phase 1 of the minigame FUZZ BUZZ, which is an adaptation
-* to teach players about fuzzign in cybersecurity.
+* to teach players about fuzzign in cybersecurity about application fuzzing.
 *
 * ************************************************************************/
 
-public class Phase1App : MonoBehaviour
+public class FuzzbuzzPhase1ApplicationCore : MonoBehaviour
 {
     private MinigameManager helper;
 
@@ -31,7 +31,7 @@ public class Phase1App : MonoBehaviour
     private TextMeshProUGUI current;
 
     // Word spelling Minigame Variables
-    [SerializeField] TextAsset wordfile;
+    [SerializeField] TextAsset wordFile;
     private List<string> words;
     private string currentletters;
     private string currentword;
@@ -265,7 +265,7 @@ public class Phase1App : MonoBehaviour
     /// </summary>
     private void ReadWords()
     {
-        string[] AllWords = File.ReadAllLines(AssetDatabase.GetAssetPath(wordfile));
+        string[] AllWords = File.ReadAllLines(AssetDatabase.GetAssetPath(wordFile));
         words = new List<string>(AllWords);
     }
     #endregion
