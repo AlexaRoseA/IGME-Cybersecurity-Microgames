@@ -37,6 +37,7 @@ public class Phase1App : MonoBehaviour
     private string currentword;
     private GameObject priorButtonPress = null;
 
+    #region Start/Middle/End General Methods
     /// <summary>
     /// Creates the list of potential popups as well as populates the word array.
     /// </summary>
@@ -66,29 +67,6 @@ public class Phase1App : MonoBehaviour
                 GenerateNewPopUp();
             }
         }
-    }
-
-    /// <summary>
-    /// Generates a new popup based on the list count at a random location 
-    /// on the screen with some padding.
-    /// 
-    /// This method also calls to reset the games after generating the new popup.
-    /// </summary>
-    private void GenerateNewPopUp()
-    {
-        choosePopup = Random.Range(0, popupList.Count);
-        currentPopup = Instantiate(ReturnPopup(), new Vector3(Random.Range(600, Screen.width - 600), Random.Range(600, Screen.height - 600), 0f), Quaternion.identity, transform);
-        ResetGame();
-    }
-
-    /// <summary>
-    /// Returns popup from the list
-    /// </summary>
-    /// <param name="choosePopup"></param>
-    /// <returns></returns>
-    private GameObject ReturnPopup()
-    {
-        return popupList[choosePopup];
     }
 
     /// <summary>
@@ -131,7 +109,7 @@ public class Phase1App : MonoBehaviour
             // - Place random letters at x positions on each button and remove from the temporary list to not have duplicates
             // - Set the color of the word to be gray to show no user input has been added and the text to be uppercase.
             case 2:
-                
+
 
                 foreach (Button buttonLetters in GameObject.Find("Letters").GetComponentsInChildren<Button>())
                 {
@@ -161,6 +139,32 @@ public class Phase1App : MonoBehaviour
         }
 
     }
+    #endregion
+
+    #region Popup Management
+    /// <summary>
+    /// Generates a new popup based on the list count at a random location 
+    /// on the screen with some padding.
+    /// 
+    /// This method also calls to reset the games after generating the new popup.
+    /// </summary>
+    private void GenerateNewPopUp()
+    {
+        choosePopup = Random.Range(0, popupList.Count);
+        currentPopup = Instantiate(ReturnPopup(), new Vector3(Random.Range(600, Screen.width - 600), Random.Range(600, Screen.height - 600), 0f), Quaternion.identity, transform);
+        ResetGame();
+    }
+
+    /// <summary>
+    /// Returns popup from the list
+    /// </summary>
+    /// <param name="choosePopup"></param>
+    /// <returns></returns>
+    private GameObject ReturnPopup()
+    {
+        return popupList[choosePopup];
+    }
+
 
     /// <summary>
     /// Destroys popup after completion and sets the current popup to be null
@@ -174,6 +178,9 @@ public class Phase1App : MonoBehaviour
         currentPopup = null;
     }
 
+    #endregion
+
+    #region Button Minigame
     /// <summary>
     /// Used for the button pressing minigame: each button click increase a value,
     /// checking against the needed value to complete the popup. 
@@ -189,7 +196,9 @@ public class Phase1App : MonoBehaviour
             DestroyPopup();
         }
     }
+    #endregion
 
+    #region Slider Minigame
     /// <summary>
     /// Used for the slider spam minigame: Sets the text of the slider 
     /// and checks the slider value to the desired value.
@@ -210,6 +219,9 @@ public class Phase1App : MonoBehaviour
             Debug.Log("NOT QUITE THERE YET!");
         }
     }
+    #endregion
+
+    #region Word Minigame
 
     /// <summary>
     /// Checks if the current word the user is spelling is at the 4 character limit
@@ -256,4 +268,5 @@ public class Phase1App : MonoBehaviour
         string[] AllWords = File.ReadAllLines(AssetDatabase.GetAssetPath(wordfile));
         words = new List<string>(AllWords);
     }
+    #endregion
 }
