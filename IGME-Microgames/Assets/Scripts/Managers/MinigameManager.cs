@@ -58,7 +58,7 @@ public class MinigameManager : MonoBehaviour
     {
         if (timeText != null)
         {
-            UpdateScoreUI(scoreText);
+            UpdateScoreUI();
         }
 
         if (timerIsRunning)
@@ -223,9 +223,6 @@ public class MinigameManager : MonoBehaviour
 
     }
 
-    #endregion
-
-    #region Useful Getters/Setters
 
     /// <summary>
     /// Get the name of the current phase
@@ -236,6 +233,9 @@ public class MinigameManager : MonoBehaviour
         return currentPhase;
     }
 
+    #endregion
+
+    #region Timer
 
     /// <summary>
     /// Get the time remaining (not converted)
@@ -274,31 +274,49 @@ public class MinigameManager : MonoBehaviour
     #endregion
 
     #region Score Updating
+    /// <summary>
+    /// Update score based on an amount added to the current score
+    /// </summary>
+    /// <param name="amount">Amount to add to score</param>
     public void UpdateScore(int amount)
     {
         SetScore(score += amount);
     }
 
+    /// <summary>
+    /// Get the current score
+    /// </summary>
+    /// <returns></returns>
     public int GetScore()
     {
         return score;
     }
 
+    /// <summary>
+    /// Set the score
+    /// </summary>
+    /// <param name="total"></param>
     public void SetScore(int total)
     {
         score = total;
     }
 
+    /// <summary>
+    /// Reset the score to 0
+    /// </summary>
     public void ResetScore()
     {
         SetScore(0);
     }
 
-    private void UpdateScoreUI(TextMeshProUGUI textScore)
+    /// <summary>
+    /// Update the UI score text
+    /// </summary>
+    private void UpdateScoreUI()
     {
         if(scoreText != null)
         {
-            textScore.text = score.ToString();
+            scoreText.text = score.ToString();
         }
     }
 
