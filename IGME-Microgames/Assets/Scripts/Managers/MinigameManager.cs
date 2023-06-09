@@ -27,6 +27,8 @@ public class MinigameManager : MonoBehaviour
     private GameObject chosen;
     private bool phaseComplete = false;
 
+    private int score;
+
     #region Start/Middle/End General Methods
 
     /// <summary>
@@ -40,6 +42,8 @@ public class MinigameManager : MonoBehaviour
 
         variableStorage.SetValue("$timeRemaining", 0);
         variableStorage.TryGetValue("$timeRemaining", out timeRemaining);
+
+        ResetScore();
 
         SetPhase(false);
     }
@@ -250,6 +254,28 @@ public class MinigameManager : MonoBehaviour
     public TextMeshProUGUI GetTimeText()
     {
         return timeText;
+    }
+    #endregion
+
+    #region Score Updating
+    public void UpdateScore(int amount)
+    {
+        score += amount;
+    }
+
+    public int GetScore()
+    {
+        return score;
+    }
+
+    public void SetScore(int total)
+    {
+        score = total;
+    }
+
+    public void ResetScore()
+    {
+        score = 0;
     }
     #endregion
 }

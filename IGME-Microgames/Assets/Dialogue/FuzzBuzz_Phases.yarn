@@ -3,19 +3,20 @@ tags:
 ---
 <<if $currentPhase is "application">>
 Poet: WELCOME TO FUZZ BUZZ, <color=red>ORACLE!</color>
-Poet: MY NAME IS POET, AND WE'RE GOING TO <color=red>OVERWHELM THIS PROGRAM!</color>
-Poet: WARNING: INVALID INPUTS UNBOUNDED!
+Poet: MY NAME IS POET, AND WE'RE GOING TO <color=red>FUZZ TEST THIS PROGRAM WITH SPAM!</color>
+Poet: WARNING: INVALID INPUTS UNBOUNDED! GO GO GO!
 <<set $currentPhase to "application">>
 <<endif>>
 
 <<if $currentPhase is "file">>
 Poet: WELCOME TO FUZZ BUZZ, <color=red>ORACLE!</color>
-Poet: MY NAME IS POET, AND WE'RE GOING TO <color=red>OVERWHELM THIS PROGRAM!</color>
-Poet: WARNING: INVALID INPUTS UNBOUNDED!
+Poet: MY NAME IS POET, AND WE'RE GOING TO <color=red>FUZZ TEST THIS PROGRAM!</color>
+Poet: WHAT HAPPENS WHEN YOU UPLOAD <color=red>ANY KIND OF FILE</color> TO THE SYSTEM?
+Poet: LET'S FIND OUT! HEHE!
 <<set $currentPhase to "file">>
 <<endif>>
 
-<<set $timeRemaining to 5>>
+<<set $timeRemaining to 25>>
 ===
 
 title: FuzzBuzz_Phase2
@@ -24,13 +25,15 @@ tags:
 <<if $currentPhase is "whitebox">>
     Poet: TESTS CREATED, TIME TO SHINE <color=red>ORACLE!</color> 
     Poet: FOLLOW ALL THE PATHS...
-    Poet: STOP THOSE PESKY BUGS AT EVERY CORNER!
+    Poet: STOP THOSE PESKY BUGS AT EVERY NOOK!
 <<elseif  $currentPhase is "blackbox">>
     Poet: TESTS CREATED, TIME TO SHINE <color=red>ORACLE!</color> 
     Poet: THE VOID IS HUNGRY TODAY!
-    Poet: SEEMS LIKE THERE'S <color=red>UNWANTED VISITORS</color> INSIDE OUR SYSTEM! 
-    Poet: <color=red>INITIATE: OPERATION SHAKEBUG!</color>! 
+    Poet: SEEMS LIKE THERE'S <color=red>UNWANTED VISITORS</color> FROM OUR TESTING! 
+    Poet: <color=red>TIME TO CLEAN THIS MESS!</color> 
 <<else>>
 <<endif>>
+
+<<set $timeRemaining to 120>>
 
 ===
