@@ -64,13 +64,13 @@ public class GameManager : MonoBehaviour
                 if(tile.fresh)
                 {
                     //if its fresh, its first in the playlist and will show up later. 
-                    playlist.Enqueue(tile.minigameScene);
+                    playlist.Enqueue(tile.MinigameScene);
                     tile.fresh = false;
                 }
 
                 for(int i = 0; i < minigameDuplicates; i++)
                 {
-                    activeMinigames.Add(tile.minigameScene);
+                    activeMinigames.Add(tile.MinigameScene);
                 }
             }
         }

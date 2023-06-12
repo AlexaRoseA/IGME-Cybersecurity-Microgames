@@ -122,7 +122,7 @@ public class AgencyManager : LevelManager
             TMP_Text jobTitle = cardBG.Find("WorkstationName").gameObject.GetComponent<TMP_Text>();
             Image img = cardBG.Find("WorkstationImg").gameObject.GetComponent<Image>();
 
-            jobTitle.text = workstation.jobTitle;
+            jobTitle.text = workstation.JobTitle;
             UpdatePurchaseStateDisplay(i);
         }
         shopUI.SetActive(false); //hide the shop until it is shown
@@ -164,7 +164,7 @@ public class AgencyManager : LevelManager
         switch (purchaseStates[i])
         {
             case PurchaseState.ForSale:
-                purchaseText.text = "$" + workstationPrefabs[i].GetComponent<Workstation>().price;
+                purchaseText.text = "$" + workstationPrefabs[i].GetComponent<Workstation>().Price;
                 purchaseButton.onClick.AddListener(() => Purchase(i));
                 break;
 

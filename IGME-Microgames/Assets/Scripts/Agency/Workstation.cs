@@ -4,24 +4,34 @@ using UnityEngine;
 
 public class Workstation : MonoBehaviour
 {
-    public string minigameScene;
-    public int highscore = 0;
-    public int agentLevel = 0;
-    public string jobTitle = "Cybersecurity";
-    public int price = 2000;
+    [SerializeField] private string minigameScene;
+    [SerializeField] private string jobTitle = "Cybersecurity";
+    [SerializeField] private Sprite workstationSprite;
+    [SerializeField] private int price = 2000;
 
     //how many times does the minigame have to be played before the player can challenge?
-    public int challengeCooldown = 3;
+    private int challengeCooldown = 3;
 
-    //public string MinigameScene { get { return minigameScene; } }
-    public bool inPlaylist = false;
+    private int highscore = 0;
+    private int agentLevel = 0;
+
+    
 
     //if the workstation is new and unplayed, it will be first in the playlist. 
-    public bool fresh = true;
+    [System.NonSerialized] public bool fresh = true;
+    [System.NonSerialized] public bool isOutline = true;
+    [System.NonSerialized] public bool inPlaylist = false;
 
-    public bool isOutline = true;
+    public string MinigameScene { get { return minigameScene; } }
 
-    public Sprite sprite;
+    public string JobTitle { get { return jobTitle; } }
+
+    public Sprite WorkstationSprite { get { return workstationSprite; } }
+
+    public int Price { get { return price; } }
+
+
+
 
     public void Challenge()
     {
