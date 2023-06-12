@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8989255346498926412}
   - component: {fileID: 3844687824770290118}
   m_Layer: 0
-  m_Name: Room 1
+  m_Name: FakeMinigame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,13 +45,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24289b6dcc8b44f47bbdf21c1f275954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minigameScene: 
+  minigameScene: MG_Test
   highscore: 0
   agentLevel: 0
   jobTitle: Cyber Defense Analyst
-  price: 2000
+  price: 3000
   challengeCooldown: 0
-  active: 0
+  inPlaylist: 0
   fresh: 1
   isOutline: 1
   sprite: {fileID: 0}

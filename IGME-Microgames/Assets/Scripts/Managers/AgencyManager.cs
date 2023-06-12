@@ -8,27 +8,24 @@ using UnityEngine.UI;
 
 public enum PurchaseState
 {
-    ForSale,
-    Purchased,
+    ForSale, //hasn't been bought
+    Purchased, //bought, but not placed in agency
     Placed
 }
 
 public class AgencyManager : LevelManager
 {
 
-    public GameObject agencyParent;
+    public GameObject agencyParent; // where the gamemanager checks for workstations to build playlist
+    public GameObject shopUI; // shown and hidden when shop is opened and closed
+    public GameObject workstationShopCardPrefab; // prefab for what a shop card looks like
+    public Behaviour[] disableWhileInShop; // components that will be disabled when the shop is opened
+    public Builder builder; // Handles placing shop items after being bought
 
-    public GameObject shopUI;
+    public GameObject[] workstationPrefabs; // shop items
 
-    public GameObject[] workstationPrefabs;
-    private PurchaseState[] purchaseStates;
-
-    public GameObject workstationShopCardPrefab;
-
-    private GameObject[] workstationCards;
-
-    public Behaviour[] disableWhileInShop;
-
+    private PurchaseState[] purchaseStates; // purchase state for each shop item
+    private GameObject[] workstationCards; // shop ui element for each shop item
 
     protected override void Start()
     {
@@ -36,8 +33,6 @@ public class AgencyManager : LevelManager
 
         purchaseStates = new PurchaseState[workstationPrefabs.Length];
 
-        purchaseStates[0] = PurchaseState.Placed;
-        purchaseStates[1] = PurchaseState.Purchased;
 
         InitShop();
     }
@@ -60,15 +55,17 @@ public class AgencyManager : LevelManager
         }*/
 
         Workstation[] workstations = agencyParent.GetComponentsInChildren<Workstation>();
-
         gameManager.BuildPlaylist(workstations);
     }
 
 
     public void OpenShop()
     {
-        shopUI.SetActive(true);
+        builder.CancelPlace();
 
+        shopUI.SetActive(true); //set shop visibility and interactability
+
+        //disable everything that should be disabled
         foreach(Behaviour comp in disableWhileInShop)
         {
             if(comp is Selectable) //ui elements that have interactable
@@ -79,7 +76,6 @@ public class AgencyManager : LevelManager
             {
                 comp.enabled = false;
             }
-            
         }
     }
 
@@ -105,6 +101,7 @@ public class AgencyManager : LevelManager
     /// </summary>
     private void InitShop()
     {
+        //each workstation card is a shop item
         workstationCards = new GameObject[workstationPrefabs.Length];
         for (int i = 0; i < workstationPrefabs.Length; i++)
         {
@@ -116,6 +113,7 @@ public class AgencyManager : LevelManager
             Transform cardBG = workstationCards[i].transform.Find("Canvas").Find("CardBG");
 
             //TODO: make this responsive
+            //this will line up cards in rows of 3
             int x = i % 3 * 302 + 92;
             int y = 1296 - (i / 3 * 402);
 
@@ -127,30 +125,41 @@ public class AgencyManager : LevelManager
             jobTitle.text = workstation.jobTitle;
             UpdatePurchaseStateDisplay(i);
         }
-        shopUI.SetActive(false);
+        shopUI.SetActive(false); //hide the shop until it is shown
     }
 
     public void Purchase(int prefabIndex)
     {
-        Debug.Log("Purchasing " + prefabIndex);
+        //TODO: check and reduce money
         purchaseStates[prefabIndex] = PurchaseState.Purchased;
         UpdatePurchaseStateDisplay(prefabIndex);
     }
 
     public void Place(int prefabIndex)
     {
-        Debug.Log("Placing " + prefabIndex);
-        purchaseStates[prefabIndex] = PurchaseState.Placed;
-        UpdatePurchaseStateDisplay(prefabIndex);
 
         CloseShop();
+
+        //passes the method to be called when placement is finalized- this won't get called if the placement is cancelled. 
+        FinishPlacementDelegate finalize = this.FinalizePlacement;
+        
+        GameObject newWorkstation = Instantiate(workstationPrefabs[prefabIndex]);
+        //attach the new workstation to the agency so that it is added to the playlist
+        newWorkstation.transform.parent = agencyParent.transform;
+        builder.StartPlacing(newWorkstation, finalize, prefabIndex);
     }
 
+    /// <summary>
+    /// updates the button of the given shop card, based on the card's state. this will also rebind the correct listener. 
+    /// </summary>
+    /// <param name="i">index in the shop array of the card to be updated</param>
     private void UpdatePurchaseStateDisplay(int i)
     {
         Transform cardBG = workstationCards[i].transform.Find("Canvas").Find("CardBG");
         Button purchaseButton = cardBG.Find("PurchaseButton").gameObject.GetComponent<Button>();
         TMP_Text purchaseText = cardBG.Find("PurchaseButton").Find("Text (TMP)").gameObject.GetComponent<TMP_Text>();
+
+        purchaseButton.onClick.RemoveAllListeners();
 
         switch (purchaseStates[i])
         {
@@ -169,5 +178,11 @@ public class AgencyManager : LevelManager
                 purchaseButton.interactable = false;
                 break;
         }
+    }
+
+    private void FinalizePlacement(int shopIndex)
+    {
+        purchaseStates[shopIndex] = PurchaseState.Placed;
+        UpdatePurchaseStateDisplay(shopIndex);
     }
 }

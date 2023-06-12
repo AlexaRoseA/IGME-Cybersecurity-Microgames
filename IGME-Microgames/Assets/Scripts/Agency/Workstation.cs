@@ -14,7 +14,7 @@ public class Workstation : MonoBehaviour
     public int challengeCooldown = 3;
 
     //public string MinigameScene { get { return minigameScene; } }
-    public bool active = false;
+    public bool inPlaylist = false;
 
     //if the workstation is new and unplayed, it will be first in the playlist. 
     public bool fresh = true;

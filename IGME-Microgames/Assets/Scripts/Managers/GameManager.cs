@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
 
         foreach(Workstation tile in workstations)
         {
-            if(tile.active)
+            if(tile.inPlaylist && !tile.isOutline)
             {
                 if(tile.fresh)
                 {
@@ -67,7 +67,11 @@ public class GameManager : MonoBehaviour
                     playlist.Enqueue(tile.minigameScene);
                     tile.fresh = false;
                 }
-                activeMinigames.Add(tile.minigameScene);
+
+                for(int i = 0; i < minigameDuplicates; i++)
+                {
+                    activeMinigames.Add(tile.minigameScene);
+                }
             }
         }
 

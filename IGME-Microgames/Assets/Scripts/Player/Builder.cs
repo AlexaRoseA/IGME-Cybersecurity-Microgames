@@ -5,6 +5,10 @@ using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.Tilemaps;
 
+
+
+public delegate void FinishPlacementDelegate(int index);
+
 public enum InteractionMode
 {
     Move, //the players input will move them around the agency.
@@ -35,6 +39,10 @@ public class Builder : MonoBehaviour
     public GameObject furniturePrefab;
 
     private GameObject placingWorkstation;
+    private bool fingerDragging = false;
+    private bool moving = false;
+    private int placingShopIndex;
+    private FinishPlacementDelegate finalize;
 
     private void Awake()
     {
@@ -55,17 +63,35 @@ public class Builder : MonoBehaviour
         touchPressAction.canceled -= TouchCancelled;
     }
 
+    void Update()
+    {
+        if(placingWorkstation != null && fingerDragging && interactionMode == InteractionMode.Furniture)
+        {
+            //converting to cell and back to snap to grid
+
+            Vector3Int currentCellPos = floor.WorldToCell(placingWorkstation.transform.position);
+            Vector3Int newCellPos = floor.WorldToCell(TouchScreenToWorld());
+            if(currentCellPos != newCellPos)
+            {
+                moving = true;
+
+                placingWorkstation.transform.position = floor.CellToWorld(newCellPos);
+            }
+        }
+    }
+
     /// <summary>
     /// start of press
     /// </summary>
     /// <param name="context"></param>
     private void TouchPressed(InputAction.CallbackContext context)
     {
-        if(interactionMode == InteractionMode.Furniture)
+        moving = false;
+        fingerDragging = true;
+        if(interactionMode != InteractionMode.Furniture)
         {
-
+            SetTileAtWorldPos(TouchScreenToWorld());
         }
-        SetTileAtWorldPos(TouchScreenToWorld());
     }
 
     /// <summary>
@@ -74,7 +100,16 @@ public class Builder : MonoBehaviour
     /// <param name="context"></param>
     private void TouchCancelled(InputAction.CallbackContext context)
     {
-
+        fingerDragging = false;
+        if(!moving && interactionMode == InteractionMode.Furniture)
+        {
+            FinalizePlace();
+        }
+        //if furniture
+        //stop update follow
+        //if followduration is low && position is same tile
+        //finalizeplacement
+        //set mode to move
     }
 
     private Vector3 TouchScreenToWorld()
@@ -88,7 +123,7 @@ public class Builder : MonoBehaviour
     /// Updates the tile at a specific world position. 
     /// </summary>
     /// <param name="worldPos">world position of the tile to be updated</param>
-    private void SetTileAtWorldPos(Vector3 worldPos)
+    private bool SetTileAtWorldPos(Vector3 worldPos)
     {
         //get the tile at the location in each tilemap
         Vector3Int tilePos = floor.WorldToCell(worldPos);
@@ -99,41 +134,32 @@ public class Builder : MonoBehaviour
         switch (interactionMode)
         {
             case InteractionMode.Move:
-                break;
+                return false;
             case InteractionMode.Floor:
                 if (floorTile == null)
                 { //replace wall with floor
                     wall.SetTile(tilePos, null);
                     floor.SetTile(tilePos, Instantiate(floorTemplate));
+                    return true;
                 }
-                break;
+                return false;
             case InteractionMode.Wall:
-                if (wallTile == null)
+                if (wallTile == null && furnitureTile == null)
                 { //replace floor with wall
                     wall.SetTile(tilePos, Instantiate(wallTemplate));
                     floor.SetTile(tilePos, null);
+                    return true;
                 }
-                break;
+                return false;
             case InteractionMode.Furniture:
                 if(furnitureTile == null && wallTile == null)
                 { //only works if theres a floor tile and no furniture
                     furniture.SetTile(tilePos, Instantiate(furnitureTemplate));
-                    InitFurniture(furniture.CellToWorld(tilePos));
+                    return true;
                 }
-                break;
+                return false;
         }
-    }
-
-    /// <summary>
-    /// spawns a workstation gameobject 
-    /// </summary>
-    /// <param name="worldPos"></param>
-    private void InitFurniture(Vector3 worldPos)
-    {
-        GameObject newFurniture = Instantiate(furniturePrefab, worldPos, Quaternion.identity);
-        newFurniture.GetComponent<Workstation>().minigameScene = "MG_Test";
-
-        newFurniture.transform.parent = agencyParent.transform;
+        return false;
     }
 
     /// <summary>
@@ -141,18 +167,26 @@ public class Builder : MonoBehaviour
     /// </summary>
     public void SwitchInteractionMode()
     {
-        interactionMode++;
-        if ((int)interactionMode == 3)
-        {//loop back to 0, and since 0 is move reenable movement. 
-            interactionMode = InteractionMode.Move;
+        if(interactionMode == InteractionMode.Furniture)
+        {
+            CancelPlace();
+            return; //cancel place switches the mode manually
+        }
+        SwitchInteractionMode((InteractionMode)((((int)interactionMode) + 1) % 3));
+    }
 
+    public void SwitchInteractionMode(InteractionMode newInteractionMode)
+    {
+
+        interactionMode = newInteractionMode;
+        if (interactionMode == InteractionMode.Move)
+        {
             Movement move = gameObject.GetComponent<Movement>();
 
             if (move != null)
             {
                 move.enabled = true;
             }
-            
         }
         else
         {
@@ -165,5 +199,47 @@ public class Builder : MonoBehaviour
             }
         }
         interactionModeButtonText.text = interactionMode.ToString();
+    }
+
+
+    public void CancelPlace()
+    {
+        
+        if(interactionMode == InteractionMode.Furniture && placingWorkstation != null)
+        {
+            //destroy outline
+            Destroy(placingWorkstation);
+
+            SwitchInteractionMode(InteractionMode.Move);
+        }
+    }
+
+    public void FinalizePlace()
+    {
+        //try to set the tile, if it fails do nothing
+        if(!SetTileAtWorldPos(placingWorkstation.gameObject.transform.position))
+        {
+            return;
+        }
+
+        //shop card-> placed
+        finalize(placingShopIndex);
+
+        placingWorkstation.GetComponent<Workstation>().isOutline = false;
+        placingWorkstation.GetComponent<Workstation>().inPlaylist = true;
+
+        
+        //TODO: update sprite, no longer outline
+
+        SwitchInteractionMode(InteractionMode.Move);
+        placingWorkstation = null;
+    }
+
+    public void StartPlacing(GameObject workstation, FinishPlacementDelegate finalize, int index)
+    {
+        placingWorkstation = workstation;
+        SwitchInteractionMode(InteractionMode.Furniture);
+        this.finalize = finalize;
+        placingShopIndex = index;
     }
 }
