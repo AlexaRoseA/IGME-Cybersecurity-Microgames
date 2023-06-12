@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class LevelManager : MonoBehaviour
 {
-    protected GameManager gameManager;
+    public GameManager gameManager;
     // Start is called before the first frame update
     protected virtual void Start()
     {

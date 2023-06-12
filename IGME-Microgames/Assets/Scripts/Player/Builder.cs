@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.Tilemaps;
+using UnityEngine.EventSystems;
 
 
 
@@ -65,7 +66,7 @@ public class Builder : MonoBehaviour
 
     void Update()
     {
-        if(placingWorkstation != null && fingerDragging && interactionMode == InteractionMode.Furniture)
+        if (placingWorkstation != null && fingerDragging && interactionMode == InteractionMode.Furniture)
         {
             //converting to cell and back to snap to grid
 
@@ -86,6 +87,7 @@ public class Builder : MonoBehaviour
     /// <param name="context"></param>
     private void TouchPressed(InputAction.CallbackContext context)
     {
+        OverlappingWorkstation();
         moving = false;
         fingerDragging = true;
         if(interactionMode != InteractionMode.Furniture)
@@ -134,6 +136,7 @@ public class Builder : MonoBehaviour
         switch (interactionMode)
         {
             case InteractionMode.Move:
+
                 return false;
             case InteractionMode.Floor:
                 if (floorTile == null)
@@ -241,5 +244,18 @@ public class Builder : MonoBehaviour
         SwitchInteractionMode(InteractionMode.Furniture);
         this.finalize = finalize;
         placingShopIndex = index;
+    }
+
+    public GameObject OverlappingWorkstation()
+    {
+        Collider2D[] overlappingColliders = Physics2D.OverlapPointAll(TouchScreenToWorld());
+
+        foreach(Collider2D collider in overlappingColliders)
+        {
+            Debug.Log(collider);
+        }
+        //overlappoint on each
+
+        return null;
     }
 }

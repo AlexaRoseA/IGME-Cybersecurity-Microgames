@@ -22,6 +22,8 @@ public class Workstation : MonoBehaviour
     [System.NonSerialized] public bool isOutline = true;
     [System.NonSerialized] public bool inPlaylist = false;
 
+    [System.NonSerialized] public AgencyManager agencyManager;
+
     public string MinigameScene { get { return minigameScene; } }
 
     public string JobTitle { get { return jobTitle; } }
@@ -30,11 +32,44 @@ public class Workstation : MonoBehaviour
 
     public int Price { get { return price; } }
 
+    public int Highscore { get { return highscore; } }
 
 
+    public void Practice()
+    {
+        agencyManager.gameManager.BuildPlaylist(new Workstation[] { this }, 5);
+    }
 
     public void Challenge()
     {
+        agencyManager.gameManager.BuildPlaylist(new Workstation[] { this }, 1);
+    }
 
+    public void FinishMinigame(int score)
+    {
+
+        if (highscore < score)
+        {
+            highscore = score;
+        }
+        challengeCooldown--;
+    }
+
+    void Start()
+    {
+        GameObject tapUI = transform.Find("TapUI").gameObject;
+
+        tapUI.SetActive(false);
+
+        OpenTapUI();
+    }
+
+    public void OpenTapUI()
+    {
+        GameObject tapUI = transform.Find("TapUI").gameObject;
+        GameObject radialButtons = tapUI.transform.Find("RadialButtons").gameObject;
+
+        radialButtons.transform.position = gameObject.transform.position;
+        tapUI.SetActive(true);
     }
 }
