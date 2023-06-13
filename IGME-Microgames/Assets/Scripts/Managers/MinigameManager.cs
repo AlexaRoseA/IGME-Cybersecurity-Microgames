@@ -19,7 +19,7 @@ public class MinigameManager : MonoBehaviour
     [SerializeField] string gameTitle;
 
     // Variable storage for YarnSpinner and dialog running
-    private InMemoryVariableStorage variableStorage;
+    public InMemoryVariableStorage variableStorage;
     public DialogueRunner dialogueRunner;
 
     // All the potential phase instances
@@ -84,7 +84,7 @@ public class MinigameManager : MonoBehaviour
     /// <summary>
     /// Base end the game method
     /// </summary>
-    private void EndGame()
+    public void EndGame()
     {
         // end game
         Debug.Log("Game Ended!");
@@ -260,6 +260,7 @@ public class MinigameManager : MonoBehaviour
     public void UpdateTimerText()
     {
         timeText = GameObject.FindGameObjectWithTag("Timer").GetComponent<TextMeshProUGUI>();
+        Debug.Log("TIMER: " + timeText);
     }
 
     /// <summary>

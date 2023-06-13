@@ -16,7 +16,7 @@ Poet: LET'S FIND OUT! HEHE!
 <<set $currentPhase to "file">>
 <<endif>>
 
-<<set $timeRemaining to 25>>
+<<set $timeRemaining to 5>>
 ===
 
 title: FuzzBuzz_Phase2
@@ -26,11 +26,14 @@ tags:
     Poet: TESTS CREATED, TIME TO SHINE <color=red>ORACLE!</color> 
     Poet: FOLLOW ALL THE PATHS...
     Poet: STOP THOSE PESKY BUGS AT EVERY NOOK!
+    Poet: CHECK THIS OUT...
+    <<StartCameraMovement GridChooser>>
 <<elseif  $currentPhase is "blackbox">>
     Poet: TESTS CREATED, TIME TO SHINE <color=red>ORACLE!</color> 
     Poet: THE VOID IS HUNGRY TODAY!
     Poet: SEEMS LIKE THERE'S <color=red>UNWANTED VISITORS</color> FROM OUR TESTING! 
     Poet: <color=red>TIME TO CLEAN THIS MESS!</color> 
+    <<set $timeRemaining to 120>>
 <<else>>
 <<endif>>
 
