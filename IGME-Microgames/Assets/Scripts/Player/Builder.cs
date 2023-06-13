@@ -76,7 +76,7 @@ public class Builder : MonoBehaviour
             {
                 moving = true;
 
-                placingWorkstation.transform.position = floor.CellToWorld(newCellPos);
+                placingWorkstation.transform.position = floor.GetCellCenterWorld(newCellPos);
             }
         }
     }
@@ -87,7 +87,12 @@ public class Builder : MonoBehaviour
     /// <param name="context"></param>
     private void TouchPressed(InputAction.CallbackContext context)
     {
-        OverlappingWorkstation();
+        Workstation tappedWorkstation = OverlappingWorkstation();
+        if(tappedWorkstation != null && !tappedWorkstation.isOutline)
+        {
+            tappedWorkstation.ToggleTapUI();
+            return;
+        }
         moving = false;
         fingerDragging = true;
         if(interactionMode != InteractionMode.Furniture)
@@ -166,18 +171,22 @@ public class Builder : MonoBehaviour
     }
 
     /// <summary>
-    /// switches to the next interaction mode, updating the button text and enabling/disabling movement. 
+    /// switches to the next interaction mode. 
     /// </summary>
     public void SwitchInteractionMode()
     {
         if(interactionMode == InteractionMode.Furniture)
         {
             CancelPlace();
-            return; //cancel place switches the mode manually
+            return; //cancel place switches the mode
         }
         SwitchInteractionMode((InteractionMode)((((int)interactionMode) + 1) % 3));
     }
 
+    /// <summary>
+    /// Switches the interaction mode, and updates the movement component and button text. 
+    /// </summary>
+    /// <param name="newInteractionMode">Interaction mode to switch to</param>
     public void SwitchInteractionMode(InteractionMode newInteractionMode)
     {
 
@@ -217,6 +226,9 @@ public class Builder : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Tries to place the workstation where the outline is. 
+    /// </summary>
     public void FinalizePlace()
     {
         //try to set the tile, if it fails do nothing
@@ -238,6 +250,12 @@ public class Builder : MonoBehaviour
         placingWorkstation = null;
     }
 
+    /// <summary>
+    /// Changes the interaction mode to be placing a workstation.
+    /// </summary>
+    /// <param name="workstation">Workstation to be placed</param>
+    /// <param name="finalize">Method to be called when the workstation is finalized</param>
+    /// <param name="index">Index of this workstation in the shop</param>
     public void StartPlacing(GameObject workstation, FinishPlacementDelegate finalize, int index)
     {
         placingWorkstation = workstation;
@@ -246,16 +264,22 @@ public class Builder : MonoBehaviour
         placingShopIndex = index;
     }
 
-    public GameObject OverlappingWorkstation()
+    /// <summary>
+    /// Returns a workstation that is under the user's touch. 
+    /// </summary>
+    /// <returns>A workstation the user is touching</returns>
+    public Workstation OverlappingWorkstation()
     {
         Collider2D[] overlappingColliders = Physics2D.OverlapPointAll(TouchScreenToWorld());
 
         foreach(Collider2D collider in overlappingColliders)
         {
-            Debug.Log(collider);
+            Workstation workstation = collider.gameObject.GetComponentInParent<Workstation>();
+            if (workstation != null)
+            {
+                return workstation;
+            }
         }
-        //overlappoint on each
-
         return null;
     }
 }

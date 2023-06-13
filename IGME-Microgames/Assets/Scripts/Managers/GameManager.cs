@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
 
     public void BuildPlaylist(Workstation[] workstations)
     {
-        BuildPlaylist(workstations, minigameDuplicates);
+        BuildPlaylist(workstations, minigameDuplicates, true);
     }
 
 
@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     /// Compiles the available minigames into a shuffled queue.
     /// </summary>
     /// <param name="rooms">room objects that the player has in their agency.</param>
-    public void BuildPlaylist(Workstation[] workstations, int duplicates)
+    public void BuildPlaylist(Workstation[] workstations, int duplicates, bool useFreshness)
     {
         List<Workstation> activeMinigames = new List<Workstation>();
         playlist = new Queue<Workstation>();
@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
         {
             if(tile.inPlaylist && !tile.isOutline)
             {
-                if(tile.fresh)
+                if(tile.fresh && useFreshness)
                 {
                     //if its fresh, its first in the playlist and will show up later. 
                     playlist.Enqueue(tile);

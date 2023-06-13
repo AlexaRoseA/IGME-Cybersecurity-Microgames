@@ -37,12 +37,12 @@ public class Workstation : MonoBehaviour
 
     public void Practice()
     {
-        agencyManager.gameManager.BuildPlaylist(new Workstation[] { this }, 5);
+        agencyManager.gameManager.BuildPlaylist(new Workstation[] { this }, 5, true);
     }
 
     public void Challenge()
     {
-        agencyManager.gameManager.BuildPlaylist(new Workstation[] { this }, 1);
+        agencyManager.gameManager.BuildPlaylist(new Workstation[] { this }, 1, false);
     }
 
     public void FinishMinigame(int score)
@@ -61,15 +61,22 @@ public class Workstation : MonoBehaviour
 
         tapUI.SetActive(false);
 
-        OpenTapUI();
+        agencyManager = gameObject.transform.parent.gameObject.GetComponent<AgencyManager>();
     }
 
-    public void OpenTapUI()
+
+    public void ToggleTapUI()
     {
+
         GameObject tapUI = transform.Find("TapUI").gameObject;
+        if (tapUI.activeSelf)
+        {
+            tapUI.SetActive(false);
+            return;
+        }
         GameObject radialButtons = tapUI.transform.Find("RadialButtons").gameObject;
 
-        radialButtons.transform.position = gameObject.transform.position;
+        radialButtons.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
         tapUI.SetActive(true);
     }
 }
