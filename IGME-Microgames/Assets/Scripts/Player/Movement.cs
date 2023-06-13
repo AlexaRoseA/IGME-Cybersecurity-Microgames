@@ -20,6 +20,7 @@ public class Movement : MonoBehaviour
     // Dragging
     CircleCollider2D moveCircle;
     private float moveSpeed;
+    [SerializeField] public float maxSpeed;
 
     /// <summary>
     /// Awake function that pulls the default player movement
@@ -77,7 +78,7 @@ public class Movement : MonoBehaviour
     /// <param name="context"></param>
     private void TouchPressed(InputAction.CallbackContext context)
     {
-        moveSpeed = 2f;
+        moveSpeed = maxSpeed;
         TouchScreenToWorld();
     }
 
