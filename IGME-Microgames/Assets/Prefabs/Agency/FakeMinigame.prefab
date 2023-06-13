@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8989255346498926412}
   - component: {fileID: 3844687824770290118}
   m_Layer: 0
-  m_Name: Room
+  m_Name: FakeMinigame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,6 +45,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24289b6dcc8b44f47bbdf21c1f275954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minigameScene: MG_Test
+  highscore: 0
+  agentLevel: 0
+  jobTitle: Cyber Defense Analyst
+  price: 3000
+  challengeCooldown: 0
+  inPlaylist: 0
+  fresh: 1
+  isOutline: 1
+  sprite: {fileID: 0}
 --- !u!1 &5208582940973825064
 GameObject:
   m_ObjectHideFlags: 0
@@ -70,7 +80,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5208582940973825064}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

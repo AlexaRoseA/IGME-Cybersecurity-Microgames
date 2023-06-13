@@ -15,20 +15,15 @@ public class GameManager : MonoBehaviour
 {
     public int currency;
     public int playerLevel;
-    public Tile[,] tiles; 
 
-    private Queue<string> playlist;
+    private Queue<Workstation> playlist;
+
+    //how many times will each minigame show up in the queue?
     public int minigameDuplicates = 2;
 
     //TODO: load data
     void Start()
     {
-        tiles = new Tile[6, 10];
-        tiles[0, 0] = Tile.wall;
-
-        Debug.Log(tiles[0, 0]);
-        Debug.Log(tiles[1, 0]);
-        Debug.Log(tiles[0, 1]);
     }
 
 
@@ -37,14 +32,26 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void PlayNext()
     {
+        if(playlist.Count == 0)
+        {
+            Debug.LogWarning("Tried to play next minigame, but there are no minigames in the queue");
+            return;
+        }
         /*foreach (string minigame in playlist)
         {
             Debug.Log(minigame);
         }*/
-        string nextSceneName = playlist.Dequeue();
+
+        //dequeue is called at the end of the minigame
+        string nextSceneName = playlist.Peek().MinigameScene;
 
         ClearScenes();
         SceneManager.LoadSceneAsync(nextSceneName, LoadSceneMode.Additive);
+    }
+
+    public void BuildPlaylist(Workstation[] workstations)
+    {
+        BuildPlaylist(workstations, minigameDuplicates, true);
     }
 
 
@@ -52,33 +59,32 @@ public class GameManager : MonoBehaviour
     /// Compiles the available minigames into a shuffled queue.
     /// </summary>
     /// <param name="rooms">room objects that the player has in their agency.</param>
-    public void BuildPlaylist(Room[] rooms)
+    public void BuildPlaylist(Workstation[] workstations, int duplicates, bool useFreshness)
     {
-        List<string> activeMinigames = new List<string>();
-        playlist = new Queue<string>();
+        List<Workstation> activeMinigames = new List<Workstation>();
+        playlist = new Queue<Workstation>();
 
-        foreach(Room room in rooms)
+        foreach(Workstation tile in workstations)
         {
-            switch(room.roomState)
+            if(tile.inPlaylist && !tile.isOutline)
             {
+                if(tile.fresh && useFreshness)
+                {
                     //if its fresh, its first in the playlist and will show up later. 
-                case RoomState.fresh:
-                    playlist.Enqueue(room.MinigameScene);
-                    room.roomState = RoomState.on;
-                    goto case RoomState.on;
+                    playlist.Enqueue(tile);
+                    tile.fresh = false;
+                }
 
-                case RoomState.on:
-                    for(int i = 0; i < minigameDuplicates; i++)
-                    {
-                        activeMinigames.Add(room.MinigameScene);
-                    }
-                    break;
+                for(int i = 0; i < duplicates; i++)
+                {
+                    activeMinigames.Add(tile);
+                }
             }
         }
 
         ShuffleList(activeMinigames);
 
-        foreach(string minigame in activeMinigames)
+        foreach(Workstation minigame in activeMinigames)
         {
             playlist.Enqueue(minigame);
         }
@@ -93,6 +99,11 @@ public class GameManager : MonoBehaviour
     /// <param name="score"></param>
     public void EndMinigame(int score)
     {
+
+        playlist.Dequeue().FinishMinigame(score);
+
+
+        currency += score * score * 100;
         ClearScenes();
         SceneManager.LoadSceneAsync("MinigameScore", LoadSceneMode.Additive);
     }
@@ -122,7 +133,7 @@ public class GameManager : MonoBehaviour
     public void EndStreak()
     {
         ClearScenes();
-        SceneManager.LoadSceneAsync("Agency", LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync("Build_TestScene", LoadSceneMode.Additive);
     }
 
     /// <summary>

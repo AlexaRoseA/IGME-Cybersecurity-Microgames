@@ -537,6 +537,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agencyRoot: {fileID: 855866635}
+  interactionMode: 0
+  interactionModeButtonText: {fileID: 0}
+  playerMovement: {fileID: 0}
 --- !u!4 &855866637
 Transform:
   m_ObjectHideFlags: 0
