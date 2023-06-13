@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8989255346498926412}
   - component: {fileID: 3844687824770290118}
   m_Layer: 0
-  m_Name: SecureSoftwareAccessor
+  m_Name: SecureSoftwareAssessor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minigameScene: MG_Test
-  jobTitle: Secure Software Accessor
+  jobTitle: Secure Software Assessor
   workstationSprite: {fileID: 0}
   price: 2000
 --- !u!1 &1246468464758998584
