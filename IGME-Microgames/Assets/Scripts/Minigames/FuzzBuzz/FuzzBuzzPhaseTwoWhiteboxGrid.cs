@@ -1,35 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Yarn.Unity;
 
-public class FuzzBuzzPhaseTwoWhiteboxGrid: MonoBehaviour
+/* **************************************************************************
+* 
+* 2023 Alexa Amoriello, IGME PROJECT H4CKB0X
+*
+* This script is apart of phase 2 of the minigame FUZZ BUZZ, which is an adaptation
+* to teach the concept of whitebox fuzz testing.
+*
+* ************************************************************************/
+
+public class FuzzBuzzPhaseTwoWhiteboxGrid : MonoBehaviour
 {
-
     // Minigame Helper
     private MinigameManager helper;
 
+    // Potential bug spots
     [SerializeField] List<GameObject> spots;
 
+    // Camera variables
     private bool camerasFinishedMoving = false;
     private float speed = 2f;
 
-    private Transform cameraOrigin;
+    // Start and end position as well as the player
     [SerializeField] public Transform startPosition;
     [SerializeField] public Transform endPosition;
     [SerializeField] public GameObject player;
 
+
+    // Sprites to use for bug or crash
     [SerializeField] public Sprite bug;
     [SerializeField] public Sprite crash;
 
+    // Bug UI information
     private int bugsLeft;
     private int bugsTotal;
 
-    // Start is called before the first frame update
+    #region Start/Middle/End General Methods and Helpers
+
+    /// <summary>
+    /// Generate spots, grab the helper, and set the player's position to the start 
+    /// Transform of the chosen grid.
+    /// </summary>
     void Start()
     {
         spots = GenerateBugSpots();
-        cameraOrigin = Camera.main.transform;
 
         helper = GameObject.FindObjectOfType<MinigameManager>();
 
@@ -38,15 +54,26 @@ public class FuzzBuzzPhaseTwoWhiteboxGrid: MonoBehaviour
         player.transform.position = new Vector3(startPosition.position.x, startPosition.position.y, startPosition.position.z);
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Follow the player if the cameras are not animated
+    /// </summary>
     void Update()
     {
-        if(camerasFinishedMoving)
+        if (camerasFinishedMoving)
         {
             FollowPlayer();
         }
     }
 
+    #endregion
+
+    #region Bug Tracking
+
+    /// <summary>
+    /// Picks from the spots possible which bugs to spawn 
+    /// and disables the other bugs.
+    /// </summary>
+    /// <returns></returns>
     List<GameObject> GenerateBugSpots()
     {
         bugsTotal = Random.Range(1, 4);
@@ -62,7 +89,7 @@ public class FuzzBuzzPhaseTwoWhiteboxGrid: MonoBehaviour
             spots.RemoveAt(spotIndex);
         }
 
-        foreach(GameObject spot in spots)
+        foreach (GameObject spot in spots)
         {
             spot.SetActive(false);
         }
@@ -71,33 +98,57 @@ public class FuzzBuzzPhaseTwoWhiteboxGrid: MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Removes bugs from the bug count
+    /// </summary>
     public void RemoveBugFromCount()
     {
-        if(bugsLeft != 0)
+        if (bugsLeft != 0)
         {
             bugsLeft--;
         }
 
     }
 
+    #endregion
+
+    #region Camera Methods
+
     /// <summary>
-    /// Callback to start Coroutine
+    /// Callback to start coroutine on this grid
     /// </summary>
     public void StartCameraMovement()
     {
         StartCoroutine("ShowBugsAtSpots");
     }
-    IEnumerator LerpCamera(Vector3 pos, string name)
+
+    /// <summary>
+    /// Lerp between the current camera and a position
+    /// </summary>
+    /// <param name="pos">Vector3 position</param>
+    /// <param name="name">Optional parameter to print out a name</param>
+    /// <returns></returns>
+    IEnumerator LerpCamera(Vector3 pos, string name = "")
     {
         while (Vector3.Distance(Camera.main.transform.position, pos) > 0.05f)
         {
-            Debug.Log("Going to " + name + " current coords: " + Camera.main.transform.position);
+            if (name != "")
+            {
+                Debug.Log("Going to " + name + " current coords: " + Camera.main.transform.position);
+            }
+
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, pos, speed * Time.deltaTime);
             yield return null;
         }
         yield return null;
     }
 
+    /// <summary>
+    /// Camera movement that showcases the start position, the current bugs
+    /// on the grid, the ending position and then loops back to the player's position
+    /// before starting the timer.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator ShowBugsAtSpots()
     {
         // Show Start Position
@@ -136,8 +187,13 @@ public class FuzzBuzzPhaseTwoWhiteboxGrid: MonoBehaviour
         yield return null;
     }
 
+    /// <summary>
+    /// Camera to follow player
+    /// </summary>
     void FollowPlayer()
     {
         Camera.main.transform.position = player.transform.position + new Vector3(0, 0, -10);
     }
+
+    #endregion
 }

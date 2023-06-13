@@ -223,6 +223,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7138287420254140659, guid: e7af54fcb1c5c34408a0e6609987ce04, type: 3}
+      propertyPath: m_Mass
+      value: 0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7138287420254140659, guid: e7af54fcb1c5c34408a0e6609987ce04, type: 3}
+      propertyPath: m_LinearDrag
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7138287420254140659, guid: e7af54fcb1c5c34408a0e6609987ce04, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7af54fcb1c5c34408a0e6609987ce04, type: 3}
 --- !u!4 &8369322969034549248 stripped
