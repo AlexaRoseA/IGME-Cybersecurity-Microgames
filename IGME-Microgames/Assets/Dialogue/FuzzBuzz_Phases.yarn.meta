@@ -11,9 +11,4 @@ ScriptedImporter:
   LastImportHadImplicitStringIDs: 1
   LastImportHadAnyStrings: 1
   isSuccessfullyParsed: 1
-  parseErrorMessages:
-  - '25:22: Error: Null is not a permitted type in Yarn Spinner 2.0 and later
-
-    null
-
-'
+  parseErrorMessages: []

@@ -16,6 +16,7 @@ public class MinigameManager : MonoBehaviour
 
     // Keep track of the current phase index and game title
     private int phaseNum = 1;
+    private string priorPhase;
     [SerializeField] string gameTitle;
 
     // Variable storage for YarnSpinner and dialog running
@@ -46,6 +47,8 @@ public class MinigameManager : MonoBehaviour
         variableStorage.TryGetValue("$timeRemaining", out timeRemaining);
 
         ResetScore();
+
+        currentPhase = "none";
 
         SetPhase(false);
     }
@@ -192,6 +195,7 @@ public class MinigameManager : MonoBehaviour
 
             // Set the current phase name to be the last string under split
             // Format: GAMENAME_PHASE#_PHASENAME
+            priorPhase = currentPhase;
             currentPhase = chosenSplit[2].ToLower();
         }
     }
@@ -230,6 +234,11 @@ public class MinigameManager : MonoBehaviour
     public string GetPhase()
     {
         return currentPhase;
+    }
+
+    public string GetPriorPhase()
+    {
+        return priorPhase;
     }
 
     #endregion
