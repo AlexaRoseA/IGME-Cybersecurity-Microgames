@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PacketTapper : MonoBehaviour
+public class PacketTapper : InputHandler
 {
-    // Start is called before the first frame update
-    void Start()
+
+    protected override void TouchPressed(InputAction.CallbackContext context)
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void TouchCancelled(InputAction.CallbackContext context)
     {
-        
+
     }
 }
