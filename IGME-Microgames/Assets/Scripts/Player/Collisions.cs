@@ -5,13 +5,11 @@ using UnityEngine;
 public class Collisions : MonoBehaviour
 {
     // Start is called before the first frame update
+    private MinigameManager helper;
 
     void Start()
     {
-        if (TryGetComponent<MinigameManager>(out MinigameManager helper))
-        {
-            //try to get
-        }
+        
     }
 
     // Update is called once per frame
@@ -20,27 +18,31 @@ public class Collisions : MonoBehaviour
         
     }
 
+    public void SetHelper()
+    {
+        helper = GameObject.FindObjectOfType<MinigameManager>();
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Spot")
+        if(helper != null)
         {
-
-            if (TryGetComponent<FuzzBuzzPhaseTwoWhiteboxCore>(out FuzzBuzzPhaseTwoWhiteboxCore whiteboxCore))
+            switch(helper.GetPhase())
             {
-                whiteboxCore.DestroyBug(collision.gameObject);
-            }
-
-        }
-
-        if(collision.GetContact(0).collider.gameObject.tag == "Spot")
-        {
-            Debug.Log("Collision with bug");
-            GameObject blackbox = GameObject.Find("FuzzBuzz_Phase2_Blackbox(Clone)");
-            Debug.Log(blackbox);
-            if (blackbox != null)
-            {
-                blackbox.GetComponent<FuzzBuzzPhaseTwoBlackboxCore>().DestroyBug(collision.GetContact(0).collider.gameObject);
+                case "blackbox":
+                    if(collision.GetContact(0).collider.gameObject.tag == "Spot")
+                    {
+                        GameObject.FindObjectOfType<FuzzBuzzPhaseTwoBlackboxCore>().DestroyBug(collision.GetContact(0).collider.gameObject);
+                    }
+                    break;
+                case "whitebox":
+                    if (collision.GetContact(0).collider.gameObject.tag == "Spot")
+                    {
+                        GameObject.FindObjectOfType<FuzzBuzzPhaseTwoWhiteboxCore>().DestroyBug(collision.GetContact(0).collider.gameObject);
+                    }
+                    break;
             }
         }
+
     }
 }

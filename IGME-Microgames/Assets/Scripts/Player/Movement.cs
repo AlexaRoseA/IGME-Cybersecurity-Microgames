@@ -21,7 +21,6 @@ public class Movement : MonoBehaviour
 
     // Dragging
     CircleCollider2D moveCircle;
-    GameObject joystick;
     private float moveSpeed;
     [SerializeField] public float maxSpeed;
 
@@ -53,13 +52,6 @@ public class Movement : MonoBehaviour
         if(checkIfWithinDragCircle())
         {
             rb.MovePosition(Vector3.Lerp(player.transform.position, TouchScreenToWorld(), moveSpeed * Time.deltaTime));
-            Debug.Log("Moving");
-        }
-
-        if (true)
-        {
-            rb.MovePosition(Vector3.Lerp(player.transform.position, TouchScreenToWorld(), moveSpeed * Time.deltaTime));
-            Debug.Log("Moving");
         }
     }
 
@@ -117,6 +109,4 @@ public class Movement : MonoBehaviour
         worldpos.z = player.transform.position.z;
         return worldpos;
     }
-
-
 }

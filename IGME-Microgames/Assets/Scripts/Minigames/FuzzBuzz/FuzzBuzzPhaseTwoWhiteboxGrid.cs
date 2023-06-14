@@ -51,7 +51,9 @@ public class FuzzBuzzPhaseTwoWhiteboxGrid : MonoBehaviour
 
         Debug.Log("GRID NAME: " + gameObject.name);
         player = GameObject.FindGameObjectWithTag("Player");
-        player.transform.position = new Vector3(startPosition.position.x, startPosition.position.y, startPosition.position.z);
+
+        Vector3 pos = new Vector3(startPosition.position.x, startPosition.position.y, startPosition.position.z);
+        player.transform.position = pos;
     }
 
     /// <summary>

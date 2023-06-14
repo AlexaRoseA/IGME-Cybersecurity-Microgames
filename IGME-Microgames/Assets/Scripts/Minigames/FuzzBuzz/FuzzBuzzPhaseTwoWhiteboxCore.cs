@@ -27,6 +27,7 @@ public class FuzzBuzzPhaseTwoWhiteboxCore : MonoBehaviour
     {
         helper = GameObject.FindObjectOfType<MinigameManager>();
         helper.UpdateScoreText();
+        helper.EnablePlayerCollisions();
 
         int ranGrid = Random.Range(0, grids.Count);
         selectedGrid = Instantiate(grids[ranGrid], new Vector3(0, 0, 0), Quaternion.identity, transform);

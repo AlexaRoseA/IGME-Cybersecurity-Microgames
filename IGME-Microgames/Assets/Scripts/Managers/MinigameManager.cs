@@ -26,7 +26,6 @@ public class MinigameManager : MonoBehaviour
     // All the potential phase instances
     public List<GameObject> phases = new List<GameObject>();
     private GameObject chosen;
-    private bool phaseComplete = false;
 
     // Score Variables
     private int score;
@@ -51,6 +50,8 @@ public class MinigameManager : MonoBehaviour
         currentPhase = "none";
 
         SetPhase(false);
+
+
     }
 
     /// <summary>
@@ -111,6 +112,18 @@ public class MinigameManager : MonoBehaviour
         }
 
         timerIsRunning = true;
+    }
+
+    /// <summary>
+    /// Enables the player collision script
+    /// </summary>
+    public void EnablePlayerCollisions()
+    {
+        Collisions playerCollisions = FindObjectOfType<Collisions>();
+        if (playerCollisions != null)
+        {
+            playerCollisions.SetHelper();
+        }
     }
 
     /// <summary>

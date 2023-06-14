@@ -49,9 +49,9 @@ public class FuzzBuzzPhaseTwoBlackboxCore : MonoBehaviour
         detectionArrow = GameObject.Find("Detection Arrow");
         detectionArrow.SetActive(false);
 
-
         helper.UpdateTimerText();
         helper.UpdateScoreText();
+        helper.EnablePlayerCollisions();
 
         bugPositions = new List<GameObject>();
 
@@ -239,6 +239,7 @@ public class FuzzBuzzPhaseTwoBlackboxCore : MonoBehaviour
 
         if (currentBugSearch == null)
         {
+            helper.StopTimer();
             helper.EndGame();
         }
     }
