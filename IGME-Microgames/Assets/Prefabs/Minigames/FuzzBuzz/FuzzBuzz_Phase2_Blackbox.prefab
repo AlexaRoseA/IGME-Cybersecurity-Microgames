@@ -156,10 +156,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0f91811c6c3aca4eadb453b1a203769, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spaceFloats: {fileID: 5026285281306200328}
   bug: {fileID: 897251387046685847, guid: 5bf07150408eb8b48a639648640ad013, type: 3}
   crash: {fileID: 6548173892378642771, guid: c3cb9f61b9b5a274c8a3d147550797f8, type: 3}
-  allBugs: {fileID: 5026285281306200328}
   player: {fileID: 4314190741450049189}
+  junkPotential:
+  - {fileID: 422704045416835957, guid: 76cb8943f59b3fd4d9aa2ee77d8825c8, type: 3}
+  - {fileID: 1480769169135812175, guid: fa96e7f24d31d6345ae524001d66b680, type: 3}
+  - {fileID: 1882308152084632975, guid: 2c49c5743348c174b83d08c737674921, type: 3}
+  xMin: -20
+  yMin: -20
+  xMax: 20
+  yMax: 20
 --- !u!1 &3105205466712363632
 GameObject:
   m_ObjectHideFlags: 0
@@ -5174,7 +5182,7 @@ GameObject:
   - component: {fileID: 3208687020792479808}
   - component: {fileID: 4601326764567485376}
   m_Layer: 0
-  m_Name: AllBugs
+  m_Name: SpaceFloats
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

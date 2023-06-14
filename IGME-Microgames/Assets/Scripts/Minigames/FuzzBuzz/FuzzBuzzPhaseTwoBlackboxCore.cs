@@ -16,7 +16,7 @@ public class FuzzBuzzPhaseTwoBlackboxCore : MonoBehaviour
     // MinigameManager and all bug information globally
     private MinigameManager helper;
     private List<GameObject> bugPositions;
-    public GameObject allBugs;
+    public GameObject spaceFloats;
 
     // Bug and Crash gameobjects to populate map with (prefab)
     public GameObject bug, crash;
@@ -32,6 +32,16 @@ public class FuzzBuzzPhaseTwoBlackboxCore : MonoBehaviour
     private GameObject detectionRingSmall;
     private Animator detectionRingSmallAnimator;
     private GameObject detectionArrow;
+
+    // Blackbox Junk
+    [SerializeField] List<GameObject> junkPotential;
+    private List<GameObject> junkPlaced;
+
+    //Region Size
+    [SerializeField] public int xMin;
+    [SerializeField] public int yMin;
+    [SerializeField] private int xMax;
+    [SerializeField] private int yMax;
 
     #region Start/Middle/End General Methods
 
@@ -54,16 +64,19 @@ public class FuzzBuzzPhaseTwoBlackboxCore : MonoBehaviour
         helper.EnablePlayerCollisions();
 
         bugPositions = new List<GameObject>();
+        junkPlaced = new List<GameObject>();
 
         SetBugPositions();
 
         currentBugSearch = FindClosestBug();
+
+        AddJunk();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(currentBugSearch != null)
+        if (currentBugSearch != null)
         {
             float percentage = (GetDistanceToClosestBug() / startDistance) * 100f;
             RingDetection((1 - (percentage / 100f) + 0.3f));
@@ -94,23 +107,25 @@ public class FuzzBuzzPhaseTwoBlackboxCore : MonoBehaviour
         {
             detectionRingSmall.SetActive(false);
 
-        } else if (dis > 0.50 && !detectionRingSmall.activeSelf)
+        }
+        else if (dis > 0.50 && !detectionRingSmall.activeSelf)
         {
             detectionRingSmall.SetActive(true);
-        } 
-        
+        }
+
         // Detection arrow reguides if less than 40% speed
         // or it guides if greater than 50. Otherwise, disable 
         if ((dis < 0.3 || dis > 0.50) && !detectionArrow.activeSelf)
         {
             detectionArrow.SetActive(true);
-        } else if (detectionArrow.activeSelf && !(dis < 0.3 || dis > 0.50))
+        }
+        else if (detectionArrow.activeSelf && !(dis < 0.3 || dis > 0.50))
         {
             detectionArrow.SetActive(false);
         }
 
         // If the smaller ring is active, constantly set the speed
-        if(detectionRingSmall.activeSelf)
+        if (detectionRingSmall.activeSelf)
         {
             detectionRingSmallAnimator.speed = dis;
         }
@@ -146,8 +161,8 @@ public class FuzzBuzzPhaseTwoBlackboxCore : MonoBehaviour
 
         for (int i = 0; i < bugNum; i++)
         {
-            float xPos = Random.Range(-20, 20);
-            float yPos = Random.Range(-20, 20);
+            float xPos = Random.Range(xMin, xMax);
+            float yPos = Random.Range(yMin, yMax);
             int bugChoice = Random.Range(0, 2);
 
             GameObject bugSpawn = null;
@@ -155,11 +170,11 @@ public class FuzzBuzzPhaseTwoBlackboxCore : MonoBehaviour
             switch (bugChoice)
             {
                 case 0:
-                    bugSpawn = Instantiate(bug, new Vector3(xPos, yPos, 0f), Quaternion.identity, allBugs.transform);
+                    bugSpawn = Instantiate(bug, new Vector3(xPos, yPos, 0f), Quaternion.identity, spaceFloats.transform);
                     Debug.Log("Added bug");
                     break;
                 case 1:
-                    bugSpawn = Instantiate(crash, new Vector3(xPos, yPos, 0f), Quaternion.identity, allBugs.transform);
+                    bugSpawn = Instantiate(crash, new Vector3(xPos, yPos, 0f), Quaternion.identity, spaceFloats.transform);
                     Debug.Log("Added crash");
                     break;
             }
@@ -190,7 +205,7 @@ public class FuzzBuzzPhaseTwoBlackboxCore : MonoBehaviour
             }
         }
 
-        if(bugTemp != null)
+        if (bugTemp != null)
         {
             startDistance = Vector3.Distance(player.transform.position, bugTemp.transform.position);
         }
@@ -241,6 +256,35 @@ public class FuzzBuzzPhaseTwoBlackboxCore : MonoBehaviour
         {
             helper.StopTimer();
             helper.EndGame();
+        }
+    }
+
+    #endregion
+
+    #region Junk Methods
+    public void AddJunk()
+    {
+        int junkAmt = Random.Range(10, 20);
+        for(int i = 0; i < junkAmt; i++)
+        {
+            int junkChoice = Random.Range(0, junkPotential.Count);
+
+            float xPos = Random.Range(xMin, xMax);
+            float yPos = Random.Range(yMin, yMax);
+
+            float ranScale = Random.Range(0.5f, 1.0f);
+
+            Debug.Log("TRYING TO ADD: " + junkChoice);
+            GameObject junk = Instantiate(junkPotential[junkChoice], new Vector3(xPos, yPos, 0f), Quaternion.identity, spaceFloats.transform);
+            junkPlaced.Add(junk);
+
+            junkPlaced[i].transform.localScale = new Vector3(ranScale, ranScale, ranScale);
+
+            Junk junkScript = junkPlaced[i].GetComponent<Junk>();
+            while (junkScript.collidingWithBug)
+            {
+                junkScript.GenerateNewPlacement(xMin, xMax, yMin, yMax);
+            }
         }
     }
 
