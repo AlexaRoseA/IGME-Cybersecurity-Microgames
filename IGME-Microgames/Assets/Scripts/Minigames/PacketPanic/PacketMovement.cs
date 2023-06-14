@@ -16,6 +16,7 @@ public class PacketMovement : MonoBehaviour
     private int nextIndex; // -1 for end to start, +1 for start to end. relative to this index, what is the next index? 
     private int endIndex; //at what index should the packet stop?
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,7 +43,16 @@ public class PacketMovement : MonoBehaviour
         {
             if(!NextPoint())
             {
-                Destroy(gameObject);
+                PanicManager panicManager = GameObject.Find("MinigameManager").GetComponent<PanicManager>();
+                if(panicManager == null)
+                {
+                    Debug.LogWarning("panic manager is null. is there a panic manager script attached to the minigamemanager game object?");
+                }
+                else
+                {
+                    panicManager.DestroyPacket(gameObject, false);
+                }
+                
                 return;
             }
         }

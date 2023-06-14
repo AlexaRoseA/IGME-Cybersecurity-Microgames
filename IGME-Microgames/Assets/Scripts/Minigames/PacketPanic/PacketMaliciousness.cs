@@ -16,11 +16,12 @@ public class PacketMaliciousness : MonoBehaviour
     void Start()
     {
         hidden = hider;
-        if (malicious && !hider)
+        if (!malicious || hider)
         {
-            //start revealed
-            gameObject.transform.Find("Circle").GetComponent<SpriteRenderer>().color = Color.red;
+            //start as innocent- hide the malicious sprite (by default malicious will render over the innocent)
+            gameObject.transform.Find("CircleMalicious").gameObject.GetComponent<SpriteRenderer>().enabled = false;
         }
+
     }
 
     // Update is called once per frame
@@ -32,7 +33,7 @@ public class PacketMaliciousness : MonoBehaviour
 
             if(rehideTime < 0f)
             {
-                gameObject.transform.Find("Circle").GetComponent<SpriteRenderer>().color = Color.white;
+                gameObject.transform.Find("CircleMalicious").gameObject.GetComponent<SpriteRenderer>().enabled = false;
             }
             
         }
@@ -42,7 +43,7 @@ public class PacketMaliciousness : MonoBehaviour
     {
         if(malicious && hider)
         {
-            gameObject.transform.Find("Circle").GetComponent<SpriteRenderer>().color = Color.red;
+            gameObject.transform.Find("CircleMalicious").gameObject.GetComponent<SpriteRenderer>().enabled = true;
             rehideTime = 1.5f;
             hidden = false;
         }

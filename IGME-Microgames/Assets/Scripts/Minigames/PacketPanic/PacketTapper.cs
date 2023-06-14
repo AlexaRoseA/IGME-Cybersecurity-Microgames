@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 public class PacketTapper : InputHandler
 {
 
+    public PanicManager panicManager;
+
     protected override void TouchPressed(InputAction.CallbackContext context)
     {
         Collider2D[] touchedColliders = Physics2D.OverlapPointAll(TouchScreenToWorld());
@@ -16,7 +18,7 @@ public class PacketTapper : InputHandler
             if(collider.gameObject.GetComponentInParent<PacketMovement>() != null)
             {
                 //destroy the Packet
-                Destroy(collider.gameObject.transform.parent.gameObject);
+                panicManager.DestroyPacket(collider.gameObject.transform.parent.gameObject, true);
             }
         }
     }

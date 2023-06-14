@@ -1,0 +1,12 @@
+﻿title: PacketPanic_Phase1
+---
+Packet Panic: Incoming malicious packets. Deny them, but let the genuine ones through!
+<<set $timeRemaining to 5>>
+===
+
+title: PacketPanic_Phase2
+---
+Packet Panic: More malicious packets inbound! Hold them off!
+<<set $timeRemaining to 120>>
+
+===

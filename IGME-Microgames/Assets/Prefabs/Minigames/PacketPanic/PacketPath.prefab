@@ -99,8 +99,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.5294118, g: 0.5294118, b: 0.5294118, a: 1}
+      key1: {r: 0.5294118, g: 0.5294118, b: 0.5294118, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -123,7 +123,7 @@ LineRenderer:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
+      m_Mode: 1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
@@ -154,3 +154,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7444b3cbb2806dd468ca34e4bafbf946, type: 2}
   - {fileID: 11400000, guid: bdffa2cdba95cd44e994245ddb925d4f, type: 2}
   - {fileID: 11400000, guid: ff62a6c7cc0358a4faf7575f7b0814db, type: 2}
+  - {fileID: 11400000, guid: 1526f2978d28e764f8ffa424ffb1a94b, type: 2}
+  spawnerManager: {fileID: 0}
+  currentPattern: {fileID: 0}

@@ -8,9 +8,10 @@ public class PacketSpawner : MonoBehaviour
     public LineRenderer packetTrack;
     public bool startAtEnd = false;
     public PacketSpawnPattern[] packetSpawnPatterns;
+    public SpawnerManager spawnerManager;
 
     private float patternTime = 0f;
-    private PacketSpawnPattern currentPattern;
+    public PacketSpawnPattern currentPattern;
     private int packetsSent = 0;
 
 
@@ -41,7 +42,7 @@ public class PacketSpawner : MonoBehaviour
     private void NextPattern()
     {
         patternTime = 0;
-        currentPattern = packetSpawnPatterns[Random.Range(0, packetSpawnPatterns.Length)];
+        currentPattern = spawnerManager.NextPattern(packetSpawnPatterns, this);
         packetsSent = 0;
     }
     
@@ -52,5 +53,6 @@ public class PacketSpawner : MonoBehaviour
         packet.GetComponent<PacketMovement>().track = packetTrack;
         packet.GetComponent<PacketMovement>().startAtEnd = startAtEnd;
         packet.GetComponent<PacketMaliciousness>().malicious = malicious;
+        packet.GetComponent<PacketMaliciousness>().hider = Random.Range(0, 10) == 0;
     }
 }

@@ -10,28 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 086e7fa9a515615499278778384e80d4, type: 3}
-  m_Name: DDoS
+  m_Name: groups2
   m_EditorClassIdentifier: 
-  duration: 10
-  threatLevel: 4
+  duration: 8.5
+  threatLevel: 1.5
   spawnTimes:
-  - time: 0.3
-    maliciousChance: 1
-  - time: 0.6
-    maliciousChance: 1
-  - time: 0.9
-    maliciousChance: 1
-  - time: 1.2
-    maliciousChance: 1
+  - time: 1
+    maliciousChance: 0.3
   - time: 1.5
-    maliciousChance: 1
-  - time: 1.8
-    maliciousChance: 1
-  - time: 2.1
-    maliciousChance: 1
-  - time: 2.4
-    maliciousChance: 1
-  - time: 2.7
-    maliciousChance: 1
-  - time: 3
-    maliciousChance: 1
+    maliciousChance: 0.3
+  - time: 3.5
+    maliciousChance: 0.3
+  - time: 4
+    maliciousChance: 0.3
+  - time: 5
+    maliciousChance: 0.3
+  - time: 5.5
+    maliciousChance: 0.3
+  - time: 6.5
+    maliciousChance: 0.3
+  - time: 7
+    maliciousChance: 0.3

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 10 in a row
   m_EditorClassIdentifier: 
   duration: 7.4
+  threatLevel: 2
   spawnTimes:
   - time: 0.67
     maliciousChance: 0

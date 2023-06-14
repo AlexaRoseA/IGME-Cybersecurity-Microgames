@@ -6,6 +6,7 @@ using UnityEngine;
 public class PacketSpawnPattern : ScriptableObject
 {
     public float duration;
+    public float threatLevel;
     public Spawn[] spawnTimes;
 }
 
