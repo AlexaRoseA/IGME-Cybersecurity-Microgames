@@ -5,9 +5,8 @@ using UnityEngine;
 public class PacketMovement : MonoBehaviour
 {
     public LineRenderer track;
-    public float speed = 20.0f;
+    public float speed = 18.0f;
     public bool startAtEnd = false;
-    public bool malicious = false;
 
     private float segmentProgress;
     private float segmentSpeed; //speed, expressed in % of segment / second
@@ -20,10 +19,6 @@ public class PacketMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(malicious)
-        {
-            gameObject.transform.Find("Circle").GetComponent<SpriteRenderer>().color = Color.red;
-        }
         if(startAtEnd)
         {
             currentPointIndex = track.positionCount;

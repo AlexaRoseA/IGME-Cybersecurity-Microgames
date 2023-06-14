@@ -6,6 +6,13 @@ using UnityEngine;
 public class PacketSpawnPattern : ScriptableObject
 {
     public float duration;
-    public float[] spawnTimes;
-
+    public Spawn[] spawnTimes;
 }
+
+[System.Serializable]
+public struct Spawn
+{
+    public float time;
+    public float maliciousChance;
+}
+

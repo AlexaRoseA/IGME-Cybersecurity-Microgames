@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using UnityEngine.InputSystem;
 public class InputHandler : MonoBehaviour
 {
 
@@ -52,7 +53,6 @@ public class InputHandler : MonoBehaviour
     {
         Vector3 screenPos = touchMovementAction.ReadValue<Vector2>();
         Vector3 worldpos = Camera.main.ScreenToWorldPoint(screenPos);
-        worldpos.z = player.transform.position.z;
         return worldpos;
     }
 }

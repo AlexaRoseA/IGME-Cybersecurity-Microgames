@@ -31,9 +31,9 @@ public class PacketSpawner : MonoBehaviour
         }
         if(packetsSent < currentPattern.spawnTimes.Length)
         {
-            if (patternTime > currentPattern.spawnTimes[packetsSent])
+            if (patternTime > currentPattern.spawnTimes[packetsSent].time)
             {
-                SendPacket(Random.Range(0, 3) == 0);
+                SendPacket(Random.Range(0f, 1f) < currentPattern.spawnTimes[packetsSent].maliciousChance);
             }
         }
     }
@@ -51,6 +51,6 @@ public class PacketSpawner : MonoBehaviour
         GameObject packet = Instantiate(packetPrefab, packetTrack.GetPosition(startAtEnd ? 0 : (packetTrack.positionCount - 1)), Quaternion.identity);
         packet.GetComponent<PacketMovement>().track = packetTrack;
         packet.GetComponent<PacketMovement>().startAtEnd = startAtEnd;
-        packet.GetComponent<PacketMovement>().malicious = malicious;
+        packet.GetComponent<PacketMaliciousness>().malicious = malicious;
     }
 }
