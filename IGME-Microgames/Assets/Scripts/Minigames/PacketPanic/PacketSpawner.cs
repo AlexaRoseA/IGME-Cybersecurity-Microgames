@@ -27,10 +27,14 @@ public class PacketSpawner : MonoBehaviour
         if(patternTime > currentPattern.duration)
         {
             NextPattern();
+            return;
         }
-        if(patternTime > currentPattern.spawnTimes[packetsSent])
+        if(packetsSent < currentPattern.spawnTimes.Length)
         {
-            SendPacket(true);
+            if (patternTime > currentPattern.spawnTimes[packetsSent])
+            {
+                SendPacket(Random.Range(0, 3) == 0);
+            }
         }
     }
 
