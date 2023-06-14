@@ -20,7 +20,7 @@ public class Junk : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Spot")
+        if(collision.gameObject.tag == "Spot" || collision.gameObject.tag == "Player")
         {
             collidingWithBug = true;
         }

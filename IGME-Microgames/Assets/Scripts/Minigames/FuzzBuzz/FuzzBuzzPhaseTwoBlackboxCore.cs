@@ -262,9 +262,13 @@ public class FuzzBuzzPhaseTwoBlackboxCore : MonoBehaviour
     #endregion
 
     #region Junk Methods
+    /// <summary>
+    /// Creates junk in the blackbox based on the
+    /// junk potential list
+    /// </summary>
     public void AddJunk()
     {
-        int junkAmt = Random.Range(10, 20);
+        int junkAmt = Random.Range(30, 40);
         for(int i = 0; i < junkAmt; i++)
         {
             int junkChoice = Random.Range(0, junkPotential.Count);
@@ -272,7 +276,7 @@ public class FuzzBuzzPhaseTwoBlackboxCore : MonoBehaviour
             float xPos = Random.Range(xMin, xMax);
             float yPos = Random.Range(yMin, yMax);
 
-            float ranScale = Random.Range(0.5f, 1.0f);
+            float ranScale = Random.Range(0.3f, 1.3f);
 
             Debug.Log("TRYING TO ADD: " + junkChoice);
             GameObject junk = Instantiate(junkPotential[junkChoice], new Vector3(xPos, yPos, 0f), Quaternion.identity, spaceFloats.transform);
