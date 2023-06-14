@@ -14,11 +14,14 @@ public class Movement : MonoBehaviour
     private InputAction touchMovementAction;
     private InputAction touchPressAction;
 
+    [SerializeField] string moveType;
+
     // World position of the mouse press
     //private Vector3 worldpos;
 
     // Dragging
     CircleCollider2D moveCircle;
+    GameObject joystick;
     private float moveSpeed;
     [SerializeField] public float maxSpeed;
 
@@ -50,7 +53,14 @@ public class Movement : MonoBehaviour
         if(checkIfWithinDragCircle())
         {
             rb.MovePosition(Vector3.Lerp(player.transform.position, TouchScreenToWorld(), moveSpeed * Time.deltaTime));
-        } 
+            Debug.Log("Moving");
+        }
+
+        if (true)
+        {
+            rb.MovePosition(Vector3.Lerp(player.transform.position, TouchScreenToWorld(), moveSpeed * Time.deltaTime));
+            Debug.Log("Moving");
+        }
     }
 
     /// <summary>
@@ -107,4 +117,6 @@ public class Movement : MonoBehaviour
         worldpos.z = player.transform.position.z;
         return worldpos;
     }
+
+
 }

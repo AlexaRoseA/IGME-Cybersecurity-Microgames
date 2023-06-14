@@ -34,6 +34,7 @@ tags:
     Poet: SEEMS LIKE THERE'S <color=red>UNWANTED VISITORS</color> FROM OUR TESTING! 
     Poet: <color=red>TIME TO CLEAN THIS MESS!</color> 
     <<set $timeRemaining to 120>>
+    <<ChangeDialogStatus AllBugs true>>
 <<else>>
 <<endif>>
 
