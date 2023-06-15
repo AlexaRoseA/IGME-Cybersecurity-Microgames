@@ -413,7 +413,7 @@ MonoBehaviour:
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 10
-  m_fontSizeMax: 14
+  m_fontSizeMax: 25
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
@@ -527,7 +527,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6740023713892082415, guid: 65dcc30fca1395642b6bca504c2c4b48, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -13
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 6740023713892082415, guid: 65dcc30fca1395642b6bca504c2c4b48, type: 3}
       propertyPath: m_AnchoredPosition.y

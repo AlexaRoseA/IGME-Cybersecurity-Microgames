@@ -34,18 +34,22 @@ public class CustomSliderKnob : Button
         Start();
     }
 
-    //Change me to change the touch phase used.
-    UnityEngine.TouchPhase touchPhase = UnityEngine.TouchPhase.Began;
+    /// <summary>
+    /// Generate the target position of the knob
+    /// Set the length to be the bounds of the boundary
+    /// Set the initial value to 0 and the percent to 0.
+    /// </summary>
     protected override void Start()
     {
         base.Start();
 
         targetPos = transform.position + Vector3.right;
 
-        sliderLength = sliderBounds.size.x;
+        sliderLength = sliderBounds.size.x - 25f;
+
 
         sliderPercent = 0f;
-        sliderValue = Mathf.FloorToInt(Mathf.Lerp(-3, 103, sliderPercent));
+        sliderValue = Mathf.FloorToInt(Mathf.Lerp(minValue, maxValue, sliderPercent));
     }
 
     /// <summary>
@@ -63,15 +67,19 @@ public class CustomSliderKnob : Button
             if(sliderBounds.GetComponent<BoxCollider2D>().bounds.Contains(targetPos))
             {
                 transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 7f);
+
+                sliderPercent = Mathf.Clamp01((transform.localPosition.x + sliderLength / 2) / sliderLength);
+
+                Debug.Log("SLIDER PERCENT: " + sliderPercent);
+                sliderValue = Mathf.FloorToInt(Mathf.Lerp(minValue - 1, maxValue + 2, sliderPercent));
             }
-
-            sliderPercent = Mathf.Clamp01((transform.localPosition.x + sliderLength / 2) / sliderLength);
-
-            sliderValue = Mathf.FloorToInt(Mathf.Lerp(minValue - 3, maxValue + 3, sliderPercent));
 
             if(sliderValueText != null)
             {
-                sliderValueText.text = sliderValue.ToString();
+                if(sliderValue >= minValue && sliderValue <= maxValue)
+                {
+                    sliderValueText.text = sliderValue.ToString();
+                }
             }
         }
     }
