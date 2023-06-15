@@ -29,6 +29,7 @@ public class PacketMaliciousness : MonoBehaviour
     {
         if(hider && !hidden)
         {
+            //malicious packets that hide but are currently revealed, update countdown to hiding again 
             rehideTime -= Time.deltaTime;
 
             if(rehideTime < 0f)
@@ -39,6 +40,9 @@ public class PacketMaliciousness : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Reveals the packet, if it is a hiding malicious packet. 
+    /// </summary>
     public void Reveal()
     {
         if(malicious && hider)

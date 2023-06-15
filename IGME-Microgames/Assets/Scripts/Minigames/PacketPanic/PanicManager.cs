@@ -55,6 +55,10 @@ public class PanicManager : MonoBehaviour
         AddCoreHealth(0);
     }
 
+    /// <summary>
+    /// adds to the core health, and updates the UI. pass a negative value to subtract. 
+    /// </summary>
+    /// <param name="amount">amount to be added</param>
     void AddCoreHealth(int amount)
     {
         coreHealth += amount;

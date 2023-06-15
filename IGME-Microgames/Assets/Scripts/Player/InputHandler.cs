@@ -23,10 +23,6 @@ public class InputHandler : MonoBehaviour
         touchPressAction.canceled += TouchCancelled;
     }
 
-    /// <summary>
-    /// Unsubscribe after press
-    /// </summary>
-
     protected void OnDisable()
     {
         touchPressAction.performed -= TouchPressed;
@@ -34,7 +30,7 @@ public class InputHandler : MonoBehaviour
     }
 
     /// <summary>
-    /// On Press, find the press position and convert it to the world position for player movement.
+    /// Does nothing. override this. 
     /// </summary>
     /// <param name="context"></param>
     protected virtual void TouchPressed(InputAction.CallbackContext context)
@@ -42,13 +38,17 @@ public class InputHandler : MonoBehaviour
     }
 
     /// <summary>
-    /// On Press, find the press position and convert it to the world position for player movement.
+    /// Does nothing. override this. 
     /// </summary>
     /// <param name="context"></param>
     protected virtual void TouchCancelled(InputAction.CallbackContext context)
     {
     }
 
+    /// <summary>
+    /// gets the player's touch input, and converts it to world space. 
+    /// </summary>
+    /// <returns></returns>
     protected Vector3 TouchScreenToWorld()
     {
         Vector3 screenPos = touchMovementAction.ReadValue<Vector2>();

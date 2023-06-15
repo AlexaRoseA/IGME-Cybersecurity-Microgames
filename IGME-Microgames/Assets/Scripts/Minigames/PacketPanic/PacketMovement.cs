@@ -20,6 +20,7 @@ public class PacketMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //this determines if the packet will move from the start of the line to the end, or vise versa.
         if(startAtEnd)
         {
             currentPointIndex = track.positionCount;
@@ -32,12 +33,14 @@ public class PacketMovement : MonoBehaviour
             endIndex = track.positionCount - 1;
             nextIndex = 1;
         }
+        //starts movement
         NextPoint();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //if theres no track, it's likely this phase has been ended.
         if(track == null)
         {
             Destroy(gameObject);
@@ -46,13 +49,14 @@ public class PacketMovement : MonoBehaviour
 
         if(!track.gameObject.GetComponent<PacketSpawner>().helper.GetTimer())
         {
-            //timer paused
+            //timer paused- don't move
             return;
         }
 
         segmentProgress += segmentSpeed * Time.deltaTime;
         if(segmentProgress > 1.0f)
         {
+            //there is no next point- reached the end of the line
             if(!NextPoint())
             {
                 PanicManager panicManager = GameObject.Find("MinigameManager").GetComponent<PanicManager>();
@@ -62,6 +66,7 @@ public class PacketMovement : MonoBehaviour
                 }
                 else
                 {
+                    //panic manager handles score, and deleting the packet.
                     panicManager.DestroyPacket(gameObject, false);
                 }
                 
@@ -73,7 +78,7 @@ public class PacketMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// updates the packet's segment speed, and increments the current point index. 
     /// </summary>
     /// <returns>true if there is a next point</returns>
     private bool NextPoint()
@@ -84,7 +89,7 @@ public class PacketMovement : MonoBehaviour
             return false;
         }
 
-        //reset position - in case of floating point errors
+        //reset position - in case of floating point errors, this solves the packet drifting slightly off track. 
         gameObject.transform.position = track.GetPosition(currentPointIndex);
 
         //reset segment progress

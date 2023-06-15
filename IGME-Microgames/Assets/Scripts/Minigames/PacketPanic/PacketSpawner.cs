@@ -46,6 +46,9 @@ public class PacketSpawner : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// gets the next pattern from the spawnerManager, resets the pattern variables.
+    /// </summary>
     private void NextPattern()
     {
         patternTime = 0;
@@ -55,6 +58,10 @@ public class PacketSpawner : MonoBehaviour
         packetsSent = 0;
     }
     
+    /// <summary>
+    /// spawns a packet at the end of the track.
+    /// </summary>
+    /// <param name="malicious">determines whether or not the spawned packet will be malicious or not.</param>
     void SendPacket(bool malicious)
     {
         packetsSent++;
