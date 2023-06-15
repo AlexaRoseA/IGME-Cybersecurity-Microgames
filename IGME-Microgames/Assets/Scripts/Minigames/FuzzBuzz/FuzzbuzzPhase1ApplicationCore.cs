@@ -4,6 +4,7 @@ using System.IO;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /* **************************************************************************
@@ -94,10 +95,12 @@ public class FuzzbuzzPhase1ApplicationCore : MonoBehaviour
             // - Set the random desired value to a new Random number.
             // - Set the goal value text
             case 1:
-                currentPopup.GetComponentInChildren<Slider>().onValueChanged.AddListener(SetText);
+                //currentPopup.GetComponentInChildren<Button>().OnPointerDown.AddListener(SetText);
+                EventTrigger trigger = GameObject.Find("SliderKnob").GetComponent<EventTrigger>();
+                MinigameManager.AddEventTriggerListener(trigger, EventTriggerType.PointerUp, SetText);
                 current = GameObject.Find("CurrentSliderValue").GetComponent<TextMeshProUGUI>();
 
-                userGoal = Random.Range(1, 101);
+                userGoal = Random.Range(10, 90);
                 GameObject.Find("GoalSliderValue").GetComponent<TextMeshProUGUI>().text = userGoal.ToString();
                 break;
 
@@ -139,6 +142,12 @@ public class FuzzbuzzPhase1ApplicationCore : MonoBehaviour
                 break;
         }
 
+    }
+
+    private void SetText(BaseEventData obj)
+    {
+        int value = int.Parse(current.text);
+        SetText(value);
     }
     #endregion
 

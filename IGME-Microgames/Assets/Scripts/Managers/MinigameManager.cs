@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Yarn.Unity;
+using UnityEngine.EventSystems;
 
 public class MinigameManager : MonoBehaviour
 {
@@ -94,6 +95,15 @@ public class MinigameManager : MonoBehaviour
         Debug.Log("Game Ended!");
     }
 
+    public static void AddEventTriggerListener(EventTrigger trigger, EventTriggerType eventType, System.Action<BaseEventData> callback)
+    {
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = eventType;
+        entry.callback = new EventTrigger.TriggerEvent();
+        entry.callback.AddListener(new UnityEngine.Events.UnityAction<BaseEventData>(callback));
+        trigger.triggers.Add(entry);
+    }
+
     #endregion
 
     #region Timer Methods
@@ -112,6 +122,11 @@ public class MinigameManager : MonoBehaviour
         }
 
         timerIsRunning = true;
+    }
+
+    internal void AddEventTriggerListener(EventTrigger trigger, EventTriggerType pointerDown, System.Action<PointerEventData> setText)
+    {
+        throw new System.NotImplementedException();
     }
 
     /// <summary>
@@ -336,7 +351,7 @@ public class MinigameManager : MonoBehaviour
     /// </summary>
     private void UpdateScoreUI()
     {
-        if(scoreText != null)
+        if (scoreText != null)
         {
             scoreText.text = score.ToString();
         }

@@ -16,7 +16,7 @@ Poet: LET'S FIND OUT! HEHE!
 <<set $currentPhase to "file">>
 <<endif>>
 
-<<set $timeRemaining to 5>>
+<<set $timeRemaining to 30>>
 ===
 
 title: FuzzBuzz_Phase2

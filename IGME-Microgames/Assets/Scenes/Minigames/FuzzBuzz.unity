@@ -596,7 +596,7 @@ MonoBehaviour:
   m_TrackedDevicePositionAction: {fileID: 6564999863303420839, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_DeselectOnBackgroundClick: 1
-  m_PointerBehavior: 0
+  m_PointerBehavior: 2
 --- !u!1001 &2804876072408748383
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -614,16 +614,20 @@ PrefabInstance:
       objectReference: {fileID: 934359663}
     - target: {fileID: 2804876071144062016, guid: b6abf6827bad51549ae4c498753a852f, type: 3}
       propertyPath: phases.Array.size
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2804876071144062016, guid: b6abf6827bad51549ae4c498753a852f, type: 3}
+      propertyPath: phases.Array.data[1]
+      value: 
+      objectReference: {fileID: 1368185050574298378, guid: e9f4e4c6313dd9148b66e9f300d35b92, type: 3}
     - target: {fileID: 2804876071144062016, guid: b6abf6827bad51549ae4c498753a852f, type: 3}
       propertyPath: phases.Array.data[2]
       value: 
-      objectReference: {fileID: 1368185050574298378, guid: e9f4e4c6313dd9148b66e9f300d35b92, type: 3}
+      objectReference: {fileID: 6473402165159366232, guid: 364ee82336775864d99e871835dda0f7, type: 3}
     - target: {fileID: 2804876071144062016, guid: b6abf6827bad51549ae4c498753a852f, type: 3}
       propertyPath: phases.Array.data[3]
       value: 
-      objectReference: {fileID: 1368185050574298378, guid: e9f4e4c6313dd9148b66e9f300d35b92, type: 3}
+      objectReference: {fileID: 6473402165159366232, guid: 364ee82336775864d99e871835dda0f7, type: 3}
     - target: {fileID: 2804876071144062079, guid: b6abf6827bad51549ae4c498753a852f, type: 3}
       propertyPath: m_RootOrder
       value: 1

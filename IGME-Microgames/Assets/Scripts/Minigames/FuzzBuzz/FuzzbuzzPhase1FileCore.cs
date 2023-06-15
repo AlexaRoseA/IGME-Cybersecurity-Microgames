@@ -180,7 +180,7 @@ public class FuzzbuzzPhase1FileCore : MonoBehaviour
     {
         multiply.SetActive(true);
 
-        multiply.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = currentMultiply.ToString();
+        multiply.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = currentMultiply.ToString();
 
         yield return new WaitForSeconds(seconds);
 
