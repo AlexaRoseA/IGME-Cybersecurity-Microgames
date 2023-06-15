@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DDoS
   m_EditorClassIdentifier: 
   duration: 10
-  threatLevel: 4
+  threatLevel: 5
   spawnTimes:
   - time: 0.3
     maliciousChance: 1

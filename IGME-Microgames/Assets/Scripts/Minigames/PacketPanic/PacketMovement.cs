@@ -44,6 +44,12 @@ public class PacketMovement : MonoBehaviour
             return;
         }
 
+        if(!track.gameObject.GetComponent<PacketSpawner>().helper.GetTimer())
+        {
+            //timer paused
+            return;
+        }
+
         segmentProgress += segmentSpeed * Time.deltaTime;
         if(segmentProgress > 1.0f)
         {

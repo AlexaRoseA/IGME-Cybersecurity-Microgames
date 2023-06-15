@@ -112,7 +112,8 @@ MonoBehaviour:
   - {fileID: 2335588542853219776}
   - {fileID: 2335588543336205769}
   - {fileID: 2335588542057371058}
-  maxDifficulty: 15
+  - {fileID: 6288489932285254813}
+  maxDifficulty: 13
 --- !u!1 &2966682023646066889
 GameObject:
   m_ObjectHideFlags: 0
@@ -1617,6 +1618,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
+--- !u!114 &6288489932285254813 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4536802456655543288, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
+  m_PrefabInstance: {fileID: 7615799770856630117}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79287b6fa14724e479485e257d667c30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &6288489932285254814 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4536802456655543291, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}

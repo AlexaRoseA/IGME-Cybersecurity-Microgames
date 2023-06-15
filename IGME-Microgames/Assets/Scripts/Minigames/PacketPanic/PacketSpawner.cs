@@ -13,7 +13,7 @@ public class PacketSpawner : MonoBehaviour
     private float patternTime = 0f;
     public PacketSpawnPattern currentPattern;
     private int packetsSent = 0;
-    private MinigameManager helper;
+    public MinigameManager helper;
 
 
     // Start is called before the first frame update
