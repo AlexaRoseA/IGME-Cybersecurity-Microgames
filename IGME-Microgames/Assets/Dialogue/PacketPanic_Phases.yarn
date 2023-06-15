@@ -17,3 +17,10 @@ Packet Panic: The network is overloaded.
 <<EndGame MinigameManager>>
 
 ===
+
+title: Victory
+---
+Packet Panic: Well done! The attack has been held at bay. 
+<<EndGame MinigameManager>>
+
+===
