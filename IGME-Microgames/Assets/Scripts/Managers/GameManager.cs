@@ -46,7 +46,13 @@ public class GameManager : MonoBehaviour
         string nextSceneName = playlist.Peek().MinigameScene;
 
         ClearScenes();
+        SceneManager.sceneLoaded += NewMinigameLoaded;
         SceneManager.LoadSceneAsync(nextSceneName, LoadSceneMode.Additive);
+    }
+
+    private void NewMinigameLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SceneManager.SetActiveScene(scene);
     }
 
     public void BuildPlaylist(Workstation[] workstations)
