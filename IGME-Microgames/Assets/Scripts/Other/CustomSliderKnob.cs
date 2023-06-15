@@ -24,6 +24,13 @@ public class CustomSliderKnob : Button
     private int minValue;
     private int maxValue;
 
+    /// <summary>
+    /// Passes information to the slider knob
+    /// </summary>
+    /// <param name="boundaries">Boundaries the knob stays within</param>
+    /// <param name="min">Min value of the slider</param>
+    /// <param name="max">Max value of the slider</param>
+    /// <param name="valueTextMeshProObjectOptional">Optional slider text information (passes current value at location)</param>
     public void GenerateKnob(BoxCollider2D boundaries, int min, int max, TextMeshProUGUI valueTextMeshProObjectOptional = null)
     {
         sliderBounds = boundaries;
@@ -47,7 +54,6 @@ public class CustomSliderKnob : Button
 
         sliderLength = sliderBounds.size.x - 25f;
 
-
         sliderPercent = 0f;
         sliderValue = Mathf.FloorToInt(Mathf.Lerp(minValue, maxValue, sliderPercent));
     }
@@ -61,10 +67,10 @@ public class CustomSliderKnob : Button
     /// </summary>
     void Update()
     {
-        if(touchingSliderKnob)
+        if (touchingSliderKnob)
         {
             targetPos = new Vector3(Input.mousePosition.x, targetPos.y, targetPos.z);
-            if(sliderBounds.GetComponent<BoxCollider2D>().bounds.Contains(targetPos))
+            if (sliderBounds.GetComponent<BoxCollider2D>().bounds.Contains(targetPos))
             {
                 transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 7f);
 
@@ -74,9 +80,9 @@ public class CustomSliderKnob : Button
                 sliderValue = Mathf.FloorToInt(Mathf.Lerp(minValue - 1, maxValue + 2, sliderPercent));
             }
 
-            if(sliderValueText != null)
+            if (sliderValueText != null)
             {
-                if(sliderValue >= minValue && sliderValue <= maxValue)
+                if (sliderValue >= minValue && sliderValue <= maxValue)
                 {
                     sliderValueText.text = sliderValue.ToString();
                 }

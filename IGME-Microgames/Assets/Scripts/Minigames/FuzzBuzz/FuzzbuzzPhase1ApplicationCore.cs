@@ -20,6 +20,8 @@ public class FuzzbuzzPhase1ApplicationCore : MonoBehaviour
 {
     private MinigameManager helper;
 
+    private Animator animator;
+
     // Popup list and current popup variable
     [SerializeField] GameObject popupButton, popupSlider, popupText;
     private List<GameObject> popupList;
@@ -85,8 +87,10 @@ public class FuzzbuzzPhase1ApplicationCore : MonoBehaviour
 
             case 0:
                 currentPopup.GetComponentInChildren<Button>().onClick.AddListener(delegate { UpdateClicks(); });
+                animator = currentPopup.GetComponent<Animator>();
                 userValue = 0;
-                userGoal = Random.Range(10, 21);
+                userGoal = Random.Range(2, 7);
+                animator.SetTrigger("appOpen");
                 break;
 
             // Slider popup minigame:
@@ -120,7 +124,7 @@ public class FuzzbuzzPhase1ApplicationCore : MonoBehaviour
                     buttonLetters.GetComponentInChildren<Button>().onClick.AddListener(SpellWord);
                 }
 
-                currentword = words[0].ToUpper();
+                currentword = words[Random.Range(0, words.Count)].ToUpper();
                 currentletters = "";
                 current = GameObject.Find("CurrentWord").GetComponent<TextMeshProUGUI>();
 
@@ -129,10 +133,15 @@ public class FuzzbuzzPhase1ApplicationCore : MonoBehaviour
                 wordChars.AddRange(currentword.ToCharArray());
 
 
-                foreach (TextMeshProUGUI lettertext in GameObject.Find("Letters").GetComponentsInChildren<TextMeshProUGUI>())
+                foreach (Transform buttons in GameObject.Find("Letters").transform)
                 {
                     int pos = Random.Range(0, wordChars.Count);
-                    lettertext.text = wordChars[pos].ToString();
+
+                    foreach (Transform buttonLetters in buttons.transform)
+                    {
+                        buttonLetters.gameObject.GetComponent<TextMeshProUGUI>().text = wordChars[pos].ToString();
+                    }
+                        
                     wordChars.RemoveAt(pos);
                 }
 
@@ -183,7 +192,6 @@ public class FuzzbuzzPhase1ApplicationCore : MonoBehaviour
     /// <param name="popup"></param>
     private void DestroyPopup()
     {
-        Debug.Log(currentPopup);
         DestroyImmediate(currentPopup);
         currentPopup = null;
     }
@@ -197,12 +205,11 @@ public class FuzzbuzzPhase1ApplicationCore : MonoBehaviour
     /// </summary>
     public void UpdateClicks()
     {
+        animator.SetTrigger("close");
         userValue++;
-        Debug.Log("KEEP GOING!");
 
         if (userValue >= userGoal)
         {
-            Debug.Log("NEXT PHASE");
             DestroyPopup();
         }
     }
@@ -221,12 +228,8 @@ public class FuzzbuzzPhase1ApplicationCore : MonoBehaviour
 
         if (value <= userGoal + 5 && value >= userGoal - 5)
         {
-            Debug.Log("NEXT PHASE");
+            animator = null;
             DestroyPopup();
-        }
-        else
-        {
-            Debug.Log("NOT QUITE THERE YET!");
         }
     }
     #endregion
@@ -254,12 +257,10 @@ public class FuzzbuzzPhase1ApplicationCore : MonoBehaviour
 
         if (currentletters == currentword)
         {
-            Debug.Log("NEXT PHASE");
             DestroyPopup();
         }
         else if (currentletters.Length >= 4)
         {
-            Debug.Log("NOT QUITE THERE YET!");
             currentletters = "";
             priorButtonPress = null;
 

@@ -5,13 +5,16 @@ using UnityEngine;
 
 public class CustomSlider : MonoBehaviour
 {
-    // Start is called before the first frame update
+    // Set the min, max and the optional text value to show the value at location of the slider.
     [SerializeField] TextMeshProUGUI valueTextMeshProObjectOptional;
     [SerializeField] int minValue;
     [SerializeField] int maxValue;
 
     private CustomSliderKnob knob;
 
+    /// <summary>
+    /// Populate the knob with information
+    /// </summary>
     void Start()
     {
         knob = GetComponentInChildren<CustomSliderKnob>();
