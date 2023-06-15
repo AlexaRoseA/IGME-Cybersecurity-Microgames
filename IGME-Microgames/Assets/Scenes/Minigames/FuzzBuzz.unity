@@ -416,7 +416,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3739197626111815070, guid: 25535030b8921614597f8cb593a559e4, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4540255442126730747, guid: 25535030b8921614597f8cb593a559e4, type: 3}
       propertyPath: m_Layer
@@ -614,16 +614,16 @@ PrefabInstance:
       objectReference: {fileID: 934359663}
     - target: {fileID: 2804876071144062016, guid: b6abf6827bad51549ae4c498753a852f, type: 3}
       propertyPath: phases.Array.size
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2804876071144062016, guid: b6abf6827bad51549ae4c498753a852f, type: 3}
       propertyPath: phases.Array.data[1]
       value: 
-      objectReference: {fileID: 1368185050574298378, guid: e9f4e4c6313dd9148b66e9f300d35b92, type: 3}
+      objectReference: {fileID: 7470728117110829727, guid: f014deb6ab0b6384fa7685de68fc1937, type: 3}
     - target: {fileID: 2804876071144062016, guid: b6abf6827bad51549ae4c498753a852f, type: 3}
       propertyPath: phases.Array.data[2]
       value: 
-      objectReference: {fileID: 6473402165159366232, guid: 364ee82336775864d99e871835dda0f7, type: 3}
+      objectReference: {fileID: 1368185050574298378, guid: e9f4e4c6313dd9148b66e9f300d35b92, type: 3}
     - target: {fileID: 2804876071144062016, guid: b6abf6827bad51549ae4c498753a852f, type: 3}
       propertyPath: phases.Array.data[3]
       value: 
