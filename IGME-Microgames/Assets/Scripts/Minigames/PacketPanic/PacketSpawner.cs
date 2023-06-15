@@ -69,6 +69,6 @@ public class PacketSpawner : MonoBehaviour
         packet.GetComponent<PacketMovement>().track = packetTrack;
         packet.GetComponent<PacketMovement>().startAtEnd = startAtEnd;
         packet.GetComponent<PacketMaliciousness>().malicious = malicious;
-        packet.GetComponent<PacketMaliciousness>().hider = Random.Range(0, 10) == 0;
+        packet.GetComponent<PacketMaliciousness>().hider = malicious ? Random.Range(0, 10) == 0 : false;
     }
 }

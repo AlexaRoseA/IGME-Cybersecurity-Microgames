@@ -16,14 +16,18 @@ public class PacketMaliciousness : MonoBehaviour
     void Start()
     {
         hidden = hider;
-        if (!malicious || hider)
+        if (malicious && !hider)
         {
-            //start as innocent- hide the malicious sprite (by default malicious will render over the innocent)
-            gameObject.transform.Find("CircleMalicious").gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            //start as malicious if not a hider
+            
+            ProceduralSpriteFlip flipper = gameObject.GetComponentInChildren<ProceduralSpriteFlip>();
+            Debug.Log(flipper);
+
+            flipper.Flip(false);
         }
 
     }
-
+    
     // Update is called once per frame
     void Update()
     {
@@ -34,21 +38,26 @@ public class PacketMaliciousness : MonoBehaviour
 
             if(rehideTime < 0f)
             {
-                gameObject.transform.Find("CircleMalicious").gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                gameObject.GetComponentInChildren<ProceduralSpriteFlip>().Flip(true);
+                hidden = true;
             }
             
         }
     }
-
+    
     /// <summary>
     /// Reveals the packet, if it is a hiding malicious packet. 
     /// </summary>
     public void Reveal()
     {
-        if(malicious && hider)
+        
+        if(hider)
         {
-            gameObject.transform.Find("CircleMalicious").gameObject.GetComponent<SpriteRenderer>().enabled = true;
             rehideTime = 1f;
+            if (hidden)
+            {
+                gameObject.GetComponentInChildren<ProceduralSpriteFlip>().Flip(false);
+            }
             hidden = false;
         }
     }
