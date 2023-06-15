@@ -45,6 +45,6 @@ public class SpawnerManager : MonoBehaviour
             }
         }
         //Debug.Log("valid patterns: " + validPatterns.Count);
-        return validPatterns[Random.Range(0, validPatterns.Count - 1)];
+        return validPatterns[Random.Range(0, validPatterns.Count)];
     }
 }

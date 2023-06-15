@@ -49,7 +49,9 @@ public class PacketSpawner : MonoBehaviour
     private void NextPattern()
     {
         patternTime = 0;
-        currentPattern = spawnerManager.NextPattern(packetSpawnPatterns, this);
+        PacketSpawnPattern nextpattern = spawnerManager.NextPattern(packetSpawnPatterns, this);
+        //Debug.Log(nextpattern);
+        currentPattern = nextpattern;
         packetsSent = 0;
     }
     
