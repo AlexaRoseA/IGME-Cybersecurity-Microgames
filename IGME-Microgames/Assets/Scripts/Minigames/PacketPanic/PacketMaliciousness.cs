@@ -44,7 +44,7 @@ public class PacketMaliciousness : MonoBehaviour
         if(malicious && hider)
         {
             gameObject.transform.Find("CircleMalicious").gameObject.GetComponent<SpriteRenderer>().enabled = true;
-            rehideTime = 1.5f;
+            rehideTime = 1f;
             hidden = false;
         }
     }

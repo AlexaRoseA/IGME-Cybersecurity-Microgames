@@ -37,7 +37,7 @@ public class MinigameManager : MonoBehaviour
     /// <summary>
     /// Sets the variables at start in Yarnspinner and default start phase
     /// </summary>
-    void Start()
+    protected virtual void Start()
     {
         variableStorage = FindObjectOfType<InMemoryVariableStorage>();
         variableStorage.SetValue("$currentPhase", "none");

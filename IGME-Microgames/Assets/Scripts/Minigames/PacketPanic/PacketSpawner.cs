@@ -13,17 +13,24 @@ public class PacketSpawner : MonoBehaviour
     private float patternTime = 0f;
     public PacketSpawnPattern currentPattern;
     private int packetsSent = 0;
+    private MinigameManager helper;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        helper = GameObject.Find("MinigameManager").GetComponent<MinigameManager>();
+
         NextPattern();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(!helper.GetTimer())
+        {
+            return;
+        }
         patternTime += Time.deltaTime;
         if(patternTime > currentPattern.duration)
         {

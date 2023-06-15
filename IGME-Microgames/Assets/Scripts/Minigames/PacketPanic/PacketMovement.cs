@@ -38,6 +38,12 @@ public class PacketMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(track == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         segmentProgress += segmentSpeed * Time.deltaTime;
         if(segmentProgress > 1.0f)
         {
