@@ -462,6 +462,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomSlider
       objectReference: {fileID: 0}
+    - target: {fileID: 6058071848635934749, guid: 65dcc30fca1395642b6bca504c2c4b48, type: 3}
+      propertyPath: m_Colors.m_PressedColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6058071848635934749, guid: 65dcc30fca1395642b6bca504c2c4b48, type: 3}
+      propertyPath: m_Colors.m_PressedColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6058071848635934749, guid: 65dcc30fca1395642b6bca504c2c4b48, type: 3}
+      propertyPath: m_Colors.m_PressedColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6740023713892082415, guid: 65dcc30fca1395642b6bca504c2c4b48, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
