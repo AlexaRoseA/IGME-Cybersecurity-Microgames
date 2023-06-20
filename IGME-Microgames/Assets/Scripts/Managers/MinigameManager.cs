@@ -5,7 +5,7 @@ using TMPro;
 using Yarn.Unity;
 using UnityEngine.EventSystems;
 
-public class MinigameManager : MonoBehaviour
+public class MinigameManager : LevelManager
 {
     // Time text
     private float timeRemaining = 10;
@@ -37,8 +37,9 @@ public class MinigameManager : MonoBehaviour
     /// <summary>
     /// Sets the variables at start in Yarnspinner and default start phase
     /// </summary>
-    void Start()
+    protected virtual void Start()
     {
+        base.Start();
         variableStorage = FindObjectOfType<InMemoryVariableStorage>();
         variableStorage.SetValue("$currentPhase", "none");
         variableStorage.TryGetValue("$currentPhase", out currentPhase);
@@ -89,10 +90,13 @@ public class MinigameManager : MonoBehaviour
     /// <summary>
     /// Base end the game method
     /// </summary>
+    [YarnCommand("EndGame")]
     public void EndGame()
     {
         // end game
         Debug.Log("Game Ended!");
+
+        gameManager.EndMinigame(score);
     }
 
     public static void AddEventTriggerListener(EventTrigger trigger, EventTriggerType eventType, System.Action<BaseEventData> callback)

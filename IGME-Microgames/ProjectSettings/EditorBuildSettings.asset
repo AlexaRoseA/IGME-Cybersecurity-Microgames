@@ -20,5 +20,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MinigameScore.unity
     guid: 864f98e515aff74449501f5b813bfef0
+  - enabled: 1
+    path: Assets/Scenes/Minigames/PacketPanic.unity
+    guid: d10ddbc230805db47918e5991931e3c2
   m_configObjects:
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 2cbdbb955274c5046a6d469f86b70d17, type: 2}
