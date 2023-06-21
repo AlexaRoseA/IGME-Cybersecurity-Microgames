@@ -1,26 +1,49 @@
 ﻿title: PacketPanic_Phase1
 ---
-Packet Panic: Incoming malicious packets. Deny them, but let the genuine ones through!
+<<ShowAllCharacters CharacterDialogDisplayer>>
+
+Packet: Incoming malicious packets!
+
+<<SetBool CharacterDialogDisplayer 0 determined true>>
+Packet: Deny them, but let the genuine ones through!
+
 <<set $timeRemaining to 30>>
+<<SetBool CharacterDialogDisplayer 0 determined false>>
+<<HideAllCharacters CharacterDialogDisplayer>>
 ===
 
 title: PacketPanic_Phase2
 ---
-Packet Panic: More malicious packets inbound! Hold them off!
+<<ShowAllCharacters CharacterDialogDisplayer>>
+Packet: More malicious packets inbound! 
+
+<<SetBool CharacterDialogDisplayer 0 determined true>>
+Packet: Hold them off!
+
 <<set $timeRemaining to 40>>
+<<SetBool CharacterDialogDisplayer 0 determined false>>
+<<HideAllCharacters CharacterDialogDisplayer>>
 
 ===
 
 title: GameOver
 ---
-Packet Panic: The network is overloaded. 
+<<ShowAllCharacters CharacterDialogDisplayer>>
+Packet: The network is overloaded. 
+
+<<HideAllCharacters CharacterDialogDisplayer>>
 <<EndGame MinigameManager>>
 
 ===
 
 title: Victory
 ---
-Packet Panic: Well done! The attack has been held at bay. 
+<<ShowAllCharacters CharacterDialogDisplayer>>
+<<SetBool CharacterDialogDisplayer 0 excited true>>
+
+Packet: Well done! The attack has been held at bay. 
 <<EndGame MinigameManager>>
+<<SetBool CharacterDialogDisplayer 0 excited false>>
+<<HideAllCharacters CharacterDialogDisplayer>>
 
 ===
