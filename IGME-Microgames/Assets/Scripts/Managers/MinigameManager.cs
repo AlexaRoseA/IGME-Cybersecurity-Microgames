@@ -232,6 +232,12 @@ public class MinigameManager : LevelManager
         }
     }
 
+    private IEnumerator JumpToNodeCoroutine(string nodeTitle)
+    {
+        yield return new WaitForSeconds(0.01f);
+        dialogueRunner.StartDialogue(nodeTitle);
+    }
+
     /// <summary>
     /// Sets the phase
     /// </summary>
@@ -248,7 +254,8 @@ public class MinigameManager : LevelManager
         if (chosen != null)
         {
             variableStorage.SetValue("$currentPhase", currentPhase);
-            dialogueRunner.StartDialogue(gameTitle + "_Phase" + phaseNum);
+            //dialogueRunner.StartDialogue(gameTitle + "_Phase" + phaseNum);
+            StartCoroutine(JumpToNodeCoroutine(gameTitle + "_Phase" + phaseNum));
             chosen = Instantiate(chosen);
         }
         else
