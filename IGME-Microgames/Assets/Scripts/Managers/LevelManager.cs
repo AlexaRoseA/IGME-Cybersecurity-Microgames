@@ -28,6 +28,10 @@ public class LevelManager : MonoBehaviour
         //get the GameManagerScene
         Scene gameManagerScene = SceneManager.GetSceneByName("GameManagerScene");
 
+        if(!gameManagerScene.IsValid())
+        {
+            return null;
+        }
         //list of gameobjects in the gameManagerScene
         List<GameObject> rootGameObjects = new List<GameObject>();
         gameManagerScene.GetRootGameObjects(rootGameObjects);
