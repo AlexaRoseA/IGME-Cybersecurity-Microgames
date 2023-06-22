@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class FireDefense_BlockCreationScreen : MonoBehaviour
 {
-    private List<GameObject> customBlocksMade;
+    private List<GameObject> totalPieces;
     public GameObject gridUIElement;
     private List<Block> blocks;
     private List<Block> blocksStillOpen;
@@ -14,6 +14,7 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
 
     private int blockTotalSize = 0;
     private int blockCurrentSize = 0;
+    private Color ranColor;
 
     [SerializeField] GameObject blockObj;
     [SerializeField] GameObject blockParent;
@@ -21,12 +22,13 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        customBlocksMade = new List<GameObject>();
+        totalPieces = new List<GameObject>();
         blocks = new List<Block>();
         blocksStillOpen = new List<Block>();
         blocksFilled = new List<Block>();
 
         GenerateBlockSize();
+        ranColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
 
         // Add all the toggles to the grid
         foreach (Transform child in gridUIElement.transform)
@@ -34,15 +36,14 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
             Debug.Log(child.gameObject);
             Block tempBlock = new Block();
 
-            tempBlock.CreateBlock(Color.blue, Color.gray, Color.white, child.gameObject);
+            tempBlock.CreateBlock(ranColor, Color.gray, Color.white, child.gameObject);
             blocks.Add(tempBlock);
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public List<GameObject> GetPieceList()
     {
-
+        return totalPieces;
     }
 
     public void SaveBlockButton()
@@ -50,17 +51,24 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         if (blockCurrentSize == blockTotalSize)
         {
             GameObject parent = Instantiate(blockParent, Vector3.zero, Quaternion.identity);
+            blockObj.GetComponent<SpriteRenderer>().color = ranColor;
 
             foreach (Block block in blocksFilled)
             {
                 Vector3 pos = block.GetCenter();
-                Instantiate(blockObj, new Vector3(Mathf.Floor(pos.x / 100), Mathf.Floor(pos.y / 100), Mathf.Floor(pos.z / 100)), Quaternion.identity, parent.transform);
+                
+                GameObject spawnedBlock = Instantiate(blockObj, new Vector3(Mathf.Floor(pos.x / 100), Mathf.Floor(pos.y / 100), Mathf.Floor(pos.z / 100)), Quaternion.identity, parent.transform);
             }
 
-            customBlocksMade.Add(parent);
+            totalPieces.Add(parent);
             parent.SetActive(false);
             Debug.Log("Block saved!");
 
+            ranColor = GenerateNewColor();
+            foreach(Block block in blocks)
+            {
+                block.SetSelectedC(ranColor);
+            }
             ResetBoard();
         }
         else
@@ -75,6 +83,11 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         Debug.Log("This block should be a maximum of: " + blockTotalSize);
     }
 
+    private Color GenerateNewColor()
+    {
+        return Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+    }
+
     public void OnToggleValueChanged()
     {
         Block tempblock = GameObjectToBlock(EventSystem.current.currentSelectedGameObject);
@@ -87,7 +100,6 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
             blocksFilled.Remove(tempblock);
 
             tempblock.SetColor(tempblock.GetDefaultC());
-            tempblock.SetOpen(true);
 
             if(blocksFilled.Count == 0)
             {
@@ -106,7 +118,6 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
 
             tempblock.SetColor(tempblock.GetSelectedC());
             blocksFilled.Add(tempblock);
-            tempblock.SetOpen(false);
             blockCurrentSize++;
             HideIfNotConnected(tempblock);
         }
@@ -172,14 +183,8 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
 
         foreach (Block b in blocks)
         {
-            Debug.Log("Resetting --------------");
-            b.ReturnName();
-            b.SetColor(b.GetDefaultC());
-            b.SetOpen(true);
-            
+            b.SetColor(b.GetDefaultC());      
         }
-
-        Debug.Log("Reset Complete --------------");
     }
 
     class Block
@@ -191,8 +196,6 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         private Vector3 down;
 
         private List<Vector3> positions;
-
-        private bool isOpen = true;
 
         private Color selectedColor;
         private Color disableColor;
@@ -227,15 +230,6 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
             clicker = obj;
         }
 
-        public bool CheckOpen()
-        {
-            return isOpen;
-        }
-
-        public void SetOpen(bool openStatus)
-        {
-            isOpen = openStatus;
-        }
 
         public bool ReturnTouching(Vector3 pos)
         {
@@ -259,6 +253,11 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
             clicker.GetComponent<Image>().color = c;
         }
 
+        public void SetSelectedC(Color c)
+        {
+            selectedColor = c;
+        }
+
         public Color GetSelectedC()
         {
             return selectedColor;
@@ -272,11 +271,6 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         public Color GetDefaultC()
         {
             return defaultColor;
-        }
-
-        public void ReturnName()
-        {
-            Debug.Log(clicker.name);
         }
     }
 }
