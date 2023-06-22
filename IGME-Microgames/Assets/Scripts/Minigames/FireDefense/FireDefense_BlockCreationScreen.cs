@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class FireDefense_BlockCreationScreen : MonoBehaviour
 {
-    private List<GameObject> tetrisGridUI;
+    private List<GameObject> customBlocksMade;
     public GameObject gridUIElement;
     private List<Block> blocks;
     private List<Block> blocksStillOpen;
@@ -15,10 +15,13 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
     private int blockTotalSize = 0;
     private int blockCurrentSize = 0;
 
+    [SerializeField] GameObject blockObj;
+    [SerializeField] GameObject blockParent;
+
     // Start is called before the first frame update
     void Start()
     {
-        tetrisGridUI = new List<GameObject>();
+        customBlocksMade = new List<GameObject>();
         blocks = new List<Block>();
         blocksStillOpen = new List<Block>();
         blocksFilled = new List<Block>();
@@ -29,7 +32,6 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         foreach (Transform child in gridUIElement.transform)
         {
             Debug.Log(child.gameObject);
-            tetrisGridUI.Add(child.gameObject);
             Block tempBlock = new Block();
 
             tempBlock.CreateBlock(Color.blue, Color.gray, Color.white, child.gameObject);
@@ -43,6 +45,30 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
 
     }
 
+    public void SaveBlockButton()
+    {
+        if (blockCurrentSize == blockTotalSize)
+        {
+            GameObject parent = Instantiate(blockParent, Vector3.zero, Quaternion.identity);
+
+            foreach (Block block in blocksFilled)
+            {
+                Vector3 pos = block.GetCenter();
+                Instantiate(blockObj, new Vector3(Mathf.Floor(pos.x / 100), Mathf.Floor(pos.y / 100), Mathf.Floor(pos.z / 100)), Quaternion.identity, parent.transform);
+            }
+
+            customBlocksMade.Add(parent);
+            parent.SetActive(false);
+            Debug.Log("Block saved!");
+
+            ResetBoard();
+        }
+        else
+        {
+            Debug.Log("Please finish placing blocks to create a shape!");
+        }
+    }
+
     private void GenerateBlockSize()
     {
         blockTotalSize = Random.Range(2, 6);
@@ -51,11 +77,11 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
 
     public void OnToggleValueChanged()
     {
-        Toggle toggleSelected = EventSystem.current.currentSelectedGameObject.GetComponent<Toggle>();
         Block tempblock = GameObjectToBlock(EventSystem.current.currentSelectedGameObject);
 
         if (tempblock.GetColor() == tempblock.GetSelectedC())
         {
+            Debug.Log("Unselecting block...");
             blockCurrentSize--;
             blocksStillOpen.Clear();
             blocksFilled.Remove(tempblock);
@@ -74,8 +100,10 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
                 }
             }
 
-        } else if (blockCurrentSize != blockTotalSize && toggleSelected.isOn && (tempblock.GetColor() != tempblock.GetDisableC() || tempblock.GetColor() != tempblock.GetSelectedC()))
+        } else if (blockCurrentSize != blockTotalSize && (tempblock.GetColor() != tempblock.GetDisableC() && tempblock.GetColor() != tempblock.GetSelectedC()))
         {
+            Debug.Log("Adding block to the list...");
+
             tempblock.SetColor(tempblock.GetSelectedC());
             blocksFilled.Add(tempblock);
             tempblock.SetOpen(false);
@@ -144,10 +172,14 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
 
         foreach (Block b in blocks)
         {
+            Debug.Log("Resetting --------------");
+            b.ReturnName();
             b.SetColor(b.GetDefaultC());
             b.SetOpen(true);
-            b.ResetToggle();
+            
         }
+
+        Debug.Log("Reset Complete --------------");
     }
 
     class Block
@@ -240,11 +272,6 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         public Color GetDefaultC()
         {
             return defaultColor;
-        }
-
-        public void ResetToggle()
-        {
-            clicker.GetComponent<Toggle>().isOn = false;
         }
 
         public void ReturnName()
