@@ -4,22 +4,49 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/* **************************************************************************
+* 
+* 2023 Alexa Amoriello, IGME PROJECT H4CKB0X
+*
+* This script is a set up phase of the minigame Fire Defense, which builds pieces
+* using blocks, which are used to build the firewall in the second phase.
+*
+* ************************************************************************/
+
 public class FireDefense_BlockCreationScreen : MonoBehaviour
 {
+    // Finalized pieces array made of blocks
     private List<GameObject> totalPieces;
+
+    // The UI element that is the grid
     public GameObject gridUIElement;
+
+    // Blocks...
+    // * All the blocks converted from the UI element
+    // * Open to trigger
+    // * blocks currently filled (selected)
     private List<Block> blocks;
     private List<Block> blocksStillOpen;
     private List<Block> blocksFilled;
 
+    // The current size and the max size for a piece
+    // The piece's color
     private int blockTotalSize = 0;
     private int blockCurrentSize = 0;
     private Color ranColor;
 
+    // The block object to create the saved piece
+    // The parent object to add all the block objects to
     [SerializeField] GameObject blockObj;
     [SerializeField] GameObject blockParent;
 
-    // Start is called before the first frame update
+    #region Start/Middle/End General Methods and Helpers
+
+    /// <summary>
+    /// Create the lists, generate the first block size,
+    /// generate the first color, and convert UI elements into
+    /// the custom block class for easy use
+    /// </summary>
     void Start()
     {
         totalPieces = new List<GameObject>();
@@ -41,23 +68,80 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Returns the pieces list
+    /// </summary>
+    /// <returns></returns>
     public List<GameObject> GetPieceList()
     {
         return totalPieces;
     }
 
+    /// <summary>
+    /// Generate how large the next block should be.
+    /// </summary>
+    private void GenerateBlockSize()
+    {
+        blockTotalSize = Random.Range(2, 6);
+        Debug.Log("This block should be a maximum of: " + blockTotalSize);
+    }
+
+    /// <summary>
+    /// Generates a new random color.
+    /// </summary>
+    /// <returns></returns>
+    private Color GenerateNewColor()
+    {
+        return Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+    }
+
+    #endregion
+
+    #region UI Methods
+
+    /// <summary>
+    /// Resets the board for easy shape re-creation
+    /// * Do not put color here, board reset gets called if there's 0 items
+    /// * on the board if the only object is unselected manually
+    /// </summary>
+    public void ResetBoard()
+    {
+        blockCurrentSize = 0;
+        blocksStillOpen.Clear();
+        blocksFilled.Clear();
+
+        foreach (Block b in blocks)
+        {
+            b.SetColor(b.GetDefaultC());
+        }
+    }
+
+    /// <summary>
+    /// UI button save block
+    /// 
+    /// If the limit is reached...
+    /// * Create a new parent container
+    /// * Set the block object to be the current random color
+    /// * For each block that is filled, grab it's center and Instantiate under the parent container
+    /// * Add the parent to the generated pieces array for use later
+    /// * Hide the parent
+    /// * Generate a new color, and set the color of the blocks to be the new color
+    /// * Reset the board
+    /// * Generate new block size for next iteration
+    /// </summary>
     public void SaveBlockButton()
     {
         if (blockCurrentSize == blockTotalSize)
         {
             GameObject parent = Instantiate(blockParent, Vector3.zero, Quaternion.identity);
+            parent.name = "Piece_" + (totalPieces.Count + 1);
             blockObj.GetComponent<SpriteRenderer>().color = ranColor;
 
             foreach (Block block in blocksFilled)
             {
                 Vector3 pos = block.GetCenter();
                 
-                GameObject spawnedBlock = Instantiate(blockObj, new Vector3(Mathf.Floor(pos.x / 100), Mathf.Floor(pos.y / 100), Mathf.Floor(pos.z / 100)), Quaternion.identity, parent.transform);
+                Instantiate(blockObj, new Vector3(Mathf.Floor(pos.x / 100), Mathf.Floor(pos.y / 100), Mathf.Floor(pos.z / 100)), Quaternion.identity, parent.transform);
             }
 
             totalPieces.Add(parent);
@@ -69,7 +153,9 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
             {
                 block.SetSelectedC(ranColor);
             }
+
             ResetBoard();
+            GenerateBlockSize();
         }
         else
         {
@@ -77,17 +163,23 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         }
     }
 
-    private void GenerateBlockSize()
-    {
-        blockTotalSize = Random.Range(2, 6);
-        Debug.Log("This block should be a maximum of: " + blockTotalSize);
-    }
-
-    private Color GenerateNewColor()
-    {
-        return Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
-    }
-
+    /// <summary>
+    /// Grabs the current block selected. Runs directly on the UI element.
+    /// 
+    /// If the block is already selected...
+    /// * Unselect it and generate a new clickable block board
+    /// * based on the blocks that are left that are selected.
+    /// * If no blocks are selected, restart the board.
+    /// 
+    /// If there is room to select blocks, the block isn't disabled or selected...
+    /// * Add the block to the blocks filled list
+    /// * Increase the blocks placed size
+    /// * Set the color to be the selected color (random color)
+    /// * Generate connections and set them to be open/closed based on what is already selected (if any)
+    /// 
+    /// If the block limit is reached, run command to block block placements.
+    /// </summary>
+    /// 
     public void OnToggleValueChanged()
     {
         Block tempblock = GameObjectToBlock(EventSystem.current.currentSelectedGameObject);
@@ -129,13 +221,21 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region Block Information
+
+    /// <summary>
+    /// Converts game object press to a button based on it's local position.
+    /// </summary>
+    /// <param name="block"></param>
+    /// <returns></returns>
     private Block GameObjectToBlock(GameObject block)
     {
         foreach(Block blockTemp in blocks)
         {
             if (blockTemp.GetCenter() == block.gameObject.transform.localPosition)
             {
-                Debug.Log("FOUND BLOCK CLICKED" + block.name);
                 return blockTemp;
             }
         }
@@ -143,6 +243,9 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         return null;
     }
 
+    /// <summary>
+    /// Disables all the buttons if the block limit is reached.
+    /// </summary>
     private void BlockLimitReach()
     {
         foreach (Block blockTemp in blocks)
@@ -156,6 +259,11 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         Debug.Log("Block limit reached, please reset the board to continue placing.");
     }
 
+    /// <summary>
+    /// Checks each block in the grid and returns if it's a movable spot.
+    /// * Ignores already selected blocks and their possibilities to move using their connections
+    /// </summary>
+    /// <param name="tempBlock">The block to check surroundings</param>
     private void HideIfNotConnected(Block tempBlock)
     {
         foreach (Block blockCheck in blocks)
@@ -175,18 +283,9 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         }
     }
 
-    public void ResetBoard()
-    {
-        blockCurrentSize = 0;
-        blocksStillOpen.Clear();
-        blocksFilled.Clear();
+    #endregion
 
-        foreach (Block b in blocks)
-        {
-            b.SetColor(b.GetDefaultC());      
-        }
-    }
-
+    #region Block Class
     class Block
     {
         private Vector3 center;
@@ -207,7 +306,13 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         {
             return center;
         }
-
+        /// <summary>
+        /// Creates a block based on passed in information
+        /// </summary>
+        /// <param name="sel">Selected color</param>
+        /// <param name="dis">Disabled color</param>
+        /// <param name="def">Default color</param>
+        /// <param name="obj">Gameobject</param>
         public void CreateBlock(Color sel, Color dis, Color def, GameObject obj)
         {
             positions = new List<Vector3>();
@@ -231,6 +336,12 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         }
 
 
+        /// <summary>
+        /// Returns if the position passed in is one of the
+        /// touching sides (4 sides possible)
+        /// </summary>
+        /// <param name="pos">Position to check</param>
+        /// <returns></returns>
         public bool ReturnTouching(Vector3 pos)
         {
             foreach(Vector3 positionTouching in positions)
@@ -243,34 +354,59 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
             return false;
         }
 
+        /// <summary>
+        /// Returns the color of the image at this moment
+        /// </summary>
+        /// <returns></returns>
         public Color GetColor()
         {
             return clicker.GetComponent<Image>().color;
         }
 
+        /// <summary>
+        /// Set the color of the image to be a set color
+        /// </summary>
+        /// <param name="c">Wanted color</param>
         public void SetColor(Color c)
         {
             clicker.GetComponent<Image>().color = c;
         }
 
+        /// <summary>
+        /// Sets the selected color to be an new color
+        /// </summary>
+        /// <param name="c">Wanted color</param>
         public void SetSelectedC(Color c)
         {
             selectedColor = c;
         }
 
+        /// <summary>
+        /// Returns the selected color
+        /// </summary>
+        /// <returns></returns>
         public Color GetSelectedC()
         {
             return selectedColor;
         }
 
+        /// <summary>
+        /// Returns the disabled color
+        /// </summary>
+        /// <returns></returns>
         public Color GetDisableC()
         {
             return disableColor;
         }
 
+        /// <summary>
+        /// Returns the default color
+        /// </summary>
+        /// <returns></returns>
         public Color GetDefaultC()
         {
             return defaultColor;
         }
     }
+    #endregion
 }
