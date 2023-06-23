@@ -25,14 +25,25 @@ public class FireDefense_Piece : MonoBehaviour
         {
             lifeTimer += 1 * Time.deltaTime;
 
-            if (GetComponent<CapsuleCollider2D>().bounds.Contains(firewallManager.ReturnMovementScript().TouchScreenToWorld()) && GetLifeTimer() > firewallManager.GetQuickDropTime())
+            if (GetComponent<CapsuleCollider2D>().bounds.Contains(firewallManager.ReturnMovementScript().TouchScreenToWorld()) 
+                && GetLifeTimer() > firewallManager.GetQuickDropTime())
             {
                 transform.position -= new Vector3(0, 1, 0);
+
+                if (!CheckInValidPos())
+                {
+                    transform.position -= new Vector3(0, -1, 0);
+                }
                 SetLifeTimer(0);
             }
             if (GetLifeTimer() > firewallManager.GetDropTime())
             {
                 transform.position -= new Vector3(0, 1, 0);
+
+                if (!CheckInValidPos())
+                {
+                    transform.position -= new Vector3(0, -1, 0);
+                }
                 SetLifeTimer(0);
             }
         }
@@ -72,6 +83,25 @@ public class FireDefense_Piece : MonoBehaviour
 
     public void Movement()
     {
-        transform.position = new Vector3(Mathf.RoundToInt(firewallManager.ReturnMovementScript().TouchScreenToWorld().x), transform.position.y, transform.position.z);
+        Vector3 oldPos = transform.position;
+        transform.position = new Vector3(Mathf.FloorToInt(firewallManager.ReturnMovementScript().TouchScreenToWorld().x), transform.position.y, transform.position.z);
+
+        if (!CheckInValidPos())
+        {
+            transform.position = oldPos;
+        }
+    }
+
+    private bool CheckInValidPos()
+    {
+        foreach(Transform block in transform)
+        {
+            Vector2 pos = firewallManager.GetComponent<FireDefense_FirewallCreationLogic>().FloorVector(block.position);  
+            if(!firewallManager.GetComponent<FireDefense_FirewallCreationLogic>().CheckInsideGrid(pos))
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
