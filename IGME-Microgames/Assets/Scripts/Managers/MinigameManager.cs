@@ -37,7 +37,7 @@ public class MinigameManager : LevelManager
     /// <summary>
     /// Sets the variables at start in Yarnspinner and default start phase
     /// </summary>
-    protected virtual void Start()
+    protected override void Start()
     {
         base.Start();
         variableStorage = FindObjectOfType<InMemoryVariableStorage>();

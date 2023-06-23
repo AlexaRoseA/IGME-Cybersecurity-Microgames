@@ -7,12 +7,25 @@ Packet: Incoming malicious packets!
 <<SetBool CharacterDialogDisplayer 0 determined true>>
 Packet: Deny them, but let the genuine ones through!
 
-<<set $timeRemaining to 30>>
+<<set $timeRemaining to 1>>
 <<SetBool CharacterDialogDisplayer 0 determined false>>
 <<HideAllCharacters CharacterDialogDisplayer>>
 ===
 
 title: PacketPanic_Phase2
+---
+<<ShowAllCharacters CharacterDialogDisplayer>>
+Packet: We've isolated a malicious packet. Don't let it escape the antivirus!
+
+<<SetBool CharacterDialogDisplayer 0 determined true>>
+Packet: Capturing the packet will let us learn more about this attack, and our network's integrity will increase!
+
+<<set $timeRemaining to 1000>>
+<<SetBool CharacterDialogDisplayer 0 determined false>>
+<<HideAllCharacters CharacterDialogDisplayer>>
+===
+
+title: PacketPanic_Phase3
 ---
 <<ShowAllCharacters CharacterDialogDisplayer>>
 Packet: More malicious packets inbound! 

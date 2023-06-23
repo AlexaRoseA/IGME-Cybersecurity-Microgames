@@ -10,7 +10,7 @@ public class ProceduralSpriteFlip : MonoBehaviour
     public float flipSpeed = 2f;
     public float xScale = 1f;
 
-    private SpriteRenderer renderer;
+    private SpriteRenderer spriteRenderer;
 
     bool flippingIn = false;
 
@@ -33,8 +33,8 @@ public class ProceduralSpriteFlip : MonoBehaviour
     }
 
     void Start()
-    { 
-        renderer = flippingObject.GetComponent<SpriteRenderer>();
+    {
+        spriteRenderer = flippingObject.GetComponent<SpriteRenderer>();
         //currentGoalSpriteIsA = renderer.sprite != sideA;
     }
 
@@ -54,7 +54,7 @@ public class ProceduralSpriteFlip : MonoBehaviour
                 flippingOut = true;
 
                 //change sprite
-                renderer.sprite = currentGoalSpriteIsA ? sideA : sideB;
+                spriteRenderer.sprite = currentGoalSpriteIsA ? sideA : sideB;
             }
         }
         else if (flippingOut) // increasing scale
