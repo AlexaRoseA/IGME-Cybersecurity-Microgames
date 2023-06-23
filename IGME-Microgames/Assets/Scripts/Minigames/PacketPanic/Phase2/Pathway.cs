@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using static UnityEditor.PlayerSettings;
@@ -21,16 +22,38 @@ public class Pathway : MonoBehaviour
         nodes = new Node[line.positionCount];
         for(int i = 0; i < nodes.Length; i++)
         {
-            nodes[i] = tilemap.GetTile<NodeTiles>(tilemap.WorldToCell(line.GetPosition(i))).nodeMap[tilemap.WorldToCell(line.GetPosition(i))];
-            nodes[i].connectedPathways.Add(this);
+            NodeTiles tile = tilemap.GetTile<NodeTiles>(tilemap.WorldToCell(line.GetPosition(i)));
+            if(tile != null)
+            {
+                nodes[i] = tile.nodeMap[tilemap.WorldToCell(line.GetPosition(i))];
+                nodes[i].connectedPathways.Add(this);
+            }
+            
         }
 
         //Debug.Log(node0.connectedPathways.Count);
 
         //Debug.Log(node0.pos);
         //Debug.Log(node1.pos);
-        
 
+        Rotate(1, 60 * Random.Range(1, 7));
+
+        //remove duplicates
+        bool duplicate = false;
+        foreach (Node node in nodes)
+        {
+            foreach(Pathway pathway in node.connectedPathways)
+            {
+                if (pathway.nodes.Contains(nodes[0]) && pathway.nodes.Contains(nodes[1]) && pathway != this)
+                {
+                    duplicate = true;
+                    Destroy(gameObject);
+                }
+            }
+            if(duplicate)
+                node.connectedPathways.Remove(this);
+        }
+        
     }
 
     void Update()
@@ -64,12 +87,15 @@ public class Pathway : MonoBehaviour
         if(newConnection == null)
         {
             //call the method recursively until it can attach to a valid tile
-            Rotate(movingPoint, degrees);
+            Rotate(movingPoint, 60);
             return;
         }
-        
+
         //update connections
-        nodes[movingPoint].connectedPathways.Remove(this);
+        if (nodes[movingPoint] != null)
+        {
+            nodes[movingPoint].connectedPathways.Remove(this);
+        }
         nodes[movingPoint] = newConnection.nodeMap[tilemap.WorldToCell(line.GetPosition(movingPoint))];
         nodes[movingPoint].connectedPathways.Add(this);
     }
