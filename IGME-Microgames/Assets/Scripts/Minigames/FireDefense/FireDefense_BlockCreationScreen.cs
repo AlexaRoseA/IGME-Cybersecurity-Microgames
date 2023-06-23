@@ -122,7 +122,12 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
     /// If the limit is reached...
     /// * Create a new parent container
     /// * Set the block object to be the current random color
+    /// * Create a vector3 centerpoint for off middle row blocks and a list to store children
     /// * For each block that is filled, grab it's center and Instantiate under the parent container
+    /// * Add the child's position to the centerpoint position and the storage list
+    /// * Detach all blocks from the parent and divide the centerpoint by how many blocks there are
+    /// * Round the centerpoint to be an interger (an actual block instead of middle of one)
+    /// * Add each child back to it's parent
     /// * Add the parent to the generated pieces array for use later
     /// * Hide the parent
     /// * Generate a new color, and set the color of the blocks to be the new color
@@ -137,11 +142,28 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
             parent.name = "Piece_" + (totalPieces.Count + 1);
             blockObj.GetComponent<SpriteRenderer>().color = ranColor;
 
+            Vector3 centerpoint = Vector3.zero;
+            List<GameObject> objBlocks = new List<GameObject>();
+
             foreach (Block block in blocksFilled)
             {
                 Vector3 pos = block.GetCenter();
                 
-                Instantiate(blockObj, new Vector3(Mathf.Floor(pos.x / 100), Mathf.Floor(pos.y / 100), Mathf.Floor(pos.z / 100)), Quaternion.identity, parent.transform);
+                GameObject child = Instantiate(blockObj, new Vector3(Mathf.Floor(pos.x / 100), Mathf.Floor(pos.y / 100), Mathf.Floor(pos.z / 100)), Quaternion.identity, parent.transform.GetChild(0).transform);
+                centerpoint += child.transform.position;
+                objBlocks.Add(child);
+            }
+
+            parent.transform.GetChild(0).transform.DetachChildren();
+            centerpoint /= blocksFilled.Count;
+            centerpoint = new Vector3(Mathf.RoundToInt(centerpoint.x), Mathf.RoundToInt(centerpoint.y), 0f);
+
+            Debug.Log("CENTERPOINT: " + centerpoint);
+            parent.transform.GetChild(0).transform.position = centerpoint;
+
+            foreach (GameObject obj in objBlocks)
+            {
+                obj.transform.SetParent(parent.transform.GetChild(0).transform);
             }
 
             totalPieces.Add(parent);

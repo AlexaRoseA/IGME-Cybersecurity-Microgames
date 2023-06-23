@@ -15,6 +15,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "TouchDouble",
+                    "type": "Button",
+                    "id": "65ccef35-e980-4612-ac04-aba46d07d516",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "TouchPress",
                     "type": "Button",
                     "id": "22e1e315-860f-430f-8f02-ab5521cc4d74",
@@ -64,6 +73,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "JoystickMovement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e8b6755e-76f4-4c41-b48d-53d979094516",
+                    "path": "<Touchscreen>/touch*/Press",
+                    "interactions": "MultiTap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchDouble",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
