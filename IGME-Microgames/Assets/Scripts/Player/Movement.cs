@@ -39,9 +39,18 @@ public class Movement : MonoBehaviour
     /// </summary>
     void Start()
     {
-        rb = player.GetComponent<Rigidbody2D>();
+        if (player != null)
+        {
+            rb = player.GetComponent<Rigidbody2D>();
+            moveCircle = player.GetComponent<CircleCollider2D>();
+            moveSpeed = 0f;
+        }
+    }
+
+    public void UpdatePlayer(GameObject obj)
+    {
+        player = obj;
         moveCircle = player.GetComponent<CircleCollider2D>();
-        moveSpeed = 0f;
     }
 
     /// <summary>
@@ -49,7 +58,7 @@ public class Movement : MonoBehaviour
     /// </summary>
     void FixedUpdate()
     {
-        if(checkIfWithinDragCircle())
+        if (checkIfWithinDragCircle() && moveType == "Player")
         {
             rb.MovePosition(Vector3.Lerp(player.transform.position, TouchScreenToWorld(), moveSpeed * Time.deltaTime));
         }
@@ -80,7 +89,11 @@ public class Movement : MonoBehaviour
     /// <param name="context"></param>
     private void TouchPressed(InputAction.CallbackContext context)
     {
-        moveSpeed = maxSpeed;
+        if (moveType == "Player")
+        {
+            moveSpeed = maxSpeed;
+        }
+
         TouchScreenToWorld();
     }
 
@@ -90,23 +103,34 @@ public class Movement : MonoBehaviour
     /// <param name="context"></param>
     private void TouchCancelled(InputAction.CallbackContext context)
     {
-        moveSpeed = 0f;
+        if (moveType == "Player")
+        {
+            moveSpeed = 0f;
+        }
     }
 
     /// <summary>
     /// Returns a boolean if the touch position is within the move circle
     /// </summary>
     /// <returns></returns>
-    private bool checkIfWithinDragCircle()
+    public bool checkIfWithinDragCircle()
     {
-        return moveCircle.OverlapPoint(TouchScreenToWorld());
+        if (player != null)
+        {
+            return moveCircle.OverlapPoint(TouchScreenToWorld());
+        }
+        return false;
     }
 
-    private Vector3 TouchScreenToWorld()
+    public Vector3 TouchScreenToWorld()
     {
-        Vector3 screenPos = touchMovementAction.ReadValue<Vector2>();
-        Vector3 worldpos = Camera.main.ScreenToWorldPoint(screenPos);
-        worldpos.z = player.transform.position.z;
-        return worldpos;
+        if (player != null)
+        {
+            Vector3 screenPos = touchMovementAction.ReadValue<Vector2>();
+            Vector3 worldpos = Camera.main.ScreenToWorldPoint(screenPos);
+            worldpos.z = player.transform.position.z;
+            return worldpos;
+        }
+        return Vector3.zero;
     }
 }

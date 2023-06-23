@@ -8,6 +8,7 @@ TagManager:
   - Score
   - Spot
   - DialogCharacter
+  - Boundary
   layers:
   - Default
   - TransparentFX
