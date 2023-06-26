@@ -1,3 +1,4 @@
+using GG.Infrastructure.Utils.Swipe;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class FireDefense_Piece : MonoBehaviour
     private float lifeTimer = 0;
 
     private FireDefense_FirewallCreationLogic firewallManager;
+    private SwipeListener swipeListener;
 
     private bool startTimer = false;
 
@@ -17,6 +19,8 @@ public class FireDefense_Piece : MonoBehaviour
     CapsuleCollider2D capsuleForDownFast;
     GameObject parent;
 
+    bool quickDrop = false;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -25,6 +29,7 @@ public class FireDefense_Piece : MonoBehaviour
         touchDoubleAction = playerInput.actions.FindAction("TouchDouble");
         capsuleForDownFast = transform.parent.gameObject.GetComponent<CapsuleCollider2D>();
         parent = transform.parent.gameObject;
+        swipeListener = gameObject.GetComponent<SwipeListener>();
     }
 
     /// <summary>
@@ -53,25 +58,7 @@ public class FireDefense_Piece : MonoBehaviour
         {
             lifeTimer += 1 * Time.deltaTime;
 
-            //if (capsuleForDownFast.bounds.Contains(firewallManager.ReturnMovementScript().TouchScreenToWorld()) 
-            //    && GetLifeTimer() > firewallManager.GetQuickDropTime())
-            //{
-            //    if(parent.transform.position.y > 1)
-            //    {
-            //        parent.transform.position -= new Vector3(0, 1, 0);
-
-            //    }
-
-            //    if (!CheckInValidPos())
-            //    {
-            //        parent.transform.position -= new Vector3(0, -1, 0);
-            //    } 
-
-            //    SetLifeTimer(0);
-
-            //}
-            
-            if (GetLifeTimer() > firewallManager.GetDropTime())
+            if (GetLifeTimer() > firewallManager.GetDropTime() && !quickDrop)
             {
                 parent.transform.position -= new Vector3(0, 1, 0);
 
@@ -89,19 +76,46 @@ public class FireDefense_Piece : MonoBehaviour
             }
         }
 
-        if (firewallManager.ReturnMovementScript().checkIfWithinDragCircle())
+        if (firewallManager.ReturnMovementScript().checkIfWithinDragCircle() && !quickDrop)
         {
             Movement();
         }
+    }
 
-        //transform.position = new Vector3(Mathf.FloorToInt(Mathf.Clamp(transform.position.x, 0, 10)), Mathf.FloorToInt(Mathf.Clamp(transform.position.y, 0, 30)), 0f);
+    IEnumerator QuickDropMovement()
+    {
+        while (CheckInValidPos())
+        {
+            parent.transform.position -= new Vector3(0, 1, 0);
+
+            if(CheckInValidPos())
+            {
+                yield return new WaitForSeconds(.05f);
+            }
+            
+        }
+
+        parent.transform.position -= new Vector3(0, -1, 0);
+
+        quickDrop = false;
+
+        AddToGrid();
+
+        enabled = false;
+
+        yield return new WaitForSeconds(.1f);
+
+        firewallManager.GeneratePiece();
+
+        yield return null;
     }
 
     private void OnEnable()
     {
-            startTimer = true;
-            firewallManager.ReturnMovementScript().UpdatePlayer(gameObject);
-            touchDoubleAction.performed += TouchPressed;
+        startTimer = true;
+        firewallManager.ReturnMovementScript().UpdatePlayer(gameObject);
+        touchDoubleAction.performed += TouchPressed;
+        swipeListener.OnSwipe.AddListener(OnSwipe);
     }
 
     private void OnDisable()
@@ -109,6 +123,17 @@ public class FireDefense_Piece : MonoBehaviour
         startTimer = false;
         lifeTimer = 0;
         touchDoubleAction.performed -= TouchPressed;
+        swipeListener.OnSwipe.RemoveListener(OnSwipe);
+    }
+
+    private void OnSwipe(string swipe)
+    {
+        Debug.Log(swipe + " swipe");
+        if (swipe.ToLower() == "up" || swipe.ToLower() == "upright" || swipe.ToLower() == "upleft")
+        {
+            quickDrop = true;
+            StartCoroutine(QuickDropMovement());
+        }
     }
 
     public float GetLifeTimer()
@@ -133,15 +158,16 @@ public class FireDefense_Piece : MonoBehaviour
     }
     private bool CheckInValidPos()
     {
-        foreach(Transform block in transform)
+        foreach (Transform block in transform)
         {
-            Vector2 pos = firewallManager.FloorVector(block.position);  
-            if(!firewallManager.CheckInsideGrid(pos))
+            Vector2 pos = firewallManager.FloorVector(block.position);
+            if (!firewallManager.CheckInsideGrid(pos))
             {
                 return false;
             }
 
-            if (firewallManager.ReturnGridStatusAtPos((int)pos.x, (int)pos.y) != null) {
+            if (firewallManager.ReturnGridStatusAtPos((int)pos.x, (int)pos.y) != null)
+            {
                 return false;
             }
         }
