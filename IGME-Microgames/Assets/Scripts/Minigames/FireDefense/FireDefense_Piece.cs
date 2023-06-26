@@ -9,7 +9,6 @@ public class FireDefense_Piece : MonoBehaviour
 
     private FireDefense_FirewallCreationLogic firewallManager;
 
-    private bool placed = false;
     private bool startTimer = false;
 
     PlayerInput playerInput;
@@ -41,7 +40,9 @@ public class FireDefense_Piece : MonoBehaviour
     {
         transform.Rotate(0, 0, degree);
         if (!CheckInValidPos())
+        {
             transform.Rotate(0, 0, -degree);
+        }
     }
 
     // Update is called once per frame
@@ -55,15 +56,21 @@ public class FireDefense_Piece : MonoBehaviour
             if (capsuleForDownFast.bounds.Contains(firewallManager.ReturnMovementScript().TouchScreenToWorld()) 
                 && GetLifeTimer() > firewallManager.GetQuickDropTime())
             {
-                parent.transform.position -= new Vector3(0, 1, 0);
+                if(parent.transform.position.y > 1)
+                {
+                    parent.transform.position -= new Vector3(0, 1, 0);
+
+                }
 
                 if (!CheckInValidPos())
                 {
                     parent.transform.position -= new Vector3(0, -1, 0);
-                }
+                } 
+
                 SetLifeTimer(0);
 
             }
+            
             if (GetLifeTimer() > firewallManager.GetDropTime())
             {
                 parent.transform.position -= new Vector3(0, 1, 0);
@@ -71,6 +78,12 @@ public class FireDefense_Piece : MonoBehaviour
                 if (!CheckInValidPos())
                 {
                     parent.transform.position -= new Vector3(0, -1, 0);
+
+                    enabled = false;
+
+                    AddToGrid();
+
+                    firewallManager.GeneratePiece();
                 }
                 SetLifeTimer(0);
             }
@@ -84,14 +97,9 @@ public class FireDefense_Piece : MonoBehaviour
 
     private void OnEnable()
     {
-        if (!placed)
-        {
             startTimer = true;
-            Debug.Log("I am the main! " + gameObject.name);
             firewallManager.ReturnMovementScript().UpdatePlayer(gameObject);
-            firewallManager.GetComponent<FireDefense_FirewallCreationLogic>().UpdatePiece(gameObject);
             touchDoubleAction.performed += TouchPressed;
-        }
     }
 
     private void OnDisable()
@@ -121,17 +129,30 @@ public class FireDefense_Piece : MonoBehaviour
             parent.transform.position = oldPos;
         }
     }
-
     private bool CheckInValidPos()
     {
         foreach(Transform block in transform)
         {
-            Vector2 pos = firewallManager.GetComponent<FireDefense_FirewallCreationLogic>().FloorVector(block.position);  
-            if(!firewallManager.GetComponent<FireDefense_FirewallCreationLogic>().CheckInsideGrid(pos))
+            Vector2 pos = firewallManager.FloorVector(block.position);  
+            if(!firewallManager.CheckInsideGrid(pos))
             {
+                return false;
+            }
+
+            if (firewallManager.ReturnGridStatusAtPos((int)pos.x, (int)pos.y) != null) {
                 return false;
             }
         }
         return true;
+    }
+    void AddToGrid()
+    {
+        foreach(Transform block in transform)
+        {
+            int roundX = Mathf.RoundToInt(block.transform.position.x);
+            int roundY = Mathf.RoundToInt(block.transform.position.y);
+
+            firewallManager.SetGridPos(roundX, roundY, block);
+        }
     }
 }

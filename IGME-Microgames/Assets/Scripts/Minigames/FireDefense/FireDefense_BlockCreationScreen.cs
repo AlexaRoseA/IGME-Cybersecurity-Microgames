@@ -178,6 +178,7 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
 
             ResetBoard();
             GenerateBlockSize();
+            GameObject.Find("FirewallCreationGame").GetComponent<FireDefense_FirewallCreationLogic>().UpdatePieceCount();
         }
         else
         {
