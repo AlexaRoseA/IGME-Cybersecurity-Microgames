@@ -24,8 +24,14 @@ public class PathwayFleer : LineRendererMovement
         Node node = tilemap.GetTile<NodeTiles>(tilePos).nodeMap[tilePos];
         List<Pathway> possiblePaths = node.connectedPathways;
 
+
         Node targetNode = NextNode();
 
+        //random path:
+        //Pathway targetPath = possiblePaths[Random.Range(0, possiblePaths.Count)];
+        //track = targetPath.line;
+        //movingForward = targetPath.nodes[0] == node;
+        
         foreach (Pathway pathway in possiblePaths)
         {
             if (pathway.nodes.Contains(targetNode))
@@ -45,9 +51,9 @@ public class PathwayFleer : LineRendererMovement
     /// <returns></returns>
     Node NextNode()
     {
+        
         Vector3Int tilePos = tilemap.WorldToCell(transform.position);
         Node start = tilemap.GetTile<NodeTiles>(tilePos).nodeMap[tilePos];
-
         Node end = DetermineDestinationNode();
         end.parent = null;
 
@@ -58,6 +64,7 @@ public class PathwayFleer : LineRendererMovement
 
         while(open.Count > 0)
         {
+            
             Node current = GetLowestFCost(open);
 
             open.Remove(current);
@@ -65,12 +72,12 @@ public class PathwayFleer : LineRendererMovement
             foreach(Node successor in GetSuccessors(current))
             {
                 
-                successor.parent = current;
+                
 
                 if (successor == end)
                 {
                     List<Node> possibleMoves = GetSuccessors(start);
-
+                    successor.parent = current;
                     //found end, backtrack
                     Node previous = end;
                     while(!possibleMoves.Contains(previous))
@@ -103,10 +110,10 @@ public class PathwayFleer : LineRendererMovement
                 successor.f = g + h;
 
                 open.Add(successor);
+                successor.parent = current;
             }
-
             closed.Add(current);
-            Debug.Log(open.Count);
+            //Debug.Log(open.Count);
         }
         return null;
     }
@@ -152,6 +159,7 @@ public class PathwayFleer : LineRendererMovement
 
     int ApproximateDistance(Node node1, Node node2)
     {
-        return 0;
+        //TODO: make this a better approximation for hexes. 
+        return Mathf.Abs(node1.cellPosition.x - node2.cellPosition.x) + Mathf.Abs(node1.cellPosition.y - node2.cellPosition.y);
     }
 }

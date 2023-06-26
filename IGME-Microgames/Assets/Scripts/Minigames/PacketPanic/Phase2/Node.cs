@@ -6,6 +6,7 @@ public class Node : MonoBehaviour
 {
 
     public List<Pathway> connectedPathways;
+    public Vector3Int cellPosition;
 
     //these are for A Star
     public int g;

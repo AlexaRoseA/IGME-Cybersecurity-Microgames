@@ -251,7 +251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   track: {fileID: 5659701203198802532}
-  speed: 2
+  speed: 1.2
   movingForward: 1
   helper: {fileID: 0}
   fleeTarget: {fileID: 0}

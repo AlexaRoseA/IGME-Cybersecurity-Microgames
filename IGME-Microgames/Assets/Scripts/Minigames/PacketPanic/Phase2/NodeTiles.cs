@@ -31,6 +31,7 @@ public class NodeTiles : TileBase
         }
 
         nodeMap.Add(position, go.GetComponent<Node>());
+        go.GetComponent<Node>().cellPosition = position;
 
         return true;
     }
