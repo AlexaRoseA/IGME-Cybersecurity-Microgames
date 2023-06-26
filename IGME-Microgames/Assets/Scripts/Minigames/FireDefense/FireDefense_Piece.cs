@@ -39,6 +39,7 @@ public class FireDefense_Piece : MonoBehaviour
     void safeRotate(float degree)
     {
         transform.Rotate(0, 0, degree);
+
         if (!CheckInValidPos())
         {
             transform.Rotate(0, 0, -degree);
@@ -48,7 +49,6 @@ public class FireDefense_Piece : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (startTimer)
         {
             lifeTimer += 1 * Time.deltaTime;
@@ -93,6 +93,8 @@ public class FireDefense_Piece : MonoBehaviour
         {
             Movement();
         }
+
+        //transform.position = new Vector3(Mathf.FloorToInt(Mathf.Clamp(transform.position.x, 0, 10)), Mathf.FloorToInt(Mathf.Clamp(transform.position.y, 0, 30)), 0f);
     }
 
     private void OnEnable()
@@ -147,7 +149,7 @@ public class FireDefense_Piece : MonoBehaviour
     }
     void AddToGrid()
     {
-        foreach(Transform block in transform)
+        foreach (Transform block in transform)
         {
             int roundX = Mathf.RoundToInt(block.transform.position.x);
             int roundY = Mathf.RoundToInt(block.transform.position.y);

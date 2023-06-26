@@ -67,6 +67,7 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
         }
     }
 
+
     public bool CheckInsideGrid(Vector2 pos)
     {
         return ((int)pos.x >= 0 && (int)pos.x <= width && (int)pos.y >= 0);
