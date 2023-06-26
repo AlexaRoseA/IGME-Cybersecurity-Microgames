@@ -53,23 +53,23 @@ public class FireDefense_Piece : MonoBehaviour
         {
             lifeTimer += 1 * Time.deltaTime;
 
-            if (capsuleForDownFast.bounds.Contains(firewallManager.ReturnMovementScript().TouchScreenToWorld()) 
-                && GetLifeTimer() > firewallManager.GetQuickDropTime())
-            {
-                if(parent.transform.position.y > 1)
-                {
-                    parent.transform.position -= new Vector3(0, 1, 0);
+            //if (capsuleForDownFast.bounds.Contains(firewallManager.ReturnMovementScript().TouchScreenToWorld()) 
+            //    && GetLifeTimer() > firewallManager.GetQuickDropTime())
+            //{
+            //    if(parent.transform.position.y > 1)
+            //    {
+            //        parent.transform.position -= new Vector3(0, 1, 0);
 
-                }
+            //    }
 
-                if (!CheckInValidPos())
-                {
-                    parent.transform.position -= new Vector3(0, -1, 0);
-                } 
+            //    if (!CheckInValidPos())
+            //    {
+            //        parent.transform.position -= new Vector3(0, -1, 0);
+            //    } 
 
-                SetLifeTimer(0);
+            //    SetLifeTimer(0);
 
-            }
+            //}
             
             if (GetLifeTimer() > firewallManager.GetDropTime())
             {
