@@ -6,6 +6,13 @@ public class Node : MonoBehaviour
 {
 
     public List<Pathway> connectedPathways;
+
+    //these are for A Star
+    public int g;
+    public int h;
+    public int f;
+    public Node parent;
+
     // Start is called before the first frame update
     void Start()
     {
