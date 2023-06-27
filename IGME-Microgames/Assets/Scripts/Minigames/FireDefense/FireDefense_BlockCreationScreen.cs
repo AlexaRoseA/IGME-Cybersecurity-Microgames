@@ -6,8 +6,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /* **************************************************************************
-* 
-* 2023 Alexa Amoriello, IGME PROJECT H4CKB0X
 *
 * This script is a set up phase of the minigame Fire Defense, which builds pieces
 * using blocks, which are used to build the firewall in the second phase.

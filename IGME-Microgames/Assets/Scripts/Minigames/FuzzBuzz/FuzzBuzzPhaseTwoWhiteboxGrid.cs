@@ -4,8 +4,6 @@ using UnityEngine;
 
 /* **************************************************************************
 * 
-* 2023 Alexa Amoriello, IGME PROJECT H4CKB0X
-*
 * This script is apart of phase 2 of the minigame FUZZ BUZZ, which is an adaptation
 * to teach the concept of whitebox fuzz testing.
 *

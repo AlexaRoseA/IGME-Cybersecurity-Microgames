@@ -4,6 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/* **************************************************************************
+*
+* This script is a part of a play phase of the minigame Fire Defense.
+* 
+* Script assigned to a piece that keeps track of it's lifetime, parent,
+* quick drop status, and sends updates to the grid script on placement.
+*
+* ************************************************************************/
+
 public class FireDefense_Piece : MonoBehaviour
 {
     private float lifeTimer = 0;
@@ -12,28 +21,28 @@ public class FireDefense_Piece : MonoBehaviour
     private SwipeListener swipeListener;
 
     private bool startTimer = false;
+    GameObject parent;
 
     PlayerInput playerInput;
     InputAction touchDoubleAction;
 
-    CapsuleCollider2D capsuleForDownFast;
-    GameObject parent;
-
     bool quickDrop = false;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Sets up the firewall manager, grabs player input AND
+    /// finds the touch double action, sets up swipe listener.
+    /// </summary>
     void Awake()
     {
         firewallManager = GameObject.Find("FirewallCreationGame").GetComponent<FireDefense_FirewallCreationLogic>();
         playerInput = GameObject.FindObjectOfType<PlayerInput>();
         touchDoubleAction = playerInput.actions.FindAction("TouchDouble");
-        capsuleForDownFast = transform.parent.gameObject.GetComponent<CapsuleCollider2D>();
         parent = transform.parent.gameObject;
         swipeListener = gameObject.GetComponent<SwipeListener>();
     }
 
     /// <summary>
-    /// On Press, find the press position and convert it to the world position for player movement.
+    /// On double touchPress, determine safeRotation
     /// </summary>
     /// <param name="context"></param>
     private void TouchPressed(InputAction.CallbackContext context)
@@ -41,6 +50,11 @@ public class FireDefense_Piece : MonoBehaviour
         safeRotate(90);
     }
 
+    /// <summary>
+    /// Rotates the block but checks if it's valid after rotation.
+    /// If it's not valid, rotate back to the original position.
+    /// </summary>
+    /// <param name="degree"></param>
     void safeRotate(float degree)
     {
         transform.Rotate(0, 0, degree);
@@ -51,7 +65,23 @@ public class FireDefense_Piece : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// If the start timer is vaid, increase the block's life timer.
+    /// 
+    /// Then, check if the drop time is still valid (has not reached the bottom OR another block)
+    /// And also make sures no quick drop.
+    /// * If this is true, move the piece down.
+    /// 
+    /// If not in a valid position vertically (there is a block landed during the current life cycle)
+    /// * Subtract the position to be at a correct one (the last position prior)
+    /// * Disable the script
+    /// * Add to the overall board grid
+    /// * Update the percentage filled
+    /// * Generate a new piece
+    /// 
+    /// Secondly is horizontal movement: if not quick dropping and the mouse is within the drag circle
+    /// * Drag the piece using their finger left and right
+    /// </summary>
     void Update()
     {
         if (startTimer)
@@ -84,6 +114,15 @@ public class FireDefense_Piece : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Simulates the quick drop animation movement, waiting a few seconds
+    /// in between to allow for "animation" to take place.
+    /// 
+    /// After placement, set the quickdrop back to false, add the block
+    /// to the grid, disable the script. Wait a few seconds before updating the
+    /// percentage filled and generating a new piece. 
+    /// </summary>
+    /// <returns></returns>
     IEnumerator QuickDropMovement()
     {
         while (CheckInValidPos())
@@ -114,6 +153,10 @@ public class FireDefense_Piece : MonoBehaviour
         yield return null;
     }
 
+    /// <summary>
+    /// On piece enable, start the timer, update the current block to move ("player"),
+    /// Assign the double touch action and swipe listener.
+    /// </summary>
     private void OnEnable()
     {
         startTimer = true;
@@ -122,6 +165,10 @@ public class FireDefense_Piece : MonoBehaviour
         swipeListener.OnSwipe.AddListener(OnSwipe);
     }
 
+    /// <summary>
+    /// On piece disable, end the timer, set the life timer to 0, 
+    /// unassign the double touch action, and remove swipe listener.
+    /// </summary>
     private void OnDisable()
     {
         startTimer = false;
@@ -130,9 +177,12 @@ public class FireDefense_Piece : MonoBehaviour
         swipeListener.OnSwipe.RemoveListener(OnSwipe);
     }
 
+    /// <summary>
+    /// On a swipe (up only), activate the quick drop.
+    /// </summary>
+    /// <param name="swipe"></param>
     private void OnSwipe(string swipe)
     {
-        Debug.Log(swipe + " swipe");
         if (swipe.ToLower() == "up" || swipe.ToLower() == "upright" || swipe.ToLower() == "upleft")
         {
             quickDrop = true;
@@ -140,16 +190,27 @@ public class FireDefense_Piece : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Returns the lifetimer.
+    /// </summary>
+    /// <returns></returns>
     public float GetLifeTimer()
     {
         return lifeTimer;
     }
 
+    /// <summary>
+    /// Sets the lifetimer.
+    /// </summary>
+    /// <param name="time"></param>
     public void SetLifeTimer(float time)
     {
         lifeTimer = time;
     }
 
+    /// <summary>
+    /// Movement horizontally.
+    /// </summary>
     public void Movement()
     {
         Vector3 oldPos = transform.position;
@@ -160,11 +221,17 @@ public class FireDefense_Piece : MonoBehaviour
             parent.transform.position = oldPos;
         }
     }
+
+    /// <summary>
+    /// Checks if the position is valid within the grid as well as
+    /// it's not interacting with a block currently at a positon in the grid.
+    /// </summary>
+    /// <returns></returns>
     private bool CheckInValidPos()
     {
         foreach (Transform block in transform)
         {
-            Vector2 pos = firewallManager.FloorVector(block.position);
+            Vector2 pos = firewallManager.RoundVector(block.position);
             if (!firewallManager.CheckInsideGrid(pos))
             {
                 return false;
@@ -177,14 +244,17 @@ public class FireDefense_Piece : MonoBehaviour
         }
         return true;
     }
+
+    /// <summary>
+    /// Adds the current block to the grid based on it's x and y position.
+    /// </summary>
     void AddToGrid()
     {
         foreach (Transform block in transform)
         {
-            int roundX = Mathf.RoundToInt(block.transform.position.x);
-            int roundY = Mathf.RoundToInt(block.transform.position.y);
+            Vector2 pos = firewallManager.RoundVector(block.transform.position);
 
-            firewallManager.SetGridPos(roundX, roundY, block);
+            firewallManager.SetGridPos((int)pos.x, (int)pos.y, block);
         }
     }
 }
