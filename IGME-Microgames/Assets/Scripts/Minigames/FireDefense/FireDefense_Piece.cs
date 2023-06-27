@@ -70,6 +70,8 @@ public class FireDefense_Piece : MonoBehaviour
 
                     AddToGrid();
 
+                    firewallManager.UpdateNumFilled();
+
                     firewallManager.GeneratePiece();
                 }
                 SetLifeTimer(0);
@@ -104,6 +106,8 @@ public class FireDefense_Piece : MonoBehaviour
         enabled = false;
 
         yield return new WaitForSeconds(.1f);
+
+        firewallManager.UpdateNumFilled();
 
         firewallManager.GeneratePiece();
 

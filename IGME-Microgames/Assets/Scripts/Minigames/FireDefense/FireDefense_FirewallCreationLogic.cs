@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using TMPro;
 
 public class FireDefense_FirewallCreationLogic : MonoBehaviour
 {
     // Start is called before the first frame update
+
+    // 9 by 20 playable
 
     public static float dropTime = 0.9f;
     public static float quickDropTime = 0.05f;
@@ -18,17 +22,43 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
     private int height = 25;
     private int pieceCount;
 
-    public static Transform[,] grid; 
+    private double amtFilled = 0;
+    private double totalAmt;
+
+    public static Transform[,] grid;
+    [SerializeField] TextMeshProUGUI percentUI;
 
     // Finalized pieces array made of blocks
     private List<GameObject> totalPieces;
+    private void Awake()
+    {
+        pieceCount = Random.Range(2, 7);
+    }
 
     void Start()
     {
-        pieceCount = Random.Range(2, 7);
+        
         grid = new Transform[width + 1, height];
+        totalAmt = (width + 1) * 21;
         movementScript = GameObject.Find("InputManager").GetComponent<Movement>();
         blockCreationScreen = GameObject.Find("BlockCreationScreen");
+    }
+
+    public void UpdateNumFilled()
+    {
+        float temp = 0;
+        for (int i = 0; i < width + 1; i++)
+        {
+            for (int j = 0; j < 21; j++)
+            {
+                if (grid[i,j] != null)
+                {
+                    temp++;
+                }
+            }
+        }
+        amtFilled = System.Math.Round(((temp / totalAmt) * 100), 2);
+        percentUI.text = amtFilled.ToString();
     }
 
     public void SetGridPos(int x, int y, Transform value)
@@ -65,6 +95,11 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
         {
             StartGame();
         }
+    }
+
+    public int GetPieceCount()
+    {
+        return pieceCount;
     }
 
 

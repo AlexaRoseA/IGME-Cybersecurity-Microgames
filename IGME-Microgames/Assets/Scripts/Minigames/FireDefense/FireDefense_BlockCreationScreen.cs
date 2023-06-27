@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -20,6 +21,8 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
 
     // The UI element that is the grid
     public GameObject gridUIElement;
+    [SerializeField] TextMeshProUGUI counter;
+    private FireDefense_FirewallCreationLogic firemanager;
 
     // Blocks...
     // * All the blocks converted from the UI element
@@ -53,6 +56,10 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         blocks = new List<Block>();
         blocksStillOpen = new List<Block>();
         blocksFilled = new List<Block>();
+
+        firemanager = GameObject.Find("FirewallCreationGame").GetComponent<FireDefense_FirewallCreationLogic>();
+
+        counter.text = firemanager.GetPieceCount().ToString();
 
         GenerateBlockSize();
         ranColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
@@ -178,7 +185,9 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
 
             ResetBoard();
             GenerateBlockSize();
-            GameObject.Find("FirewallCreationGame").GetComponent<FireDefense_FirewallCreationLogic>().UpdatePieceCount();
+
+            firemanager.UpdatePieceCount();
+            counter.text = firemanager.GetPieceCount().ToString();
         }
         else
         {
