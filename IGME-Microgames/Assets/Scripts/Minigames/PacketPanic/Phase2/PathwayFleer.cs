@@ -11,155 +11,58 @@ using UnityEngine.Tilemaps;
 
 
 
-public class PathwayFleer : LineRendererMovement
+public class PathwayFleer : PathwayNavigation
 {
-
-
     public GameObject fleeTarget;
-    public Tilemap tilemap;
 
-    protected override void EndLine()
+    private Vector3 fleeDirection;
+
+    private List<Vector3> neighborCells;
+
+    private void OnDrawGizmos()
     {
-        Vector3Int tilePos = tilemap.WorldToCell(transform.position);
-        Node node = tilemap.GetTile<NodeTiles>(tilePos).nodeMap[tilePos];
-        List<Pathway> possiblePaths = node.connectedPathways;
-
-
-        Node targetNode = NextNode();
-
-        //random path:
-        //Pathway targetPath = possiblePaths[Random.Range(0, possiblePaths.Count)];
-        //track = targetPath.line;
-        //movingForward = targetPath.nodes[0] == node;
-        
-        foreach (Pathway pathway in possiblePaths)
+        Gizmos.color = new Color(1f, 0f, 0f, .5f);
+        //Gizmos.DrawRay(fleeDirection * -10 + transform.position, fleeDirection * 10);
+        Gizmos.color = new Color(0f, 1f, 0f, .5f);
+        if(neighborCells != null)
         {
-            if (pathway.nodes.Contains(targetNode))
+            foreach (Vector3 cell in neighborCells)
             {
-                track = pathway.line;
-                movingForward = pathway.nodes[0] == node;
-                break;
+                Gizmos.DrawSphere(cell, 0.6f);
             }
+
         }
-        ResetLine();
     }
 
-
-    /// <summary>
-    /// returns what node the fleer should go to next, using A*
-    /// </summary>
-    /// <returns></returns>
-    Node NextNode()
+    protected override Node DetermineDestinationNode(List<Node> failed)
     {
-        
-        Vector3Int tilePos = tilemap.WorldToCell(transform.position);
-        Node start = tilemap.GetTile<NodeTiles>(tilePos).nodeMap[tilePos];
-        Node end = DetermineDestinationNode();
-        end.parent = null;
+        //raycast from past fleer to fleer
 
-        List<Node> open = new List<Node>();
-        List<Node> closed = new List<Node>();
+        //get furthest tile in direct line away from chaser
+        fleeDirection = Vector3.Normalize(fleeTarget.transform.position - transform.position);
 
-        open.Add(start);
+        RaycastHit2D fleeDestinationCheck = Physics2D.Raycast(fleeDirection * -10 + transform.position, fleeDirection * 10);
 
-        while(open.Count > 0)
+
+        //Debug.Log(fleeDestinationCheck.collider.gameObject.GetComponent<Node>().cellPosition);
+
+        //distance to furthest tile is low?
+        //try at an angle, until finding one 
+
+        Node furthestLinearDestination = fleeDestinationCheck.collider.gameObject.GetComponent<Node>();
+
+
+        List<Node> neighborNodes = tilemap.GetTile<NodeTiles>(Vector3Int.zero).FindNeighbors(tilemap.WorldToCell(transform.position));
+        neighborCells = new List<Vector3>();
+        foreach(Node neighbor in neighborNodes)
         {
-            
-            Node current = GetLowestFCost(open);
-
-            open.Remove(current);
-
-            foreach(Node successor in GetSuccessors(current))
-            {
-                
-                
-
-                if (successor == end)
-                {
-                    List<Node> possibleMoves = GetSuccessors(start);
-                    successor.parent = current;
-                    //found end, backtrack
-                    Node previous = end;
-                    while(!possibleMoves.Contains(previous))
-                    {
-                        previous = previous.parent;
-                    }
-                    return previous;
-                }
-
-
-
-                int g = current.g + 1;
-                int h = ApproximateDistance(successor, end);
-
-                if (open.Contains(successor))
-                {
-                    //this node has already been visited, with a lower f(faster path)
-                    if (successor.f < g + h)
-                        continue;
-                }
-
-                if(closed.Contains(successor))
-                {
-                    //this node has already been visited, with a lower f(faster path)
-                    if (successor.f < g + h)
-                        continue;
-                }
-                successor.g = g;
-                successor.h = h;
-                successor.f = g + h;
-
-                open.Add(successor);
-                successor.parent = current;
-            }
-            closed.Add(current);
-            //Debug.Log(open.Count);
+            neighborCells.Add(tilemap.CellToWorld(neighbor.cellPosition));
         }
+
+        if(!failed.Contains(furthestLinearDestination)) 
+            return furthestLinearDestination;
+
         return null;
     }
-
-    Node GetLowestFCost(List<Node> open)
-    {
-        Node lowestF = open[0];
-        foreach(Node node in open)
-        {
-            if(node.f < lowestF.f)
-            {
-                lowestF = node;
-            }
-        }
-
-        return lowestF;
-    }
-
-    Node DetermineDestinationNode()
-    {
-        return tilemap.GetTile<NodeTiles>(Vector3Int.zero).nodeMap[Vector3Int.zero];
-    }
-
-    List<Node> GetSuccessors(Node parent)
-    {
-        List<Node> successors = new List<Node>();
-
-        for(int i = 0; i < parent.connectedPathways.Count; i++)
-        {
-            foreach(Node attachedNode in parent.connectedPathways[i].nodes)
-            {
-                if (attachedNode != parent)
-                {
-                    
-                    successors.Add(attachedNode);
-                    break;
-                }
-            }
-        }
-
-        return successors;
-    }
-
-    int ApproximateDistance(Node node1, Node node2)
-    {
-        //TODO: make this a better approximation for hexes. 
-        return Mathf.Abs(node1.cellPosition.x - node2.cellPosition.x) + Mathf.Abs(node1.cellPosition.y - node2.cellPosition.y);
-    }
 }
+
