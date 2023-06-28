@@ -52,8 +52,6 @@ public class MinigameManager : LevelManager
         currentPhase = "none";
 
         SetPhase(false);
-
-
     }
 
     /// <summary>
@@ -85,6 +83,14 @@ public class MinigameManager : LevelManager
                 SetPhase();
             }
         }
+    }
+
+    /// <summary>
+    /// Returns the chosen minigame gameobject.
+    /// </summary>
+    public GameObject GetChosen()
+    {
+        return chosen;
     }
 
     /// <summary>
@@ -273,6 +279,17 @@ public class MinigameManager : LevelManager
     public string GetPhase()
     {
         return currentPhase;
+    }
+
+    /// <summary>
+    /// Forces the phase name
+    /// </summary>
+    /// <returns></returns>
+    [YarnCommand("ForcePhase")]
+    public void ForcePhase(string name)
+    {
+        currentPhase = name;
+        variableStorage.SetValue("$currentPhase", name);
     }
 
     public string GetPriorPhase()

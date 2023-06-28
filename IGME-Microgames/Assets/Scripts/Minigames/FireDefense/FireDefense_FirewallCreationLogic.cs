@@ -20,6 +20,7 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
     [SerializeField] GameObject pieceContainer;
     private Movement movementScript = null;
     private GameObject blockCreationScreen;
+    private MinigameManager minigameManager;
 
     // 9 by 20 playable
     private int width = 8;
@@ -28,6 +29,7 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
 
     private double amtFilled = 0;
     private double totalAmt;
+    private bool gameStarted = false;
 
     public static Transform[,] grid;
     [SerializeField] TextMeshProUGUI percentUI;
@@ -42,7 +44,32 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        pieceCount = Random.Range(2, 7);
+        totalPieces = new List<GameObject>();
+        minigameManager = GameObject.Find("MinigameManager").GetComponent<MinigameManager>();
+        GameObject[] taggedBlocks = GameObject.FindGameObjectsWithTag("Piece");
+
+        foreach (GameObject block in taggedBlocks)
+        {
+            totalPieces.Add(block);
+            block.SetActive(false);
+        }
+    }
+
+    private void Update()
+    {
+        if(!gameStarted)
+        {
+            if (minigameManager.GetPhase() == "placingPieces")
+            {
+                StartGame();
+            }
+        }
+
+        if(amtFilled >= 10.0)
+        {
+            Debug.Log("NEXT PHASE");
+            //minigameManager.SetPhase();
+        }
     }
 
     /// <summary>
@@ -51,7 +78,6 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
     /// </summary>
     void Start()
     {
-        
         grid = new Transform[width + 1, height];
         totalAmt = (width + 1) * 21;
         movementScript = GameObject.Find("InputManager").GetComponent<Movement>();
@@ -64,8 +90,7 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
     /// </summary>
     public void StartGame()
     {
-        totalPieces = blockCreationScreen.GetComponent<FireDefense_BlockCreationScreen>().GetPieceList();
-        blockCreationScreen.GetComponent<FireDefense_BlockCreationScreen>().gameObject.SetActive(false);
+        gameStarted = true;
         GeneratePiece();
     }
 
@@ -110,22 +135,6 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
         }
         amtFilled = System.Math.Round(((temp / totalAmt) * 100), 2);
         percentUI.text = amtFilled.ToString();
-    }
-
-    /// <summary>
-    /// Updates the count of pieces left to generate. 
-    /// If reached 0, start the game.
-    /// Called on save piece button on a valid entry.
-    /// </summary>
-    public void UpdatePieceCount()
-    {
-        pieceCount--;
-        Debug.Log("Pieces left to generate: " + pieceCount);
-
-        if (pieceCount <= 0)
-        {
-            StartGame();
-        }
     }
 
     /// <summary>

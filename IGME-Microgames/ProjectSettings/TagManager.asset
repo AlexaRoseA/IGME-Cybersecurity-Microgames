@@ -9,6 +9,7 @@ TagManager:
   - Spot
   - DialogCharacter
   - Boundary
+  - Piece
   layers:
   - Default
   - TransparentFX

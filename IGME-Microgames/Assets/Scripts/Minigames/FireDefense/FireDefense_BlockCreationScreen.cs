@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Yarn.Unity;
 
 /* **************************************************************************
 *
@@ -20,7 +21,9 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
     // The UI element that is the grid
     public GameObject gridUIElement;
     [SerializeField] TextMeshProUGUI counter;
-    private FireDefense_FirewallCreationLogic firemanager;
+
+    private DialogueRunner dialogSystem;
+    private MinigameManager minigameManager;
 
     // Blocks...
     // * All the blocks converted from the UI element
@@ -35,6 +38,7 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
     private int blockTotalSize = 0;
     private int blockCurrentSize = 0;
     private Color ranColor;
+    private int pieceCount = 0;
 
     // The block object to create the saved piece
     // The parent object to add all the block objects to
@@ -50,14 +54,19 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
     /// </summary>
     void Start()
     {
+        minigameManager = GameObject.Find("MinigameManager").GetComponent<MinigameManager>();
+        dialogSystem = GameObject.Find("Dialogue System").GetComponent<DialogueRunner>();
+        //dialogSystem.StartDialogue("FireDefense_Phase1");
+
         totalPieces = new List<GameObject>();
         blocks = new List<Block>();
         blocksStillOpen = new List<Block>();
         blocksFilled = new List<Block>();
 
-        firemanager = GameObject.Find("FirewallCreationGame").GetComponent<FireDefense_FirewallCreationLogic>();
+        //firemanager = GameObject.Find("FirewallCreationGame").GetComponent<FireDefense_FirewallCreationLogic>();
 
-        counter.text = firemanager.GetPieceCount().ToString();
+        pieceCount = GeneratePieceCount();
+        counter.text = pieceCount.ToString();
 
         GenerateBlockSize();
         ranColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
@@ -80,6 +89,11 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
     public List<GameObject> GetPieceList()
     {
         return totalPieces;
+    }
+
+    public int GeneratePieceCount()
+    {
+       return Random.Range(2, 7);
     }
 
     /// <summary>
@@ -172,7 +186,7 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
             }
 
             totalPieces.Add(parent);
-            parent.SetActive(false);
+            //parent.SetActive(false);
             Debug.Log("Block saved!");
 
             ranColor = GenerateNewColor();
@@ -184,12 +198,29 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
             ResetBoard();
             GenerateBlockSize();
 
-            firemanager.UpdatePieceCount();
-            counter.text = firemanager.GetPieceCount().ToString();
+            UpdatePieceCount();
+            counter.text = pieceCount.ToString();
         }
         else
         {
             Debug.Log("Please finish placing blocks to create a shape!");
+        }
+    }
+
+    /// <summary>
+    /// Updates the count of pieces left to generate. 
+    /// If reached 0, start the game.
+    /// Called on save piece button on a valid entry.
+    /// </summary>
+    public void UpdatePieceCount()
+    {
+        pieceCount--;
+        Debug.Log("Pieces left to generate: " + pieceCount);
+
+        if (pieceCount <= 0)
+        {
+            minigameManager.SetPhase();
+            DestroyImmediate(this.gameObject);
         }
     }
 
@@ -212,6 +243,9 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
     /// 
     public void OnToggleValueChanged()
     {
+        if (minigameManager.GetPhase() == "creatingPieces")
+        {
+
         Block tempblock = GameObjectToBlock(EventSystem.current.currentSelectedGameObject);
 
         if (tempblock.GetColor() == tempblock.GetSelectedC())
@@ -223,10 +257,11 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
 
             tempblock.SetColor(tempblock.GetDefaultC());
 
-            if(blocksFilled.Count == 0)
+            if (blocksFilled.Count == 0)
             {
                 ResetBoard();
-            } else
+            }
+            else
             {
                 foreach (Block block in blocksFilled)
                 {
@@ -234,7 +269,8 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
                 }
             }
 
-        } else if (blockCurrentSize != blockTotalSize && (tempblock.GetColor() != tempblock.GetDisableC() && tempblock.GetColor() != tempblock.GetSelectedC()))
+        }
+        else if (blockCurrentSize != blockTotalSize && (tempblock.GetColor() != tempblock.GetDisableC() && tempblock.GetColor() != tempblock.GetSelectedC()))
         {
             Debug.Log("Adding block to the list...");
 
@@ -248,7 +284,7 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         {
             BlockLimitReach();
         }
-
+        }
     }
 
     #endregion

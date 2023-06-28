@@ -19,6 +19,7 @@ public class FireDefense_Piece : MonoBehaviour
 
     private FireDefense_FirewallCreationLogic firewallManager;
     private SwipeListener swipeListener;
+    private MinigameManager minigameManager;
 
     private bool startTimer = false;
     GameObject parent;
@@ -34,11 +35,16 @@ public class FireDefense_Piece : MonoBehaviour
     /// </summary>
     void Awake()
     {
-        firewallManager = GameObject.Find("FirewallCreationGame").GetComponent<FireDefense_FirewallCreationLogic>();
-        playerInput = GameObject.FindObjectOfType<PlayerInput>();
-        touchDoubleAction = playerInput.actions.FindAction("TouchDouble");
-        parent = transform.parent.gameObject;
-        swipeListener = gameObject.GetComponent<SwipeListener>();
+        minigameManager = GameObject.Find("MinigameManager").GetComponent<MinigameManager>();
+
+        if(minigameManager.GetPhase() == "placingPieces")
+        {
+            firewallManager = GameObject.Find("FirewallCreationGame").GetComponent<FireDefense_FirewallCreationLogic>();
+            playerInput = GameObject.FindObjectOfType<PlayerInput>();
+            touchDoubleAction = playerInput.actions.FindAction("TouchDouble");
+            parent = transform.parent.gameObject;
+            swipeListener = gameObject.GetComponent<SwipeListener>();
+        }
     }
 
     /// <summary>
@@ -84,33 +90,36 @@ public class FireDefense_Piece : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (startTimer)
+        if(minigameManager.GetPhase() == "placingPieces")
         {
-            lifeTimer += 1 * Time.deltaTime;
-
-            if (GetLifeTimer() > firewallManager.GetDropTime() && !quickDrop)
+            if (startTimer)
             {
-                parent.transform.position -= new Vector3(0, 1, 0);
+                lifeTimer += 1 * Time.deltaTime;
 
-                if (!CheckInValidPos())
+                if (GetLifeTimer() > firewallManager.GetDropTime() && !quickDrop)
                 {
-                    parent.transform.position -= new Vector3(0, -1, 0);
+                    parent.transform.position -= new Vector3(0, 1, 0);
 
-                    enabled = false;
+                    if (!CheckInValidPos())
+                    {
+                        parent.transform.position -= new Vector3(0, -1, 0);
 
-                    AddToGrid();
+                        enabled = false;
 
-                    firewallManager.UpdateNumFilled();
+                        AddToGrid();
 
-                    firewallManager.GeneratePiece();
+                        firewallManager.UpdateNumFilled();
+
+                        firewallManager.GeneratePiece();
+                    }
+                    SetLifeTimer(0);
                 }
-                SetLifeTimer(0);
             }
-        }
 
-        if (firewallManager.ReturnMovementScript().checkIfWithinDragCircle() && !quickDrop)
-        {
-            Movement();
+            if (firewallManager.ReturnMovementScript().checkIfWithinDragCircle() && !quickDrop)
+            {
+                Movement();
+            }
         }
     }
 
@@ -159,10 +168,13 @@ public class FireDefense_Piece : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
-        startTimer = true;
-        firewallManager.ReturnMovementScript().UpdatePlayer(gameObject);
-        touchDoubleAction.performed += TouchPressed;
-        swipeListener.OnSwipe.AddListener(OnSwipe);
+        if (minigameManager.GetPhase() == "placingPieces")
+        {
+            startTimer = true;
+            firewallManager.ReturnMovementScript().UpdatePlayer(gameObject);
+            touchDoubleAction.performed += TouchPressed;
+            swipeListener.OnSwipe.AddListener(OnSwipe);
+        }
     }
 
     /// <summary>
@@ -171,10 +183,13 @@ public class FireDefense_Piece : MonoBehaviour
     /// </summary>
     private void OnDisable()
     {
-        startTimer = false;
-        lifeTimer = 0;
-        touchDoubleAction.performed -= TouchPressed;
-        swipeListener.OnSwipe.RemoveListener(OnSwipe);
+        if (minigameManager.GetPhase() == "placingPieces")
+        {
+            startTimer = false;
+            lifeTimer = 0;
+            touchDoubleAction.performed -= TouchPressed;
+            swipeListener.OnSwipe.RemoveListener(OnSwipe);
+        }
     }
 
     /// <summary>
