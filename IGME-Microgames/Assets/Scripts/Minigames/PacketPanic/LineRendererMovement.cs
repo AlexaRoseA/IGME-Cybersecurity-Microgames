@@ -27,7 +27,7 @@ public class LineRendererMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         //if theres no track, it's likely this phase has been ended.
         if (track == null)
