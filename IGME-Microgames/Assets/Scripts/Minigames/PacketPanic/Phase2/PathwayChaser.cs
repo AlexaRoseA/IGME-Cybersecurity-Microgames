@@ -22,7 +22,13 @@ public class PathwayChaser : PathwayNavigation
     /// <returns></returns>
     protected override Node DetermineDestinationNode(List<Node> failed)
     {
-        Node targetHex = tilemap.GetTile<NodeTiles>(Vector3Int.zero).nodeMap[tilemap.WorldToCell(target.transform.position)];
+        NodeTiles tiles = tilemap.GetTile<NodeTiles>(tilemap.WorldToCell(target.transform.position));
+
+        if (tiles == null)
+        {
+            return null;
+        }
+        Node targetHex = tiles.nodeMap[tilemap.WorldToCell(target.transform.position)];
         Node thisHex = tilemap.GetTile<NodeTiles>(Vector3Int.zero).nodeMap[tilemap.WorldToCell(transform.position)];
 
         // if the target and the chaser are on the same node, it will pick a random direction.

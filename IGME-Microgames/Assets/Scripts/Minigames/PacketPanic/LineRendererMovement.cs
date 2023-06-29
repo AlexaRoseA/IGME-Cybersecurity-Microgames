@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class LineRendererMovement : MonoBehaviour
 {
+    public delegate void MoveComplete();
     public LineRenderer track;
     public float speed = 18.0f;
     public bool movingForward = false; //is the gameobject moving along the line towards the last index, or the first?
@@ -38,18 +40,21 @@ public class LineRendererMovement : MonoBehaviour
 
         if (!helper.GetTimer())
         {
-            //timer paused- don't move
+            //don't move. timer paused, or reached the end of the segment. 
             return;
         }
 
-        segmentProgress += segmentSpeed * Time.deltaTime;
-        if (segmentProgress > 1.0f)
+        if (segmentProgress <= 1.0f)
         {
-            //there is no next point- reached the end of the line
-            if (!NextPoint())
+            segmentProgress += segmentSpeed * Time.deltaTime;
+            if (segmentProgress > 1.0f)
             {
-                EndLine();
-                return;
+                //there is no next point- reached the end of the line
+                if (!NextPoint())
+                {
+                    EndLine();
+                    return;
+                }
             }
         }
         //track coordinates are relative - this puts them into world
@@ -65,6 +70,7 @@ public class LineRendererMovement : MonoBehaviour
         currentPointIndex += nextIndex;
         if (currentPointIndex == endIndex)
         {
+            currentPointIndex -= nextIndex;
             return false;
         }
 

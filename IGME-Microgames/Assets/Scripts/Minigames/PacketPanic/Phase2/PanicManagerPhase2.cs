@@ -69,7 +69,7 @@ public class PanicManagerPhase2 : MonoBehaviour
         {
             if (captured)
             {
-                miniManager.UpdateScore(400);
+                miniManager.UpdateScore((int)miniManager.GetTimeRemaining() * 100 + 300);
             }
             InMemoryVariableStorage variableStorage = FindObjectOfType<InMemoryVariableStorage>();
             variableStorage.SetValue("$capturedPacket", captured);
