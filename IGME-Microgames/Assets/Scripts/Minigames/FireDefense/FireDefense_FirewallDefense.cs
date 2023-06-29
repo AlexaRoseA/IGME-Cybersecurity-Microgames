@@ -6,10 +6,13 @@ public class FireDefense_FirewallDefense : MonoBehaviour
 {
     // Start is called before the first frame update
 
+    // Wall block array, row repair and battle checker
     private GameObject[] wallBlocks;
     private bool rowRepaired = true;
     [SerializeField] public bool startBattle = false;
 
+    // Current player movement (top NOT repair) and
+    // it's movement script
     [SerializeField] GameObject player;
     [SerializeField] Movement movementScript;
 

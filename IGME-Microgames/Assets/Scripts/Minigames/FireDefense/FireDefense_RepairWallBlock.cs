@@ -4,59 +4,88 @@ using UnityEngine;
 
 public class FireDefense_RepairWallBlock : MonoBehaviour
 {
-    // Start is called before the first frame update
+    // Repair status
     private bool needsRepair = false;
     private float repairRate = 5;
     private float currentRepairStatus = 0;
 
+    // Time variables
     float timeElapsed = 0;
     private float lerpDuration = 20000;
 
+    // Base coloring
     private Color blockColor;
     private Color repairColor;
+
+    // Check if is the currently selected one
     private bool selected = false;
 
+    // Status bar and player 
     [SerializeField] GameObject statusBar;
     [SerializeField] GameObject player;
 
     private FireDefense_FirewallDefense defenseManager;
 
+    #region Start/Middle/End General Methods and Helpers
     void Start()
     {
         defenseManager = gameObject.transform.parent.parent.gameObject.GetComponent<FireDefense_FirewallDefense>();
     }
 
+    /// <summary>
+    /// Sets the repair color
+    /// </summary>
+    /// <param name="c">Color</param>
     public void SetRepairColor(Color c)
     {
         repairColor = c;
     }
 
+    /// <summary>
+    /// Sets the block color
+    /// </summary>
+    /// <param name="c">Color</param>
     public void SetBlockColor(Color c)
     {
         blockColor = c;
     }
 
+    /// <summary>
+    /// Sets the current color forcefully
+    /// </summary>
+    /// <param name="c">Color</param>
     public void SetCurrentColor(Color c)
     {
         gameObject.GetComponent<SpriteRenderer>().color = c;
     }
 
-    public void SetRepairStatus(bool status)
-    {
-        needsRepair = status;
-    }
-
+    /// <summary>
+    /// Returns the repair status
+    /// </summary>
+    /// <returns></returns>
     public bool GetRepairStatus()
     {
         return needsRepair;
     }
 
+    #endregion
+
+    #region Collision Handling
+
+    /// <summary>
+    /// On collision enter, set the current block as the selected one
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
         statusBar.gameObject.SetActive(true);
         selected = true;
     }
 
+    /// <summary>
+    /// While staying in collide, repair if need be
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Spot")
@@ -72,6 +101,11 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// When not colliding with said block, reset the time
+    /// and hide the status bar
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnCollisionExit2D(Collision2D collision)
     {
         statusBar.gameObject.SetActive(false);
@@ -79,6 +113,13 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         selected = false;
     }
 
+    #endregion
+
+    #region Block Status and Attack
+
+    /// <summary>
+    /// If called, damages the current block
+    /// </summary>
     public void DamageBlock()
     {
         timeElapsed = 0;
@@ -88,6 +129,9 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         SetRepairAmount();
     }
 
+    /// <summary>
+    /// If called, heals the current block
+    /// </summary>
     private void HealBlock()
     {
         needsRepair = false;
@@ -96,6 +140,9 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         defenseManager.CheckIfRowsRepaired();
     }
 
+    /// <summary>
+    /// Sets the repair cost randomly for the block
+    /// </summary>
     private void SetRepairAmount()
     {
         timeElapsed = Mathf.RoundToInt(Random.Range(2, 4));
@@ -103,6 +150,10 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         statusBar.transform.localScale = new Vector3(currentRepairStatus, 1, 1);
     }
 
+    /// <summary>
+    /// Repairs the block overtime
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Repair()
     {
         bool repaired = false;
@@ -135,6 +186,11 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// When pointer (touch) or mouse enters collider
+    /// and the battle is started, move the player to the 
+    /// currently selected block
+    /// </summary>
     private void OnMouseEnter()
     {
         if(defenseManager.startBattle)
@@ -143,4 +199,5 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
             player.transform.position = Vector3.Lerp(player.transform.position, new Vector3(buttonPressed.transform.position.x, player.transform.position.y, player.transform.position.z), 1.5f);
         }
     }
+    #endregion
 }
