@@ -7,7 +7,7 @@ Packet: Incoming malicious packets!
 <<SetBool CharacterDialogDisplayer 0 determined true>>
 Packet: Deny them, but let the genuine ones through!
 
-<<set $timeRemaining to 5>>
+<<set $timeRemaining to 35>>
 <<SetBool CharacterDialogDisplayer 0 determined false>>
 <<HideAllCharacters CharacterDialogDisplayer>>
 ===
@@ -20,7 +20,7 @@ Packet: We've isolated a malicious packet. Rotate the network pathways to let th
 <<SetBool CharacterDialogDisplayer 0 determined true>>
 Packet: Capturing the packet will let us learn more about this attack, and our network's integrity will increase!
 
-<<set $timeRemaining to 50>>
+<<set $timeRemaining to 25>>
 <<SetBool CharacterDialogDisplayer 0 determined false>>
 <<HideAllCharacters CharacterDialogDisplayer>>
 ===
@@ -36,7 +36,7 @@ title: PacketPanic_Phase3
 <<endif>>
 <<SetBool CharacterDialogDisplayer 0 determined true>>
 Packet: Oh no! There's another attack incoming!
-<<set $timeRemaining to 40>>
+<<set $timeRemaining to 25>>
 <<SetBool CharacterDialogDisplayer 0 determined false>>
 <<HideAllCharacters CharacterDialogDisplayer>>
 
