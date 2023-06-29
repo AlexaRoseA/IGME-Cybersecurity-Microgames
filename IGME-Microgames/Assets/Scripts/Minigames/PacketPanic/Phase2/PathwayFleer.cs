@@ -22,7 +22,7 @@ public class PathwayFleer : PathwayNavigation
 
     List<Vector3> fleeDirectionsTried;
 
-    private void OnDrawGizmos()
+    /*private void OnDrawGizmos()
     {
         if (furthestLinearDestination != null)
             Gizmos.DrawSphere(tilemap.CellToWorld(furthestLinearDestination.cellPosition), .7f);
@@ -36,7 +36,7 @@ public class PathwayFleer : PathwayNavigation
             color.r += .6f;
             Gizmos.color = color;
         }
-    }
+    }*/
 
     protected override Node DetermineDestinationNode(List<Node> failed)
     {
@@ -46,7 +46,6 @@ public class PathwayFleer : PathwayNavigation
         //chaser is close - panic mode (force running directly away)
         if (chaserDist < 2.5f)
         {
-            Debug.Log("panicking");
             Node furthestOption = null;
             float furthestDist = -1f;
             foreach(Pathway pathway in current.connectedPathways)
@@ -81,12 +80,13 @@ public class PathwayFleer : PathwayNavigation
             fleeDirectionsTried.Add(fleeDirection);
             fleeDestinationCheck = Physics2D.Raycast(fleeDirection * -10 + transform.position, fleeDirection * 10);
             furthestLinearDestination = fleeDestinationCheck.collider.gameObject.GetComponent<Node>();
-            //if furthestLinear isn't this node, and isn't one of this node's neighbors
+            //while furthestLinear isn't this node, and isn't one of this node's neighbors
+            int j = 0;
             while (furthestLinearDestination.cellPosition != tilemap.WorldToCell(transform.position) &&
-                !nodeTile.FindNeighbors(tilemap.WorldToCell(transform.position)).Contains(furthestLinearDestination))
+                !nodeTile.FindNeighbors(tilemap.WorldToCell(transform.position)).Contains(furthestLinearDestination) && j < 4)
             {
                 //if it hasn't failed, return furthest
-                if (!failed.Contains(furthestLinearDestination) && furthestLinearDestination.connectedPathways.Count > 1)
+                if (!failed.Contains(furthestLinearDestination))
                 {
                     return furthestLinearDestination;
                 }
@@ -95,8 +95,11 @@ public class PathwayFleer : PathwayNavigation
                 RaycastHit2D[] hits = new RaycastHit2D[1];
                 furthestLinearDestination.GetComponent<CircleCollider2D>().Raycast(fleeDirection * 10, hits);
 
-                Debug.Log(hits[0].collider);
+                if (hits[0].collider == null) //there is no closer tile
+                    break;
+
                 furthestLinearDestination = hits[0].collider.gameObject.GetComponent<Node>();
+                j++;
             }
 
 

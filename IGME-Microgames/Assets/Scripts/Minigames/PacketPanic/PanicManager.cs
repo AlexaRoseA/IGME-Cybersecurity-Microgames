@@ -47,7 +47,7 @@ public class PanicManager : MonoBehaviour
     void Start()
     {
         
-        helper = GameObject.FindObjectOfType<MinigameManager>();
+        helper = FindObjectOfType<MinigameManager>();
 
         //link UI
         helper.UpdateTimerText();

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Yarn.Unity;
 
 public class PanicManagerPhase2 : MonoBehaviour
 {
@@ -35,6 +36,7 @@ public class PanicManagerPhase2 : MonoBehaviour
 
             //create path
             GameObject newPath = Instantiate(pathwayPrefab);
+            newPath.transform.parent = gameObject.transform;
             newPath.GetComponent<Pathway>().tilemap = tilemap;
 
             //Pathway component works on the assumption that the line renderer moves, and the transform of the gameobject stays at 0, 0, 0
@@ -54,8 +56,24 @@ public class PanicManagerPhase2 : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void EndPhase(bool captured)
     {
-        
+
+
+        MinigameManager miniManager = FindObjectOfType<MinigameManager>();
+        if (miniManager == null)
+        {
+            Debug.LogWarning("minigame manager is null. is there a minigame manager script attached to the minigamemanager game object?");
+        }
+        else
+        {
+            if (captured)
+            {
+                miniManager.UpdateScore(400);
+            }
+            InMemoryVariableStorage variableStorage = FindObjectOfType<InMemoryVariableStorage>();
+            variableStorage.SetValue("$capturedPacket", captured);
+            miniManager.SetPhase();
+        }
     }
 }

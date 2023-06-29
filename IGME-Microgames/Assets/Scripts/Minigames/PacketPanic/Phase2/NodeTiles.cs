@@ -11,14 +11,14 @@ using UnityEngine.Tilemaps;
 
 public class NodeTiles : TileBase
 {
-    public Sprite nodeSprite;
+    //public Sprite nodeSprite;
     public GameObject nodePrefab;
 
     public Dictionary<Vector3Int, Node> nodeMap;
 
     public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
     {
-        tileData.sprite = nodeSprite;
+        //tileData.sprite = nodeSprite;
         tileData.gameObject = nodePrefab;
     }
 

@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9552e1159c936b4b872383a4887b21e, type: 3}
   m_Name: NodeTile
   m_EditorClassIdentifier: 
-  nodeSprite: {fileID: -2413806693520163455, guid: 4791ca631e18ca845b8071ca5ec958a8, type: 3}
   nodePrefab: {fileID: 5077637558397900784, guid: be9b3a2ede251694daaa72205c24e44e, type: 3}

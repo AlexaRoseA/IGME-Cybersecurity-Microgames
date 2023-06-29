@@ -49,6 +49,7 @@ public class LineRendererMovement : MonoBehaviour
             if (!NextPoint())
             {
                 EndLine();
+                return;
             }
         }
         //track coordinates are relative - this puts them into world
