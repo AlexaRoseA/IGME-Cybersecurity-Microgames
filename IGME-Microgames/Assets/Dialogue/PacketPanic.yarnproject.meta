@@ -11,7 +11,15 @@ ScriptedImporter:
   sourceScripts:
   - {fileID: 6391573757903218779, guid: f6ce40896bfb12442af17c9ece8fe472, type: 3}
   compileErrors: []
-  serializedDeclarations: []
+  serializedDeclarations:
+  - name: $timeRemaining
+    typeName: Number
+    defaultValueBool: 0
+    defaultValueNumber: 0
+    defaultValueString: 
+    description: Implicitly declared in PacketPanic_Phases.yarn, node PacketPanic_Phase1
+    isImplicit: 1
+    sourceYarnAsset: {fileID: 6391573757903218779, guid: f6ce40896bfb12442af17c9ece8fe472, type: 3}
   defaultLanguage: en-US
   languagesToSourceAssets: []
   useAddressableAssets: 0

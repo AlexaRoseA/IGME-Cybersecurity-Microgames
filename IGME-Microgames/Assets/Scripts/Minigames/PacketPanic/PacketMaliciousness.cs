@@ -21,7 +21,6 @@ public class PacketMaliciousness : MonoBehaviour
             //start as malicious if not a hider
             
             ProceduralSpriteFlip flipper = gameObject.GetComponentInChildren<ProceduralSpriteFlip>();
-            Debug.Log(flipper);
 
             flipper.Flip(false);
         }

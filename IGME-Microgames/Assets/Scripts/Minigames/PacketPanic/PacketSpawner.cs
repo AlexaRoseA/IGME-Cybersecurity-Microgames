@@ -6,7 +6,7 @@ public class PacketSpawner : MonoBehaviour
 {
     public GameObject packetPrefab;
     public LineRenderer packetTrack;
-    public bool startAtEnd = false;
+    public bool movingForward = false;
     public PacketSpawnPattern[] packetSpawnPatterns;
     public SpawnerManager spawnerManager;
 
@@ -65,9 +65,9 @@ public class PacketSpawner : MonoBehaviour
     void SendPacket(bool malicious)
     {
         packetsSent++;
-        GameObject packet = Instantiate(packetPrefab, packetTrack.GetPosition(startAtEnd ? 0 : (packetTrack.positionCount - 1)), Quaternion.identity);
+        GameObject packet = Instantiate(packetPrefab, packetTrack.GetPosition(movingForward ? 0 : (packetTrack.positionCount - 1)), Quaternion.identity);
         packet.GetComponent<PacketMovement>().track = packetTrack;
-        packet.GetComponent<PacketMovement>().startAtEnd = startAtEnd;
+        packet.GetComponent<PacketMovement>().movingForward = movingForward;
         packet.GetComponent<PacketMaliciousness>().malicious = malicious;
         packet.GetComponent<PacketMaliciousness>().hider = malicious ? Random.Range(0, 10) == 0 : false;
     }
