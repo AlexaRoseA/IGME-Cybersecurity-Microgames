@@ -10,13 +10,8 @@ public class PathwayNavigation : LineRendererMovement
 
     protected override void EndLine()
     {
-        EndLine(transform.position);
-    }
-
-    protected void EndLine(Vector3 endposition)
-    {
         
-        Vector3Int tilePos = tilemap.WorldToCell(endposition);
+        Vector3Int tilePos = tilemap.WorldToCell(transform.position);
         NodeTiles tiles = tilemap.GetTile<NodeTiles>(tilePos);
 
         if(tiles == null)
