@@ -10,6 +10,7 @@ TagManager:
   - DialogCharacter
   - Boundary
   - Piece
+  - Wall
   layers:
   - Default
   - TransparentFX
