@@ -152,6 +152,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69ea4ed4c35c3d5409b7530f9ac5b90c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currency: 0
+  playerLevel: 0
+  minigameDuplicates: 2
 --- !u!4 &990993771
 Transform:
   m_ObjectHideFlags: 0

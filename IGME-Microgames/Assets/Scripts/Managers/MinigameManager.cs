@@ -37,7 +37,7 @@ public class MinigameManager : LevelManager
     /// <summary>
     /// Sets the variables at start in Yarnspinner and default start phase
     /// </summary>
-    protected virtual void Start()
+    protected override void Start()
     {
         base.Start();
         variableStorage = FindObjectOfType<InMemoryVariableStorage>();
@@ -79,7 +79,7 @@ public class MinigameManager : LevelManager
                 timeRemaining = 0;
                 timerIsRunning = false;
 
-                DestroyImmediate(chosen);
+                
                 SetPhase();
             }
         }
@@ -250,6 +250,8 @@ public class MinigameManager : LevelManager
     /// <param name="increasePhaseNum">Optional parameter, set to true by default but can add false if start of the minigame!</param>
     public void SetPhase(bool increasePhaseNum = true)
     {
+        DestroyImmediate(chosen);
+
         if (increasePhaseNum)
         {
             phaseNum++;

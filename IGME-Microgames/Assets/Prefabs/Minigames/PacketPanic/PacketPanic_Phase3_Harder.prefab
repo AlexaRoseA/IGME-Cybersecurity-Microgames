@@ -354,7 +354,7 @@ GameObject:
   m_Component:
   - component: {fileID: 140755290735039362}
   m_Layer: 0
-  m_Name: PacketPanic_Phase2_Harder
+  m_Name: PacketPanic_Phase3_Harder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
