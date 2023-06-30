@@ -15,11 +15,21 @@ public class PacketSpawner : MonoBehaviour
     private int packetsSent = 0;
     public MinigameManager helper;
 
+    private float trackTimeLength;
+
 
     // Start is called before the first frame update
     void Start()
     {
         helper = GameObject.Find("MinigameManager").GetComponent<MinigameManager>();
+
+        float packetSpeed = packetPrefab.GetComponent<LineRendererMovement>().speed;
+
+        for(int i = 1; i < packetTrack.positionCount; i++)
+        {
+            trackTimeLength += Vector3.Distance(packetTrack.GetPosition(i), packetTrack.GetPosition(i - 1)) / packetSpeed;
+        }
+
 
         NextPattern();
     }
@@ -27,7 +37,7 @@ public class PacketSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!helper.GetTimer())
+        if(!helper.GetTimer() || helper.GetTimeRemaining() < trackTimeLength)
         {
             return;
         }

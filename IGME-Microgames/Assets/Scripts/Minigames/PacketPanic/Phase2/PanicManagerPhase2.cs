@@ -15,8 +15,6 @@ public class PanicManagerPhase2 : MonoBehaviour
 
     void Start()
     {
-        coreHealth = GameObject.Find("CoreHealth");
-        coreHealth.SetActive(false);
         //determine how many paths there will be
         int pathsToPlaceRemaining = Random.Range(averagePaths, (int)(averagePaths * 2f));
 
@@ -76,7 +74,6 @@ public class PanicManagerPhase2 : MonoBehaviour
             }
             InMemoryVariableStorage variableStorage = FindObjectOfType<InMemoryVariableStorage>();
             variableStorage.SetValue("$capturedPacket", captured);
-            coreHealth.SetActive(true);
             miniManager.SetPhase();
         }
     }

@@ -48,6 +48,7 @@ public class PanicManager : MonoBehaviour
     void Start()
     {
         helper = FindObjectOfType<MinigameManager>();
+        //coreHealthText.gameObject.transform.parent.gameObject.SetActive(true);
 
         //link UI
         helper.UpdateTimerText();
@@ -59,15 +60,22 @@ public class PanicManager : MonoBehaviour
     /// adds to the core health, and updates the UI. pass a negative value to subtract. 
     /// </summary>
     /// <param name="amount">amount to be added</param>
-    void AddCoreHealth(int amount)
+    public void AddCoreHealth(int amount)
     {
         coreHealth += amount;
-        coreHealthText.text = coreHealth.ToString();
-
-        if(coreHealth <= 0)
+        if (coreHealth <= 0)
         {
             helper.StopTimer();
             helper.dialogueRunner.StartDialogue("GameOver");
         }
+
+        if (coreHealthText == null)
+        {
+            return;
+        }
+
+        coreHealthText.text = coreHealth.ToString();
+
+
     }
 }

@@ -139,7 +139,7 @@ public class GameManager : MonoBehaviour
     public void EndStreak()
     {
         ClearScenes();
-        SceneManager.LoadSceneAsync("Build_TestScene", LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync("Agency", LoadSceneMode.Additive);
     }
 
     /// <summary>
