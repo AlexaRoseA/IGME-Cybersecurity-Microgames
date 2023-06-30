@@ -10,8 +10,16 @@ public class PathwayNavigation : LineRendererMovement
 
     protected override void EndLine()
     {
+        
         Vector3Int tilePos = tilemap.WorldToCell(transform.position);
-        Node node = tilemap.GetTile<NodeTiles>(tilePos).nodeMap[tilePos];
+        NodeTiles tiles = tilemap.GetTile<NodeTiles>(tilePos);
+
+        if(tiles == null)
+        {
+            track.gameObject.GetComponent<Pathway>().rotationFinished.Add(EndLine);
+            return;
+        }
+        Node node = tiles.nodeMap[tilePos];
         List<Pathway> possiblePaths = node.connectedPathways;
 
         //nodes that couldn't be pathfound

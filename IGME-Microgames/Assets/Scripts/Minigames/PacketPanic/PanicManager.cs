@@ -33,7 +33,8 @@ public class PanicManager : MonoBehaviour
             if (tapped)
             {
                 //tapped innocent
-            }
+                helper.UpdateScore(-100);
+            } 
             else
             {
                 //innocent reached core
@@ -46,7 +47,6 @@ public class PanicManager : MonoBehaviour
 
     void Start()
     {
-        
         helper = FindObjectOfType<MinigameManager>();
 
         //link UI

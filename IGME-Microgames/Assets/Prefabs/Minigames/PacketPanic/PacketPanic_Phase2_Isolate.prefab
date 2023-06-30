@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de81360801ecfe947b71d9691d69dfbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  averagePaths: 30
+  averagePaths: 40
   pathwayPrefab: {fileID: 1557612108793336286, guid: 46c75b4c394a23c44bc5fe975eb32b10, type: 3}
   tilemap: {fileID: 1867393889029505127}
 --- !u!1 &1028651939761849194

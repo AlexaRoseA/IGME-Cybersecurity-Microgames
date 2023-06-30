@@ -7,7 +7,7 @@ Packet: Incoming malicious packets!
 <<SetBool CharacterDialogDisplayer 0 determined true>>
 Packet: Deny them, but let the genuine ones through!
 
-<<set $timeRemaining to 35>>
+<<set $timeRemaining to 30>>
 <<SetBool CharacterDialogDisplayer 0 determined false>>
 <<HideAllCharacters CharacterDialogDisplayer>>
 ===

@@ -11,9 +11,12 @@ public class PanicManagerPhase2 : MonoBehaviour
     public int averagePaths = 10;
     public GameObject pathwayPrefab;
     public Tilemap tilemap;
+    private GameObject coreHealth;
 
     void Start()
     {
+        coreHealth = GameObject.Find("CoreHealth");
+        coreHealth.SetActive(false);
         //determine how many paths there will be
         int pathsToPlaceRemaining = Random.Range(averagePaths, (int)(averagePaths * 2f));
 
@@ -69,10 +72,11 @@ public class PanicManagerPhase2 : MonoBehaviour
         {
             if (captured)
             {
-                miniManager.UpdateScore(400);
+                miniManager.UpdateScore((int)miniManager.GetTimeRemaining() * 100 + 300);
             }
             InMemoryVariableStorage variableStorage = FindObjectOfType<InMemoryVariableStorage>();
             variableStorage.SetValue("$capturedPacket", captured);
+            coreHealth.SetActive(true);
             miniManager.SetPhase();
         }
     }
