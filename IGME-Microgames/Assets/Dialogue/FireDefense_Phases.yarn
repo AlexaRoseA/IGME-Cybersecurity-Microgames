@@ -74,10 +74,10 @@ Backup: <color=red>Enemies approaching!</color> Our wall has <color=red>major vu
 <<SetBool CharacterDialogDisplayer 0 blaster true>>
 
 Backup: We need to defend! <color=red>Drag your finger</color> to shoot the enemies!
-Backup: <color=red>Tap on enemies</color> near you to slash them!
 
 <<SetBool CharacterDialogDisplayer 0 peace true>>
 Backup: I'll be over here fixing the wall! <color=red>Protect me!</color>
+INFO: <i>Drag Backup to grayed wall blocks to repair them!</i>
 
 <<SetBool CharacterDialogDisplayer 0 peace false>>
 

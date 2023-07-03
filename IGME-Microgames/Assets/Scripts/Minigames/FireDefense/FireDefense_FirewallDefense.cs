@@ -65,6 +65,11 @@ public class FireDefense_FirewallDefense : MonoBehaviour
         CheckIfRowsRepaired();
     }
 
+    public GameObject[] GetBlockRow()
+    {
+        return wallBlocks;
+    }
+
     public void CheckIfRowsRepaired()
     {
         bool tempStatus = true;

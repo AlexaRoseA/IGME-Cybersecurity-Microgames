@@ -19,6 +19,7 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
 
     // Check if is the currently selected one
     private bool selected = false;
+    private bool dead = false;
 
     // Status bar and player 
     [SerializeField] GameObject statusBar;
@@ -26,10 +27,18 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
 
     private FireDefense_FirewallDefense defenseManager;
 
+    private List<GameObject> outToGetMe;
+
     #region Start/Middle/End General Methods and Helpers
     void Start()
     {
         defenseManager = gameObject.transform.parent.parent.gameObject.GetComponent<FireDefense_FirewallDefense>();
+        outToGetMe = new List<GameObject>();
+    }
+
+    public void AddEnemy(GameObject obj)
+    {
+        outToGetMe.Add(obj);
     }
 
     /// <summary>
@@ -137,6 +146,11 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         needsRepair = false;
         blockColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         gameObject.GetComponent<SpriteRenderer>().color = blockColor;
+        foreach(GameObject enemies in outToGetMe)
+        {
+            enemies.GetComponent<FireDefense_Enemy>().SetTarget();
+        }
+        outToGetMe.Clear();
         defenseManager.CheckIfRowsRepaired();
     }
 

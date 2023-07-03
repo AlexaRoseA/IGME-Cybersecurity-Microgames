@@ -11,6 +11,10 @@ TagManager:
   - Boundary
   - Piece
   - Wall
+  - Bullet
+  - Enemy
+  - Phase
+  - BulletBoundary
   layers:
   - Default
   - TransparentFX
