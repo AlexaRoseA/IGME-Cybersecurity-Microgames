@@ -24,6 +24,11 @@ public class GameManager : MonoBehaviour
     //TODO: load data
     void Start()
     {
+        if(SceneManager.sceneCount < 2)
+        {
+            SceneManager.LoadScene("Agency", LoadSceneMode.Additive);
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName("Agency"));
+        }
     }
 
 
