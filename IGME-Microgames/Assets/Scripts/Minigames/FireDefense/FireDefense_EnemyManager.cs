@@ -12,7 +12,6 @@ public class FireDefense_EnemyManager : MonoBehaviour
 
     private FireDefense_FirewallDefense man;
 
-
     void Start()
     {
         enemies = new List<GameObject>();

@@ -16,16 +16,20 @@ public class FireDefense_Enemy : MonoBehaviour
     private FireDefense_FirewallDefense man;
 
     private int health = 100;
-    private float speed = 0.5f;
+    private float speed = 2f;
+    private bool attackingWall;
+
+    private Rigidbody2D rb;
 
     void Start()
     {
+        attackingWall = false;
         man = GameObject.FindGameObjectWithTag("Phase").GetComponent<FireDefense_FirewallDefense>();
         spawnSpot = GameObject.Find("SpawnEnemies").transform;
         transform.position = new Vector3(Random.Range(0, 9), spawnSpot.position.y, 0f);
         shootPlayer = GameObject.FindGameObjectWithTag("Player");
         repairPlayer = GameObject.FindGameObjectWithTag("Spot");
-
+        rb = gameObject.GetComponent<Rigidbody2D>();
 
         SetTarget();
     }
@@ -35,35 +39,41 @@ public class FireDefense_Enemy : MonoBehaviour
         health = 100;
         statusBar.transform.localScale = new Vector3(health / 100, 1, 1);
         transform.position = new Vector3(Random.Range(0, 9), spawnSpot.position.y, 0f);
+        target.GetComponent<FireDefense_RepairWallBlock>().RemoveTouching(this.gameObject);
         SetTarget();
+    }
+
+    public Rigidbody2D GetRigidbody2D()
+    {
+        return rb;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (man.startBattle)
+        if (man.startBattle && !attackingWall)
         {
             transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
         }
     }
 
-    public void SetTarget()
+    public void SetTarget(GameObject self = null)
     {
         GameObject[] wallBlocks = GameObject.FindGameObjectWithTag("Phase").GetComponent<FireDefense_FirewallDefense>().GetBlockRow();
-        List<GameObject> notRepaired = new List<GameObject>();
+        List<GameObject> repaired = new List<GameObject>();
 
         foreach(GameObject wallBlock in wallBlocks)
         {
             bool status = wallBlock.GetComponent<FireDefense_RepairWallBlock>().GetRepairStatus();
-            if(status)
+            if(!status && self != wallBlock)
             {
-                notRepaired.Add(wallBlock);
+                repaired.Add(wallBlock);
             }
         }
 
-        if (notRepaired.Count != 0)
+        if (repaired.Count != 0)
         {
-            target = notRepaired[Random.Range(0, notRepaired.Count)];
+            target = repaired[Random.Range(0, repaired.Count)];
             target.GetComponent<FireDefense_RepairWallBlock>().AddEnemy(this.gameObject);
         }
         else
@@ -72,12 +82,16 @@ public class FireDefense_Enemy : MonoBehaviour
         }
     }
 
+    public GameObject GetTarget()
+    {
+        return target;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.tag == "Bullet")
         {
             health -= Random.Range(25, 51);
-            Debug.Log("Health scaler: " + health * 0.01);
             statusBar.transform.localScale = new Vector3(health * 0.01f, 2, 2);
 
             if (health <= 0)
@@ -85,5 +99,27 @@ public class FireDefense_Enemy : MonoBehaviour
                 ResetEnemy();
             }
         }
+
+        if(collision.tag == "Wall")
+        {
+            attackingWall = true;
+        }
+    }
+
+
+    public IEnumerator PushBack()
+    {
+        Vector3 forcePos = new Vector3(transform.position.x, transform.position.y + Random.Range(6, 8), transform.position.z);
+        
+        while(Vector3.Distance(transform.position, forcePos) > 0.2)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, forcePos, 3 * Time.deltaTime);
+            yield return null;
+        }
+
+        attackingWall = false;
+        SetTarget();
+        yield return null;
+
     }
 }

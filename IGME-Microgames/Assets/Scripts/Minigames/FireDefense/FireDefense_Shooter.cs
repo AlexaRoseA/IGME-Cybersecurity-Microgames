@@ -24,7 +24,6 @@ public class FireDefense_Shooter : MonoBehaviour
     {
         if(man.startBattle)
         {
-            Debug.Log("Number of bullets on screen: " + bullets.Count);
             if (bullets.Count <= maxBullets && !spawning)
             {
                 StartCoroutine("SpawnBullet");

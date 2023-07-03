@@ -20,6 +20,7 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
     // Check if is the currently selected one
     private bool selected = false;
     private bool dead = false;
+    private bool attacked = false;
 
     // Status bar and player 
     [SerializeField] GameObject statusBar;
@@ -28,12 +29,14 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
     private FireDefense_FirewallDefense defenseManager;
 
     private List<GameObject> outToGetMe;
+    private List<GameObject> touching;
 
     #region Start/Middle/End General Methods and Helpers
     void Start()
     {
         defenseManager = gameObject.transform.parent.parent.gameObject.GetComponent<FireDefense_FirewallDefense>();
         outToGetMe = new List<GameObject>();
+        touching = new List<GameObject>();
     }
 
     public void AddEnemy(GameObject obj)
@@ -77,6 +80,11 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         return needsRepair;
     }
 
+    public void SetAttackStatus(bool status)
+    {
+        attacked = status;
+    }
+
     #endregion
 
     #region Collision Handling
@@ -87,8 +95,27 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
     /// <param name="collision"></param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log("SHOW STATUS!");
         statusBar.gameObject.SetActive(true);
         selected = true;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Enemy")
+        {
+            touching.Add(collision.gameObject);
+
+            if (!attacked)
+            {
+                if(collision.gameObject.GetComponent<FireDefense_Enemy>().GetTarget() == this.gameObject)
+                {
+                    Debug.Log("There's an attack!");
+                    attacked = true;
+                    StartCoroutine("Attack");
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -99,9 +126,13 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
     {
         if (collision.gameObject.tag == "Spot")
         {
-            if (needsRepair)
+            if (needsRepair && !attacked)
             {
                 StartCoroutine("Repair");
+            }
+            else if (attacked)
+            {
+                Debug.Log("You're being attacked!");
             }
             else
             {
@@ -117,7 +148,6 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
     /// <param name="collision"></param>
     private void OnCollisionExit2D(Collision2D collision)
     {
-        statusBar.gameObject.SetActive(false);
         timeElapsed = 0;
         selected = false;
     }
@@ -129,13 +159,33 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
     /// <summary>
     /// If called, damages the current block
     /// </summary>
-    public void DamageBlock()
+    public void DamageBlock(bool attacked = false)
     {
+
         timeElapsed = 0;
+        dead = false;
         needsRepair = true;
         lerpDuration = Random.Range(20000, 50000);
         gameObject.GetComponent<SpriteRenderer>().color = repairColor;
-        SetRepairAmount();
+        if (!attacked)
+        {
+            SetRepairAmount();
+        }
+        else
+        {
+            timeElapsed = Mathf.RoundToInt(Random.Range(4, 6));
+            currentRepairStatus = 1;
+            statusBar.transform.localScale = new Vector3(currentRepairStatus, 1, 1);
+        }
+        statusBar.gameObject.SetActive(true);
+    }
+
+    public void RemoveTouching(GameObject enemy)
+    {
+        if(touching.Contains(enemy))
+        {
+            touching.Remove(enemy);
+        }
     }
 
     /// <summary>
@@ -146,10 +196,18 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         needsRepair = false;
         blockColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         gameObject.GetComponent<SpriteRenderer>().color = blockColor;
-        foreach(GameObject enemies in outToGetMe)
+        statusBar.gameObject.SetActive(false);
+        foreach (GameObject enemies in outToGetMe)
         {
             enemies.GetComponent<FireDefense_Enemy>().SetTarget();
         }
+
+        foreach (GameObject enemy in outToGetMe)
+        {
+            //ignore self
+            enemy.GetComponent<FireDefense_Enemy>().SetTarget(this.gameObject);
+        }
+
         outToGetMe.Clear();
         defenseManager.CheckIfRowsRepaired();
     }
@@ -176,7 +234,7 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
 
         while ((timeElapsed < lerpDuration) || !repaired)
         {
-            if(!selected)
+            if (!selected)
             {
                 break;
             }
@@ -184,20 +242,75 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
             statusBar.transform.localScale = new Vector3(currentRepairStatus, 1, 1);
             timeElapsed += Time.deltaTime;
 
-            if (currentRepairStatus >= 0.97)
+            if (currentRepairStatus >= 0.95)
             {
                 repaired = true;
                 break;
             }
             yield return null;
         }
-
-        if(repaired)
+        if (repaired)
         {
             HealBlock();
             currentRepairStatus = 1;
             statusBar.transform.localScale = new Vector3(currentRepairStatus, 1, 1);
         }
+    }
+
+    IEnumerator Attack()
+    {
+        if (!needsRepair)
+        {
+            DamageBlock(true);
+        }
+
+        while (((timeElapsed < lerpDuration) || !dead) && touching.Count > 0)
+        {
+            currentRepairStatus = Mathf.Lerp(currentRepairStatus, 0, timeElapsed / lerpDuration);
+            statusBar.transform.localScale = new Vector3(currentRepairStatus, 1, 1);
+            timeElapsed += Time.deltaTime + ((touching.Count/10) * 2);
+
+            if (currentRepairStatus >= 0.1)
+            {
+                Debug.Log("Attacking! " + currentRepairStatus);
+            }
+            else
+            {
+                dead = true;
+                currentRepairStatus = 0;
+                statusBar.transform.localScale = new Vector3(currentRepairStatus, 1, 1);
+                break;
+            }
+            yield return null;
+        }
+
+        if (dead)
+        {
+            statusBar.transform.localScale = new Vector3(0, 1, 1);
+
+            foreach (GameObject enemy in touching)
+            {
+                FireDefense_Enemy script = enemy.GetComponent<FireDefense_Enemy>();
+                StartCoroutine(script.PushBack());
+            }
+
+            List<GameObject> temp = outToGetMe;
+            outToGetMe.Clear();
+
+            foreach (GameObject enemy in temp)
+            {
+                if (!touching.Contains(enemy))
+                {
+                    FireDefense_Enemy script = enemy.GetComponent<FireDefense_Enemy>();
+                    script.SetTarget();
+                }
+            }
+
+            touching.Clear();
+            attacked = false;
+            statusBar.gameObject.SetActive(false);
+        }
+        yield return null;
     }
 
     /// <summary>
@@ -207,7 +320,7 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
     /// </summary>
     private void OnMouseEnter()
     {
-        if(defenseManager.startBattle)
+        if (defenseManager.startBattle)
         {
             GameObject buttonPressed = gameObject;
             player.transform.position = Vector3.Lerp(player.transform.position, new Vector3(buttonPressed.transform.position.x, player.transform.position.y, player.transform.position.z), 1.5f);
