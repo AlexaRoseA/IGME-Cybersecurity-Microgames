@@ -13,7 +13,7 @@ public class Workstation : MonoBehaviour
     private int challengeCooldown = 3;
 
     private int highscore = 0;
-    private int agentLevel = 0;
+    //private int agentLevel = 0;
 
     
 

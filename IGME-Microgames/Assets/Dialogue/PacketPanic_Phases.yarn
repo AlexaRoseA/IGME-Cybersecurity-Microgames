@@ -2,12 +2,13 @@
 ---
 <<ShowAllCharacters CharacterDialogDisplayer>>
 
-Packet: Incoming malicious packets!
+Packet: Welcome to <color=red>Packet Panic</color>!
+Packet: Defend the network by tapping on the malicious packets. 
 
 <<SetBool CharacterDialogDisplayer 0 determined true>>
-Packet: Deny them, but let the genuine ones through!
+Packet: Here comes an attack!
 
-<<set $timeRemaining to 35>>
+<<set $timeRemaining to 30>>
 <<SetBool CharacterDialogDisplayer 0 determined false>>
 <<HideAllCharacters CharacterDialogDisplayer>>
 ===
@@ -35,7 +36,7 @@ title: PacketPanic_Phase3
     Packet: looks like the malicious packet escaped...
 <<endif>>
 <<SetBool CharacterDialogDisplayer 0 determined true>>
-Packet: Oh no! There's another attack incoming!
+Packet: Here comes another attack!
 <<set $timeRemaining to 25>>
 <<SetBool CharacterDialogDisplayer 0 determined false>>
 <<HideAllCharacters CharacterDialogDisplayer>>

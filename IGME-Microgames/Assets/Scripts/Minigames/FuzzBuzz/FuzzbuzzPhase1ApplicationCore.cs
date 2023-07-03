@@ -32,7 +32,7 @@ public class FuzzbuzzPhase1ApplicationCore : MonoBehaviour
     private TextMeshProUGUI current;
 
     // Word spelling Minigame Variables
-    [SerializeField] TextAsset wordFile;
+    [SerializeField] string wordFilePath = "wordlist";
     private List<string> words;
     private string currentletters;
     private string currentword;
@@ -274,8 +274,11 @@ public class FuzzbuzzPhase1ApplicationCore : MonoBehaviour
     /// </summary>
     private void ReadWords()
     {
-        string[] AllWords = File.ReadAllLines(AssetDatabase.GetAssetPath(wordFile));
-        words = new List<string>(AllWords);
+        string AllWords = Resources.Load<TextAsset>(wordFilePath).text;
+
+        string[] wordsSplit = AllWords.Split("\r\n");
+
+        words = new List<string>(wordsSplit);
     }
     #endregion
 }
