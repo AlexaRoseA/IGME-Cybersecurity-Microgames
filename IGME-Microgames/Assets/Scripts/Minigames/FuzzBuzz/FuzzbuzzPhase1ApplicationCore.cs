@@ -276,7 +276,7 @@ public class FuzzbuzzPhase1ApplicationCore : MonoBehaviour
     /// </summary>
     private void ReadWords()
     {
-        string AllWords = Resources.Load<TextAsset>("wordlist").text;
+        string AllWords = Resources.Load<TextAsset>(wordFilePath).text;
 
         string[] wordsSplit = AllWords.Split("\r\n");
 
