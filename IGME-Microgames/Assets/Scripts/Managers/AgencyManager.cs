@@ -102,22 +102,20 @@ public class AgencyManager : LevelManager
     private void InitShop()
     {
         //each workstation card is a shop item
-        workstationCards = new GameObject[workstationPrefabs.Length];
-        for (int i = 0; i < workstationPrefabs.Length; i++)
+        workstationCards = new GameObject[9];
+        for (int i = 0; i < workstationCards.Length; i++)
         {
-            workstationCards[i] = Instantiate(workstationShopCardPrefab, Vector3.zero, Quaternion.identity);
-            workstationCards[i].transform.SetParent(shopUI.transform);
 
+            workstationCards[i] = GameObject.Find("CardBG (" + i + ")");
+
+            //if there isn't a prefab for this card, disable the card
+            if (i >= workstationPrefabs.Length)
+            {
+                workstationCards[i].SetActive(false);
+                continue;
+            }
             Workstation workstation = workstationPrefabs[i].GetComponent<Workstation>();
-            
-            Transform cardBG = workstationCards[i].transform.Find("Canvas").Find("CardBG");
-
-            //TODO: make this responsive
-            //this will line up cards in rows of 3
-            int x = i % 3 * 302 + 92;
-            int y = 1296 - (i / 3 * 402);
-
-            cardBG.position = new Vector3(x, y, 0f);
+            Transform cardBG = workstationCards[i].transform;
 
             TMP_Text jobTitle = cardBG.Find("WorkstationName").gameObject.GetComponent<TMP_Text>();
             Image img = cardBG.Find("WorkstationImg").gameObject.GetComponent<Image>();
@@ -155,7 +153,7 @@ public class AgencyManager : LevelManager
     /// <param name="i">index in the shop array of the card to be updated</param>
     private void UpdatePurchaseStateDisplay(int i)
     {
-        Transform cardBG = workstationCards[i].transform.Find("Canvas").Find("CardBG");
+        Transform cardBG = workstationCards[i].transform;
         Button purchaseButton = cardBG.Find("PurchaseButton").gameObject.GetComponent<Button>();
         TMP_Text purchaseText = cardBG.Find("PurchaseButton").Find("Text (TMP)").gameObject.GetComponent<TMP_Text>();
 
