@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8989255346498926412}
-  - component: {fileID: 3844687824770290118}
   m_Layer: 0
   m_Name: SecureSoftwareAssessor
   m_TagString: Untagged
@@ -34,22 +33,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3844687824770290118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 949492836694267894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24289b6dcc8b44f47bbdf21c1f275954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minigameScene: FuzzBuzz
-  jobTitle: Secure Software Assessor
-  workstationSprite: {fileID: 0}
-  price: 2000
 --- !u!1 &1246468464758998584
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,7 +155,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3844687824770290118}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Workstation, Assembly-CSharp
         m_MethodName: Challenge
         m_Mode: 1
@@ -1237,7 +1220,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3844687824770290118}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Workstation, Assembly-CSharp
         m_MethodName: Practice
         m_Mode: 1

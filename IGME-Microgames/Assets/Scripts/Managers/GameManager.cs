@@ -16,7 +16,10 @@ public class GameManager : MonoBehaviour
     public int currency;
     public int playerLevel;
 
-    private Queue<Workstation> playlist;
+    private Queue<WorkstationData> playlist;
+
+    private int lastScore;
+    private WorkstationData lastMinigame;
 
     //how many times will each minigame show up in the queue?
     public int minigameDuplicates = 2;
@@ -48,7 +51,7 @@ public class GameManager : MonoBehaviour
         }*/
 
         //dequeue is called at the end of the minigame
-        string nextSceneName = playlist.Peek().MinigameScene;
+        string nextSceneName = playlist.Peek().minigameScene;
 
         ClearScenes();
         SceneManager.sceneLoaded += NewMinigameLoaded;
@@ -60,7 +63,7 @@ public class GameManager : MonoBehaviour
         SceneManager.SetActiveScene(scene);
     }
 
-    public void BuildPlaylist(Workstation[] workstations)
+    public void BuildPlaylist(WorkstationData[] workstations)
     {
         BuildPlaylist(workstations, minigameDuplicates, true);
     }
@@ -70,12 +73,12 @@ public class GameManager : MonoBehaviour
     /// Compiles the available minigames into a shuffled queue.
     /// </summary>
     /// <param name="rooms">room objects that the player has in their agency.</param>
-    public void BuildPlaylist(Workstation[] workstations, int duplicates, bool useFreshness)
+    public void BuildPlaylist(WorkstationData[] workstations, int duplicates, bool useFreshness)
     {
-        List<Workstation> activeMinigames = new List<Workstation>();
-        playlist = new Queue<Workstation>();
+        List<WorkstationData> activeMinigames = new List<WorkstationData>();
+        playlist = new Queue<WorkstationData>();
 
-        foreach(Workstation tile in workstations)
+        foreach(WorkstationData tile in workstations)
         {
             if(tile.inPlaylist && !tile.isOutline)
             {
@@ -95,7 +98,7 @@ public class GameManager : MonoBehaviour
 
         ShuffleList(activeMinigames);
 
-        foreach(Workstation minigame in activeMinigames)
+        foreach(WorkstationData minigame in activeMinigames)
         {
             playlist.Enqueue(minigame);
         }
@@ -111,12 +114,19 @@ public class GameManager : MonoBehaviour
     public void EndMinigame(int score)
     {
 
-        playlist.Dequeue().FinishMinigame(score);
+        
 
-
+        WorkstationData finishedGame = playlist.Dequeue();
+        finishedGame.FinishMinigame(score);
         currency += score * score * 100;
+
+        lastScore = score;
+        lastMinigame = finishedGame;
+
         ClearScenes();
         SceneManager.LoadSceneAsync("MinigameScore", LoadSceneMode.Additive);
+        SceneManager.sceneLoaded += PopulateScoreScreen;
+
     }
 
     /// <summary>
@@ -159,5 +169,10 @@ public class GameManager : MonoBehaviour
                 SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i).name);
             }
         }
+    }
+
+    private void PopulateScoreScreen(Scene scene, LoadSceneMode mode)
+    {
+        FindObjectOfType<ScoreScreenManager>().InitScoreScreen(lastScore, lastMinigame);
     }
 }

@@ -45,6 +45,8 @@ public class Builder : MonoBehaviour
     private int placingShopIndex;
     private FinishPlacementDelegate finalize;
 
+    private PlacedWorkstation openTapUI;
+
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -87,10 +89,17 @@ public class Builder : MonoBehaviour
     /// <param name="context"></param>
     private void TouchPressed(InputAction.CallbackContext context)
     {
-        Workstation tappedWorkstation = OverlappingWorkstation();
-        if(tappedWorkstation != null && !tappedWorkstation.isOutline)
+        PlacedWorkstation tappedWorkstation = OverlappingTapUI();
+        if(tappedWorkstation != null && !tappedWorkstation.minigameData.isOutline)
         {
-            tappedWorkstation.ToggleTapUI();
+            if(tappedWorkstation.ToggleTapUI())
+            {
+                if(openTapUI != null && openTapUI != tappedWorkstation)
+                {
+                    openTapUI.SetTapUI(false);
+                }
+                openTapUI = tappedWorkstation;
+            }
             return;
         }
         moving = false;
@@ -240,8 +249,8 @@ public class Builder : MonoBehaviour
         //shop card-> placed
         finalize(placingShopIndex);
 
-        placingWorkstation.GetComponent<Workstation>().isOutline = false;
-        placingWorkstation.GetComponent<Workstation>().inPlaylist = true;
+        placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.isOutline = false;
+        placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.inPlaylist = true;
 
         
         //TODO: update sprite, no longer outline
@@ -268,13 +277,13 @@ public class Builder : MonoBehaviour
     /// Returns a workstation that is under the user's touch. 
     /// </summary>
     /// <returns>A workstation the user is touching</returns>
-    public Workstation OverlappingWorkstation()
+    public PlacedWorkstation OverlappingTapUI()
     {
         Collider2D[] overlappingColliders = Physics2D.OverlapPointAll(TouchScreenToWorld());
 
         foreach(Collider2D collider in overlappingColliders)
         {
-            Workstation workstation = collider.gameObject.GetComponentInParent<Workstation>();
+            PlacedWorkstation workstation = collider.gameObject.GetComponentInParent<PlacedWorkstation>();
             if (workstation != null)
             {
                 return workstation;

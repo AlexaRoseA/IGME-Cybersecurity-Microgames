@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8989255346498926412}
-  - component: {fileID: 3844687824770290118}
+  - component: {fileID: 8633645358842169150}
   m_Layer: 0
-  m_Name: CyberDefAnalyst
+  m_Name: Workstation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,7 +34,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3844687824770290118
+--- !u!114 &8633645358842169150
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,13 +43,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 949492836694267894}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24289b6dcc8b44f47bbdf21c1f275954, type: 3}
+  m_Script: {fileID: 11500000, guid: 25cad208a2a12ed4ab1db27056904e27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minigameScene: PacketPanic
-  jobTitle: Cyber Defense Analyst
-  workstationSprite: {fileID: 0}
-  price: 2000
+  tapUICanvas: {fileID: 8127083489303666406}
+  minigameData: {fileID: 0}
 --- !u!1 &1246468464758998584
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,8 +170,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3844687824770290118}
-        m_TargetAssemblyTypeName: Workstation, Assembly-CSharp
+      - m_Target: {fileID: 8633645358842169150}
+        m_TargetAssemblyTypeName: PlacedWorkstation, Assembly-CSharp
         m_MethodName: Challenge
         m_Mode: 1
         m_Arguments:
@@ -1237,8 +1235,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3844687824770290118}
-        m_TargetAssemblyTypeName: Workstation, Assembly-CSharp
+      - m_Target: {fileID: 8633645358842169150}
+        m_TargetAssemblyTypeName: PlacedWorkstation, Assembly-CSharp
         m_MethodName: Practice
         m_Mode: 1
         m_Arguments:

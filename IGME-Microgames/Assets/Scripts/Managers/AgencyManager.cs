@@ -22,7 +22,8 @@ public class AgencyManager : LevelManager
     public Behaviour[] disableWhileInShop; // components that will be disabled when the shop is opened
     public Builder builder; // Handles placing shop items after being bought
 
-    public GameObject[] workstationPrefabs; // shop items
+    public GameObject workstationPrefab;
+    public WorkstationData[] workstations;
 
     private PurchaseState[] purchaseStates; // purchase state for each shop item
     private GameObject[] workstationCards; // shop ui element for each shop item
@@ -31,7 +32,7 @@ public class AgencyManager : LevelManager
     {
         base.Start();
 
-        purchaseStates = new PurchaseState[workstationPrefabs.Length];
+        purchaseStates = new PurchaseState[workstations.Length];
 
 
         InitShop();
@@ -53,8 +54,15 @@ public class AgencyManager : LevelManager
                 furnitureList.Add((FurnitureTile)tile);
             }
         }*/
+        PlacedWorkstation[] placed = agencyParent.GetComponentsInChildren<PlacedWorkstation>();
+        WorkstationData[] workstations = new WorkstationData[placed.Length];
 
-        Workstation[] workstations = agencyParent.GetComponentsInChildren<Workstation>();
+        for(int i = 0; i < placed.Length; i++)
+        {
+            workstations[i] = placed[i].minigameData;
+        }
+
+        
         gameManager.BuildPlaylist(workstations);
     }
 
@@ -109,18 +117,17 @@ public class AgencyManager : LevelManager
             workstationCards[i] = GameObject.Find("CardBG (" + i + ")");
 
             //if there isn't a prefab for this card, disable the card
-            if (i >= workstationPrefabs.Length)
+            if (i >= workstations.Length)
             {
                 workstationCards[i].SetActive(false);
                 continue;
             }
-            Workstation workstation = workstationPrefabs[i].GetComponent<Workstation>();
             Transform cardBG = workstationCards[i].transform;
 
             TMP_Text jobTitle = cardBG.Find("WorkstationName").gameObject.GetComponent<TMP_Text>();
             Image img = cardBG.Find("WorkstationImg").gameObject.GetComponent<Image>();
 
-            jobTitle.text = workstation.JobTitle;
+            jobTitle.text = workstations[i].jobTitle;
             UpdatePurchaseStateDisplay(i);
         }
         shopUI.SetActive(false); //hide the shop until it is shown
@@ -139,9 +146,10 @@ public class AgencyManager : LevelManager
         CloseShop();
 
         //passes the method to be called when placement is finalized- this won't get called if the placement is cancelled. 
-        FinishPlacementDelegate finalize = this.FinalizePlacement;
+        FinishPlacementDelegate finalize = FinalizePlacement;
         
-        GameObject newWorkstation = Instantiate(workstationPrefabs[prefabIndex]);
+        GameObject newWorkstation = Instantiate(workstationPrefab);
+        newWorkstation.GetComponent<PlacedWorkstation>().minigameData = Instantiate(workstations[prefabIndex]);
         //attach the new workstation to the agency so that it is added to the playlist
         newWorkstation.transform.parent = agencyParent.transform;
         builder.StartPlacing(newWorkstation, finalize, prefabIndex);
@@ -162,7 +170,7 @@ public class AgencyManager : LevelManager
         switch (purchaseStates[i])
         {
             case PurchaseState.ForSale:
-                purchaseText.text = "$" + workstationPrefabs[i].GetComponent<Workstation>().Price;
+                purchaseText.text = "$" + workstations[i].price;
                 purchaseButton.onClick.AddListener(() => Purchase(i));
                 break;
 
