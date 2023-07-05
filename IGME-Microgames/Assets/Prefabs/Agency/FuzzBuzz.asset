@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24289b6dcc8b44f47bbdf21c1f275954, type: 3}
   m_Name: FuzzBuzz
   m_EditorClassIdentifier: 
-  minigameScene: 
-  jobTitle: 
-  minigameName: 
+  minigameScene: FuzzBuzz
+  jobTitle: Secure Software Assessor
+  minigameName: FUZZBUZZ
   workstationSprite: {fileID: 0}
   price: 2000
   isOutline: 1
