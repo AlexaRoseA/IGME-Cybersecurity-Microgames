@@ -18,6 +18,7 @@ public class FireDefense_Enemy : MonoBehaviour
     private int health = 100;
     private float speed = 2f;
     private bool attackingWall;
+    private bool wander = false;
 
     private Rigidbody2D rb;
 
@@ -37,6 +38,7 @@ public class FireDefense_Enemy : MonoBehaviour
     public void ResetEnemy()
     {
         health = 100;
+        wander = false;
         statusBar.transform.localScale = new Vector3(health / 100, 1, 1);
         transform.position = new Vector3(Random.Range(0, 9), spawnSpot.position.y, 0f);
         target.GetComponent<FireDefense_RepairWallBlock>().RemoveTouching(this.gameObject);
@@ -52,7 +54,7 @@ public class FireDefense_Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (man.startBattle && !attackingWall)
+        if (man.startBattle && !attackingWall && !wander)
         {
             transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
         }
@@ -60,6 +62,7 @@ public class FireDefense_Enemy : MonoBehaviour
 
     public void SetTarget(GameObject self = null)
     {
+        wander = false;
         GameObject[] wallBlocks = GameObject.FindGameObjectWithTag("Phase").GetComponent<FireDefense_FirewallDefense>().GetBlockRow();
         List<GameObject> repaired = new List<GameObject>();
 
@@ -79,13 +82,30 @@ public class FireDefense_Enemy : MonoBehaviour
         }
         else
         {
-            target = repairPlayer;
+            StartCoroutine(Wander());
         }
     }
 
     public GameObject GetTarget()
     {
         return target;
+    }
+
+    IEnumerator Wander()
+    {
+        int counterSeconds = Random.Range(2, 4);
+        float normalizedTime = 0;
+        Vector3 pos = new Vector3(Random.Range(-1,9), Random.Range(6f, 18f), transform.position.z);
+        while(normalizedTime <= 1f)
+        {
+            Debug.Log("Wandering...");
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(pos.x, pos.y, transform.position.z), speed * Time.deltaTime);
+            normalizedTime += Time.deltaTime / counterSeconds;
+            yield return null;
+        }
+        SetTarget();
+        yield return null;
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -104,6 +124,14 @@ public class FireDefense_Enemy : MonoBehaviour
         if(collision.tag == "Wall")
         {
             attackingWall = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.transform.tag == "Wall")
+        {
+            ResetEnemy();
         }
     }
 

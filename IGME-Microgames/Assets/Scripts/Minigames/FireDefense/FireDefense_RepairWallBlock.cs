@@ -117,6 +117,21 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         }
     }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Enemy")
+        {
+            touching.Remove(collision.gameObject);
+
+            if(touching.Count == 0)
+            {
+                attacked = false;
+            }
+        }
+    }
+
+    
+
     /// <summary>
     /// While staying in collide, repair if need be
     /// </summary>
@@ -165,7 +180,7 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         else
         {
             timeElapsed = Mathf.RoundToInt(Random.Range(4, 6));
-            currentRepairStatus = 1;
+            currentRepairStatus = 0.95f;
             statusBar.transform.localScale = new Vector3(currentRepairStatus, 1, 1);
         }
         statusBar.gameObject.SetActive(true);
@@ -188,18 +203,15 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         blockColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         gameObject.GetComponent<SpriteRenderer>().color = blockColor;
         statusBar.gameObject.SetActive(false);
-        foreach (GameObject enemies in outToGetMe)
-        {
-            enemies.GetComponent<FireDefense_Enemy>().SetTarget();
-        }
 
         foreach (GameObject enemy in outToGetMe)
         {
-            //ignore self
+            //ignore this block since it's repaired
             enemy.GetComponent<FireDefense_Enemy>().SetTarget(this.gameObject);
         }
 
         outToGetMe.Clear();
+        touching.Clear();
         defenseManager.CheckIfRowsRepaired();
     }
 
@@ -250,10 +262,7 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
 
     IEnumerator Attack()
     {
-        if (!needsRepair)
-        {
-            DamageBlock(true);
-        }
+        DamageBlock(true);
 
         while (((timeElapsed < lerpDuration) || !dead) && touching.Count > 0)
         {
@@ -314,8 +323,26 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         if (defenseManager.startBattle)
         {
             GameObject buttonPressed = gameObject;
+            DebugStats(buttonPressed);
             player.transform.position = Vector3.Lerp(player.transform.position, new Vector3(buttonPressed.transform.position.x, player.transform.position.y, player.transform.position.z), 1.5f);
         }
+    }
+
+    private void DebugStats(GameObject buttonPressed)
+    {
+        Debug.Log("\n----------");
+        Debug.Log(buttonPressed.name + " Status: \n" + "Repair? " + needsRepair + "\n Attacked?: " + attacked + "\nDead?: " + dead);
+        Debug.Log("Out to get me: ");
+        foreach (GameObject e in outToGetMe)
+        {
+            Debug.Log("\n" + e.name);
+        }
+        Debug.Log("Currently Touching: ");
+        foreach (GameObject e in touching)
+        {
+            Debug.Log("\n" + e.name);
+        }
+        Debug.Log("\n----------");
     }
     #endregion
 }

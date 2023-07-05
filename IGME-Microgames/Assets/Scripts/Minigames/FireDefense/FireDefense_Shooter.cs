@@ -80,11 +80,15 @@ public class FireDefense_Shooter : MonoBehaviour
     public IEnumerator RestartBullet()
     {
         spawning = true;
-        int index = GameObjectToIndex(bulletsRespawn[bulletsRespawn.Count - 1]);
+        if((bulletsRespawn.Count - 1) >= 0)
+        {
+            int index = GameObjectToIndex(bulletsRespawn[bulletsRespawn.Count - 1]);
 
-        bullets[index].gameObject.transform.position = new Vector3(shootLoc.position.x, shootLoc.position.y, transform.position.z);
-        bullets[index].gameObject.transform.rotation = rot;
-        bulletsRespawn.Remove(bulletsRespawn[bulletsRespawn.Count - 1]);
+            bullets[index].gameObject.transform.position = new Vector3(shootLoc.position.x, shootLoc.position.y, transform.position.z);
+            bullets[index].gameObject.transform.rotation = rot;
+            bulletsRespawn.Remove(bulletsRespawn[bulletsRespawn.Count - 1]);
+
+        }
         
         if(bulletsRespawn.Count != 0)
         {
