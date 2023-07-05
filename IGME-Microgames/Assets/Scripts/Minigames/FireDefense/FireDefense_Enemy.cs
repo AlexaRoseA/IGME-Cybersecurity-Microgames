@@ -40,6 +40,7 @@ public class FireDefense_Enemy : MonoBehaviour
         statusBar.transform.localScale = new Vector3(health / 100, 1, 1);
         transform.position = new Vector3(Random.Range(0, 9), spawnSpot.position.y, 0f);
         target.GetComponent<FireDefense_RepairWallBlock>().RemoveTouching(this.gameObject);
+        attackingWall = false;
         SetTarget();
     }
 

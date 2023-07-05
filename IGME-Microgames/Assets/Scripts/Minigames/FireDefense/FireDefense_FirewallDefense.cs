@@ -40,7 +40,6 @@ public class FireDefense_FirewallDefense : MonoBehaviour
 
         if(rowRepaired && startBattle)
         {
-            Debug.Log("Coordinating downtime...");
             CoordinateDowntime();
         } 
     }
@@ -55,11 +54,9 @@ public class FireDefense_FirewallDefense : MonoBehaviour
             Debug.Log(damageChance);
             if(damageChance >= 0.8)
             {
-                Debug.Log(block.name + " wall piece damaged!");
                 FireDefense_RepairWallBlock blockWall = block.GetComponent<FireDefense_RepairWallBlock>();
                 blockWall.DamageBlock();
             }
-            Debug.Log(block.name + " wall piece is not attacked.");
         }
 
         CheckIfRowsRepaired();

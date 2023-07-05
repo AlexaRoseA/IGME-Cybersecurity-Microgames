@@ -110,7 +110,6 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
             {
                 if(collision.gameObject.GetComponent<FireDefense_Enemy>().GetTarget() == this.gameObject)
                 {
-                    Debug.Log("There's an attack!");
                     attacked = true;
                     StartCoroutine("Attack");
                 }
@@ -129,14 +128,6 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
             if (needsRepair && !attacked)
             {
                 StartCoroutine("Repair");
-            }
-            else if (attacked)
-            {
-                Debug.Log("You're being attacked!");
-            }
-            else
-            {
-                Debug.Log("This block doesn't need repair!");
             }
         }
     }
@@ -272,7 +263,7 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
 
             if (currentRepairStatus >= 0.1)
             {
-                Debug.Log("Attacking! " + currentRepairStatus);
+
             }
             else
             {

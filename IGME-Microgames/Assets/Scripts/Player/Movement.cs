@@ -128,7 +128,7 @@ public class Movement : MonoBehaviour
         {
             Vector3 screenPos = touchMovementAction.ReadValue<Vector2>();
             Vector3 worldpos = Camera.main.ScreenToWorldPoint(screenPos);
-            worldpos.z = player.transform.position.z;
+            //worldpos.z = player.transform.position.z;
             return worldpos;
         }
         return Vector3.zero;
