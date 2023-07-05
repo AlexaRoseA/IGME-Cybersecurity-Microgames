@@ -150,6 +150,9 @@ public class AgencyManager : LevelManager
         
         GameObject newWorkstation = Instantiate(workstationPrefab);
         newWorkstation.GetComponent<PlacedWorkstation>().minigameData = Instantiate(workstations[prefabIndex]);
+
+        newWorkstation.GetComponent<PlacedWorkstation>().shopIndex = prefabIndex;
+
         //attach the new workstation to the agency so that it is added to the playlist
         newWorkstation.transform.parent = agencyParent.transform;
         builder.StartPlacing(newWorkstation, finalize, prefabIndex);
@@ -164,7 +167,7 @@ public class AgencyManager : LevelManager
         Transform cardBG = workstationCards[i].transform;
         Button purchaseButton = cardBG.Find("PurchaseButton").gameObject.GetComponent<Button>();
         TMP_Text purchaseText = cardBG.Find("PurchaseButton").Find("Text (TMP)").gameObject.GetComponent<TMP_Text>();
-
+        
         purchaseButton.onClick.RemoveAllListeners();
 
         switch (purchaseStates[i])
@@ -172,11 +175,13 @@ public class AgencyManager : LevelManager
             case PurchaseState.ForSale:
                 purchaseText.text = "$" + workstations[i].price;
                 purchaseButton.onClick.AddListener(() => Purchase(i));
+                purchaseButton.interactable = true;
                 break;
 
             case PurchaseState.Purchased:
                 purchaseText.text = "Place";
                 purchaseButton.onClick.AddListener(() => Place(i));
+                purchaseButton.interactable = true;
                 break;
 
             case PurchaseState.Placed:
@@ -189,6 +194,15 @@ public class AgencyManager : LevelManager
     private void FinalizePlacement(int shopIndex)
     {
         purchaseStates[shopIndex] = PurchaseState.Placed;
+        UpdatePurchaseStateDisplay(shopIndex);
+    }
+
+    public void ReturnToShop(PlacedWorkstation workstation)
+    {
+        int shopIndex = workstation.shopIndex;
+        workstations[shopIndex] = workstation.minigameData;
+        Destroy(workstation.gameObject);
+        purchaseStates[shopIndex] = PurchaseState.Purchased;
         UpdatePurchaseStateDisplay(shopIndex);
     }
 }

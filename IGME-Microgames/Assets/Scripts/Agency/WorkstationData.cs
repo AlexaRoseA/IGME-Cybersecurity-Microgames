@@ -12,11 +12,12 @@ public class WorkstationData : ScriptableObject
     public Sprite workstationSprite;
     public int price = 2000;
     public bool isOutline = true;
+    public int[] starThresholds = { int.MinValue, 1000, 3000, 6000, 10000 };
     //how many times does the minigame have to be played before the player can challenge?
-    private int challengeCooldown = 3;
+    public int challengeCooldown = 3;
 
-    private int highscore = 0;
-    //private int agentLevel = 0;
+    public int highscore = 0;
+    public int agentLevel = 0;
 
     
 
@@ -29,12 +30,23 @@ public class WorkstationData : ScriptableObject
 
 
 
-    public void FinishMinigame(int score)
+    public void FinishMinigame(int score, GameMode gameMode)
     {
 
         if (highscore < score)
         {
             highscore = score;
+        }
+
+        if(gameMode == GameMode.challenge)
+        {
+            if(score > starThresholds[agentLevel])
+            {
+                //challenge beaten
+                agentLevel++;
+            }
+            challengeCooldown = 2 + agentLevel;
+            return;
         }
         challengeCooldown--;
     }

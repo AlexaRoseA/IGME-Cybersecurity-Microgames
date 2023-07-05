@@ -12,8 +12,6 @@ public class ScoreScreenManager : LevelManager
     public TMP_Text starThreshold;
     public Image[] stars;
 
-    private int[] starThresholds = { int.MinValue, 1000, 3000, 6000, 10000 };
-
     public void EndStreak()
     {
         gameManager.EndStreak();
@@ -26,15 +24,17 @@ public class ScoreScreenManager : LevelManager
 
     public void InitScoreScreen(int score, WorkstationData minigame)
     {
-        //currently star thresholds (score -> star conversion) is hardcoded.
-        //In the future it may be necessary to have the thresholds be part of the workstation class, so different minigames can have different star thresholds.
         int starCount = -1;
-        for(int i = starThresholds.Length - 1; i >= 0; i--)
+        for(int i = minigame.starThresholds.Length - 1; i >= 0; i--)
         {
-            if(score > starThresholds[i])
+            if(score > minigame.starThresholds[i])
             {
                 starCount = i + 1;
-                starThreshold.text = "Next Star: " + starThresholds[i + 1];
+                if(starCount < minigame.starThresholds.Length)
+                {
+
+                    starThreshold.text = "Next Star: " + minigame.starThresholds[i + 1];
+                }
                 break;
             }
         }
@@ -45,7 +45,7 @@ public class ScoreScreenManager : LevelManager
         }
 
         minigameName.text = minigame.minigameName;
-        highscore.text = "Highscore: " + score;
+        highscore.text = "Highscore: " + minigame.highscore;
         scoreText.text = score.ToString();
         
     }

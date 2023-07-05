@@ -291,4 +291,9 @@ public class Builder : MonoBehaviour
         }
         return null;
     }
+
+    public void DestroyFurnitureTile(Vector3 worldPos)
+    {
+        furniture.SetTile(furniture.WorldToCell(worldPos), null);
+    }
 }

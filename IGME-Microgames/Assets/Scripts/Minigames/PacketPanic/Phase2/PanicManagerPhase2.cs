@@ -60,7 +60,7 @@ public class PanicManagerPhase2 : MonoBehaviour
     public void EndPhase(bool captured)
     {
 
-
+        tilemap.GetTile<NodeTiles>(Vector3Int.zero).nodeMap = null;
         MinigameManager miniManager = FindObjectOfType<MinigameManager>();
         if (miniManager == null)
         {

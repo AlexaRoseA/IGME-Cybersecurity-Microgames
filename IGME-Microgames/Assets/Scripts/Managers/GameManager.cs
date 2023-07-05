@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-public enum Tile
+public enum GameMode
 {
-    floor,
-    wall,
-    minigame
+    practice,
+    challenge,
+    shuffle
 }
 
 
@@ -15,7 +14,7 @@ public class GameManager : MonoBehaviour
 {
     public int currency;
     public int playerLevel;
-
+    public GameMode currentGameMode;
     private Queue<WorkstationData> playlist;
 
     private int lastScore;
@@ -65,7 +64,7 @@ public class GameManager : MonoBehaviour
 
     public void BuildPlaylist(WorkstationData[] workstations)
     {
-        BuildPlaylist(workstations, minigameDuplicates, true);
+        BuildPlaylist(workstations, minigameDuplicates, true, GameMode.shuffle);
     }
 
 
@@ -73,14 +72,15 @@ public class GameManager : MonoBehaviour
     /// Compiles the available minigames into a shuffled queue.
     /// </summary>
     /// <param name="rooms">room objects that the player has in their agency.</param>
-    public void BuildPlaylist(WorkstationData[] workstations, int duplicates, bool useFreshness)
+    public void BuildPlaylist(WorkstationData[] workstations, int duplicates, bool useFreshness, GameMode gameMode)
     {
+        currentGameMode = gameMode;
         List<WorkstationData> activeMinigames = new List<WorkstationData>();
         playlist = new Queue<WorkstationData>();
 
         foreach(WorkstationData tile in workstations)
         {
-            if(tile.inPlaylist && !tile.isOutline)
+            if((tile.inPlaylist || gameMode != GameMode.shuffle) && !tile.isOutline)
             {
                 if(tile.fresh && useFreshness)
                 {
@@ -117,7 +117,7 @@ public class GameManager : MonoBehaviour
         
 
         WorkstationData finishedGame = playlist.Dequeue();
-        finishedGame.FinishMinigame(score);
+        finishedGame.FinishMinigame(score, currentGameMode);
         currency += score * score * 100;
 
         lastScore = score;
