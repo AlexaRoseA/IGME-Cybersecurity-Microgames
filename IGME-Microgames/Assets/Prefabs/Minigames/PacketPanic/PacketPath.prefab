@@ -148,12 +148,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   packetPrefab: {fileID: 8492938553674050571, guid: a52cb26f349cbfa45bf2d3cd79a3b54e, type: 3}
   packetTrack: {fileID: 4536802456655543290}
-  startAtEnd: 1
+  movingForward: 0
   packetSpawnPatterns:
   - {fileID: 11400000, guid: 45c1b45da6931cd4ebdee310fe7cbf4b, type: 2}
   - {fileID: 11400000, guid: 7444b3cbb2806dd468ca34e4bafbf946, type: 2}
   - {fileID: 11400000, guid: bdffa2cdba95cd44e994245ddb925d4f, type: 2}
   - {fileID: 11400000, guid: ff62a6c7cc0358a4faf7575f7b0814db, type: 2}
   - {fileID: 11400000, guid: 1526f2978d28e764f8ffa424ffb1a94b, type: 2}
+  - {fileID: 11400000, guid: 2326309589afbfd48ac092860c9e5669, type: 2}
   spawnerManager: {fileID: 0}
   currentPattern: {fileID: 0}
+  helper: {fileID: 0}

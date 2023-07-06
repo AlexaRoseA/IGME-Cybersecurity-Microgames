@@ -16,26 +16,14 @@ public class SpawnerManager : MonoBehaviour
     /// <returns></returns>
     public PacketSpawnPattern NextPattern(PacketSpawnPattern[] availablePatterns, PacketSpawner spawner)
     {
-        int changingSpawnerIndex = -1;
         float currentDifficulty = 0f;
 
         //assess current difficulty level, sum of all of the spawner's threat levels.
         for (int i = 0; i < packetSpawners.Length; i++)
         {
-            if(spawner == packetSpawners[i])
+            if(spawner != packetSpawners[i] && packetSpawners[i].currentPattern != null)
             {
-                changingSpawnerIndex = i;
-                if (packetSpawners[i].currentPattern != null)
-                {
-                    currentDifficulty -= packetSpawners[i].currentPattern.threatLevel;
-                }
-            }
-            else
-            {
-                if(packetSpawners[i].currentPattern != null)
-                {
-                    currentDifficulty += packetSpawners[i].currentPattern.threatLevel;
-                }
+                currentDifficulty += packetSpawners[i].currentPattern.threatLevel;
             }
         }
 
