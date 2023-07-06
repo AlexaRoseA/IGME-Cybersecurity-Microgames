@@ -43,6 +43,7 @@ public class FireDefense_FirewallDefense : MonoBehaviour
         {
             if (minigameManager.GetPhase() == "fighting")
             {
+                minigameManager.UpdateScoreText();
                 startBattle = true;
             }
         }
@@ -55,6 +56,10 @@ public class FireDefense_FirewallDefense : MonoBehaviour
 
     private void CoordinateDowntime()
     {
+        if(rowRepaired)
+        {
+            minigameManager.UpdateScore(1000);
+        }
         rowRepaired = false;
 
         foreach (GameObject block in wallBlocks)
@@ -65,6 +70,8 @@ public class FireDefense_FirewallDefense : MonoBehaviour
             {
                 FireDefense_RepairWallBlock blockWall = block.GetComponent<FireDefense_RepairWallBlock>();
                 blockWall.DamageBlock();
+                minigameManager.UpdateScore(-50);
+
             }
         }
 

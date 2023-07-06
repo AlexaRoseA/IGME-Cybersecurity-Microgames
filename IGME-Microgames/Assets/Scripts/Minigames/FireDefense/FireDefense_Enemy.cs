@@ -9,6 +9,7 @@ public class FireDefense_Enemy : MonoBehaviour
     [SerializeField] GameObject repairPlayer;
     [SerializeField] GameObject shootPlayer;
     [SerializeField] Transform spawnSpot;
+    private MinigameManager minigameManager;
 
     // Status bar
     [SerializeField] GameObject statusBar;
@@ -25,6 +26,7 @@ public class FireDefense_Enemy : MonoBehaviour
     void Start()
     {
         attackingWall = false;
+        minigameManager = GameObject.Find("MinigameManager").GetComponent<MinigameManager>();
         man = GameObject.FindGameObjectWithTag("Phase").GetComponent<FireDefense_FirewallDefense>();
         spawnSpot = GameObject.Find("SpawnEnemies").transform;
         transform.position = new Vector3(Random.Range(0, 9), spawnSpot.position.y, 0f);
@@ -39,6 +41,7 @@ public class FireDefense_Enemy : MonoBehaviour
     {
         health = 100;
         wander = false;
+        minigameManager.UpdateScore(10);
         statusBar.transform.localScale = new Vector3(health / 100, 1, 1);
         transform.position = new Vector3(Random.Range(0, 9), spawnSpot.position.y, 0f);
         target.GetComponent<FireDefense_RepairWallBlock>().RemoveTouching(this.gameObject);

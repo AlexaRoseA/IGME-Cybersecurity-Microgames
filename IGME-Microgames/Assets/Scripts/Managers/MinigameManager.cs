@@ -366,6 +366,7 @@ public class MinigameManager : LevelManager
     public void SetScore(int total)
     {
         score = total;
+        UpdateScoreUI();
     }
 
     /// <summary>

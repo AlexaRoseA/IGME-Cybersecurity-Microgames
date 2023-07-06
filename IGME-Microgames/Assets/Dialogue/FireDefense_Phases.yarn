@@ -73,11 +73,11 @@ Backup: <color=red>Enemies approaching!</color> Our wall has <color=red>major vu
 <<SetBool CharacterDialogDisplayer 0 hammer false>>
 <<SetBool CharacterDialogDisplayer 0 blaster true>>
 
-Backup: We need to defend! <color=red>Drag your finger</color> to shoot the enemies!
+Backup: We need to defend! <color=red>Drag your finger on your unit</color> to shoot the enemies!
 
 <<SetBool CharacterDialogDisplayer 0 peace true>>
 Backup: I'll be over here fixing the wall! <color=red>Protect me!</color>
-INFO: <i>Drag Backup to grayed wall blocks to repair them!</i>
+INFO: <i>Drag Backup to destroyed wall blocks to repair them!</i>
 
 <<SetBool CharacterDialogDisplayer 0 peace false>>
 
@@ -85,7 +85,7 @@ Backup: Let me get my hammer and we'll get going!
 <<SetBool CharacterDialogDisplayer 0 blaster false>>
 <<SetBool CharacterDialogDisplayer 0 hammer true>>
 
-Backup: We're a dream team!
+Backup: Let's go, dream team!
 
 <<HideAllCharacters CharacterDialogDisplayer>>
 

@@ -43,7 +43,7 @@ public class FireDefense_Shooter : MonoBehaviour
                 float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
                 rot = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-                Debug.Log(rot);
+                //Debug.Log(rot);
 
             }
 

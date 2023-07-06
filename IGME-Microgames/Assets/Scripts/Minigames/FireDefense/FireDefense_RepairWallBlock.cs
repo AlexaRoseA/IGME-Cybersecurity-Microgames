@@ -27,6 +27,7 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
     [SerializeField] GameObject player;
 
     private FireDefense_FirewallDefense defenseManager;
+    private MinigameManager minigameManager;
 
     private List<GameObject> outToGetMe;
     private List<GameObject> touching;
@@ -34,6 +35,7 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
     #region Start/Middle/End General Methods and Helpers
     void Start()
     {
+        minigameManager = GameObject.Find("MinigameManager").GetComponent<MinigameManager>();
         defenseManager = gameObject.transform.parent.parent.gameObject.GetComponent<FireDefense_FirewallDefense>();
         outToGetMe = new List<GameObject>();
         touching = new List<GameObject>();
@@ -199,6 +201,10 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
     /// </summary>
     private void HealBlock()
     {
+        if(needsRepair)
+        {
+            minigameManager.UpdateScore(100);
+        }
         needsRepair = false;
         blockColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         gameObject.GetComponent<SpriteRenderer>().color = blockColor;
@@ -287,6 +293,7 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         if (dead)
         {
             statusBar.transform.localScale = new Vector3(0, 1, 1);
+            minigameManager.UpdateScore(-100);
 
             foreach (GameObject enemy in touching)
             {
