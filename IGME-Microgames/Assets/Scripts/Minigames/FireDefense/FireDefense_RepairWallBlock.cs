@@ -97,8 +97,6 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
     /// <param name="collision"></param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("SHOW STATUS!");
-        statusBar.gameObject.SetActive(true);
         selected = true;
     }
 
@@ -185,7 +183,6 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
             currentRepairStatus = 0.95f;
             statusBar.transform.localScale = new Vector3(currentRepairStatus, 1, 1);
         }
-        statusBar.gameObject.SetActive(true);
     }
 
     public void RemoveTouching(GameObject enemy)
@@ -208,7 +205,6 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         needsRepair = false;
         blockColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         gameObject.GetComponent<SpriteRenderer>().color = blockColor;
-        statusBar.gameObject.SetActive(false);
 
         foreach (GameObject enemy in outToGetMe)
         {
@@ -315,7 +311,6 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
 
             touching.Clear();
             attacked = false;
-            statusBar.gameObject.SetActive(false);
         }
         yield return null;
     }
