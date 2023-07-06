@@ -18,17 +18,13 @@ public enum InteractionMode
     Furniture //the player is placing/moving furniture. 
 }
 
-public class Builder : MonoBehaviour
+public class Builder : InputHandler
 {
     // gameobject that workstations should be children of in order to be added to the playlist
     public GameObject agencyParent;
 
     private InteractionMode interactionMode;
     public TMP_Text interactionModeButtonText; //text that will be updated when the interaction mode is switched
-
-    private PlayerInput playerInput;
-    private InputAction touchMovementAction;
-    private InputAction touchPressAction;
 
     public Tilemap floor;
     public Tilemap wall;
@@ -47,24 +43,6 @@ public class Builder : MonoBehaviour
 
     private PlacedWorkstation openTapUI;
 
-    private void Awake()
-    {
-        playerInput = GetComponent<PlayerInput>();
-        touchPressAction = playerInput.actions.FindAction("TouchPress");
-        touchMovementAction = playerInput.actions.FindAction("TouchMovement");
-    }
-
-    private void OnEnable()
-    {
-        touchPressAction.performed += TouchPressed;
-        touchPressAction.canceled += TouchCancelled;
-    }
-
-    private void OnDisable()
-    {
-        touchPressAction.performed -= TouchPressed;
-        touchPressAction.canceled -= TouchCancelled;
-    }
 
     void Update()
     {
@@ -87,8 +65,9 @@ public class Builder : MonoBehaviour
     /// start of press
     /// </summary>
     /// <param name="context"></param>
-    private void TouchPressed(InputAction.CallbackContext context)
+    protected override void TouchPressed(InputAction.CallbackContext context)
     {
+        if (isTouchingUI()) return;
         PlacedWorkstation tappedWorkstation = OverlappingTapUI();
         if(tappedWorkstation != null && !tappedWorkstation.minigameData.isOutline)
         {
@@ -114,7 +93,7 @@ public class Builder : MonoBehaviour
     /// end of press
     /// </summary>
     /// <param name="context"></param>
-    private void TouchCancelled(InputAction.CallbackContext context)
+    protected override void TouchCancelled(InputAction.CallbackContext context)
     {
         fingerDragging = false;
         if(!moving && interactionMode == InteractionMode.Furniture)
@@ -126,13 +105,6 @@ public class Builder : MonoBehaviour
         //if followduration is low && position is same tile
         //finalizeplacement
         //set mode to move
-    }
-
-    private Vector3 TouchScreenToWorld()
-    {
-        Vector3 screenPos = touchMovementAction.ReadValue<Vector2>();
-        Vector3 worldpos = Camera.main.ScreenToWorldPoint(screenPos);
-        return worldpos;
     }
 
     /// <summary>

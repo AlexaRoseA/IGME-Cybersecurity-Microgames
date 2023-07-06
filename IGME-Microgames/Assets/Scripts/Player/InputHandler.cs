@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 public class InputHandler : MonoBehaviour
 {
@@ -54,5 +54,21 @@ public class InputHandler : MonoBehaviour
         Vector3 screenPos = touchMovementAction.ReadValue<Vector2>();
         Vector3 worldpos = Camera.main.ScreenToWorldPoint(screenPos);
         return worldpos;
+    }
+    /// <summary>
+    /// determines whether or not the player is touching a UI element.
+    /// </summary>
+    /// <returns>returns true if the player is touching a UI element.</returns>
+    protected bool isTouchingUI()
+    {
+        PointerEventData pointerEventData = new PointerEventData(EventSystem.current) { position = touchMovementAction.ReadValue<Vector2>() };
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerEventData, raycastResults);
+
+        if (raycastResults.Count > 0)
+        {
+            return true;
+        }
+        return false;
     }
 }
