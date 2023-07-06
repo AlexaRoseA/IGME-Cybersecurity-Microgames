@@ -67,8 +67,11 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
 
         if(amtFilled >= 10.0)
         {
-            Debug.Log("NEXT PHASE");
-            //minigameManager.SetPhase();
+            foreach(GameObject piece in GameObject.FindGameObjectsWithTag("Piece"))
+            {
+                Destroy(piece);
+            }
+            minigameManager.SetPhase();
         }
     }
 

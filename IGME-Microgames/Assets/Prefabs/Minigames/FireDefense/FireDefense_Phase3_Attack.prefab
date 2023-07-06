@@ -505,7 +505,7 @@ GameObject:
   - component: {fileID: 4240280655743386428}
   - component: {fileID: 4240280655743386429}
   m_Layer: 0
-  m_Name: FireDefense_Phase1_Attack
+  m_Name: FireDefense_Phase3_Attack
   m_TagString: Phase
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

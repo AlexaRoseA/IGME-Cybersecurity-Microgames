@@ -144,12 +144,12 @@ PrefabInstance:
       objectReference: {fileID: 1948049319}
     - target: {fileID: 2804876071144062016, guid: b6abf6827bad51549ae4c498753a852f, type: 3}
       propertyPath: phases.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2804876071144062016, guid: b6abf6827bad51549ae4c498753a852f, type: 3}
       propertyPath: phases.Array.data[0]
       value: 
-      objectReference: {fileID: 4240280655743386431, guid: 78bd0a3d4eeab82498144638f0044908, type: 3}
+      objectReference: {fileID: 7648774008838156332, guid: 3f8179f8889980f48b1d5b24e4afabeb, type: 3}
     - target: {fileID: 2804876071144062016, guid: b6abf6827bad51549ae4c498753a852f, type: 3}
       propertyPath: phases.Array.data[1]
       value: 
@@ -157,7 +157,7 @@ PrefabInstance:
     - target: {fileID: 2804876071144062016, guid: b6abf6827bad51549ae4c498753a852f, type: 3}
       propertyPath: phases.Array.data[2]
       value: 
-      objectReference: {fileID: 6473402165159366232, guid: 364ee82336775864d99e871835dda0f7, type: 3}
+      objectReference: {fileID: 4240280655743386431, guid: 78bd0a3d4eeab82498144638f0044908, type: 3}
     - target: {fileID: 2804876071144062079, guid: b6abf6827bad51549ae4c498753a852f, type: 3}
       propertyPath: m_RootOrder
       value: 3

@@ -15,12 +15,14 @@ public class FireDefense_FirewallDefense : MonoBehaviour
     // it's movement script
     [SerializeField] GameObject player;
     [SerializeField] Movement movementScript;
+    private MinigameManager minigameManager;
 
     void Start()
     {
         wallBlocks = GameObject.FindGameObjectsWithTag("Wall");
+        minigameManager = GameObject.Find("MinigameManager").GetComponent<MinigameManager>();
 
-        foreach(GameObject wallBlock in wallBlocks)
+        foreach (GameObject wallBlock in wallBlocks)
         {
             Color32 colorRan = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
             wallBlock.GetComponent<FireDefense_RepairWallBlock>().SetBlockColor(colorRan);
@@ -37,8 +39,15 @@ public class FireDefense_FirewallDefense : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!startBattle)
+        {
+            if (minigameManager.GetPhase() == "fighting")
+            {
+                startBattle = true;
+            }
+        }
 
-        if(rowRepaired && startBattle)
+        if (rowRepaired && startBattle)
         {
             CoordinateDowntime();
         } 
