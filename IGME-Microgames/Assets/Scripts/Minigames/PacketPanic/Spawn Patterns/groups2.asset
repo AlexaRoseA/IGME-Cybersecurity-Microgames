@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: groups2
   m_EditorClassIdentifier: 
   duration: 8.5
-  threatLevel: 0.35
+  threatLevel: 0.24
   spawnTimes:
   - time: 1
     maliciousChance: 0
@@ -30,4 +30,4 @@ MonoBehaviour:
   - time: 6.5
     maliciousChance: 0
   - time: 7
-    maliciousChance: 1
+    maliciousChance: 0

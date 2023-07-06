@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 086e7fa9a515615499278778384e80d4, type: 3}
   m_Name: 5fast
   m_EditorClassIdentifier: 
-  duration: 5.2
-  threatLevel: 0.58
+  duration: 4
+  threatLevel: 0.75
   spawnTimes:
   - time: 1
     maliciousChance: 1
+  - time: 1.4
+    maliciousChance: 0
   - time: 1.8
+    maliciousChance: 1
+  - time: 2.2
     maliciousChance: 0
   - time: 2.6
-    maliciousChance: 1
-  - time: 3.4
-    maliciousChance: 0
-  - time: 4.2
     maliciousChance: 1

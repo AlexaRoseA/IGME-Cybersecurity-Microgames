@@ -135,9 +135,15 @@ public class AgencyManager : LevelManager
 
     public void Purchase(int prefabIndex)
     {
-        //TODO: check and reduce money
+        if (workstations[prefabIndex].price > gameManager.currency) return;
+
+        gameManager.currency -= workstations[prefabIndex].price;
         purchaseStates[prefabIndex] = PurchaseState.Purchased;
-        UpdatePurchaseStateDisplay(prefabIndex);
+
+        gameManager.UpdateCurrency();
+
+        for(int i = 0; i < workstations.Length; i++)
+            UpdatePurchaseStateDisplay(i);
     }
 
     public void Place(int prefabIndex)
@@ -175,7 +181,7 @@ public class AgencyManager : LevelManager
             case PurchaseState.ForSale:
                 purchaseText.text = "$" + workstations[i].price;
                 purchaseButton.onClick.AddListener(() => Purchase(i));
-                purchaseButton.interactable = true;
+                purchaseButton.interactable = gameManager.currency >= workstations[i].price;
                 break;
 
             case PurchaseState.Purchased:

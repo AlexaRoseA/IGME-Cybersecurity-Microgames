@@ -22,24 +22,13 @@ public class ScoreScreenManager : LevelManager
         gameManager.PlayNext();
     }
 
-    public void InitScoreScreen(int score, WorkstationData minigame)
+    public void InitScoreScreen(int score, int starCount, WorkstationData minigame)
     {
-        int starCount = -1;
-        for(int i = minigame.starThresholds.Length - 1; i >= 0; i--)
-        {
-            if(score > minigame.starThresholds[i])
-            {
-                starCount = i + 1;
-                if(starCount < minigame.starThresholds.Length)
-                {
 
-                    starThreshold.text = "Next Star: " + minigame.starThresholds[i + 1];
-                }
-                break;
-            }
-        }
+        if(starCount < minigame.starThresholds.Length)
+            starThreshold.text = "Next Star: " + minigame.starThresholds[starCount];
 
-        for(int i = 0; i < starCount; i++)
+        for (int i = 0; i < starCount; i++)
         {
             stars[i].color = new Color(0.9f, 0.85f, 0);
         }
