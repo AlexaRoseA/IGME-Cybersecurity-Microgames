@@ -4,30 +4,47 @@ using UnityEngine;
 
 public class FireDefense_Shooter : MonoBehaviour
 {
+    // Bullet status information
     private int maxBullets = 19;
-
     [SerializeField] GameObject bulletPrefab;
-    [SerializeField] Transform shootLoc;
-    [SerializeField] Movement movementScript;
-
-    private FireDefense_FirewallDefense man;
     private List<GameObject> bullets = new List<GameObject>();
     public List<GameObject> bulletsRespawn = new List<GameObject>();
+    [SerializeField] Transform shootLoc;
 
+    // Managers
+    private FireDefense_FirewallDefense man;
+
+    // Player information
+    [SerializeField] Movement movementScript;
     private bool spawning = false;
-    private Quaternion rot;
 
+    // Bullet update information
+    private Quaternion rot;
     public GameObject prevBullet = null;
     public GameObject currentBullet = null;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Grabs the defense manager and sets the default rotation
+    /// </summary>
     void Start()
     {
         man = transform.parent.GetComponent<FireDefense_FirewallDefense>();
         rot = Quaternion.identity;
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// If the battle is started:
+    /// - Check the bullet count. If we're in the spawn start 
+    /// phase, spawn the first x amount of bullets.
+    /// 
+    /// - Check if touching the drag circle. Generate a direction for the
+    /// touch, angle, and generate a new rotation based on the current forward.
+    /// 
+    /// - Check the bulletRespawn count. If the bullet hit an enemy OR a wall, it'll 
+    /// be added to this list. If this is true, restart the last ended bullet.
+    /// 
+    /// - Update the rotation each frame unless it's null.
+    /// </summary>
     void Update()
     {
         if(man.startBattle)
@@ -43,7 +60,6 @@ public class FireDefense_Shooter : MonoBehaviour
                 float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
                 rot = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-                //Debug.Log(rot);
 
             }
 
@@ -60,11 +76,11 @@ public class FireDefense_Shooter : MonoBehaviour
         }
     }
 
-    public void IncreaseMaxBullets()
-    {
-        maxBullets++;
-    }
-
+    /// <summary>
+    /// Spawns bullets while checking if hit the max amount of bullets.
+    /// Once complete, prevent more bullets from spawning.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator SpawnBullet()
     {
         spawning = true;
@@ -77,6 +93,15 @@ public class FireDefense_Shooter : MonoBehaviour
         yield return null;
     }
 
+    /// <summary>
+    /// Restarts the bullets. If the last index doesn't equal -1 (there are no bullets in respawn list),
+    /// grab the last index and parse it into a gameobject. Set that gameobject's position + rotation to the 
+    /// current rotation and spawn bullet position. Once done, remove that from the respawn list.
+    /// 
+    /// If bullet count doesn't equal 0 after this, re-run the co-routine until the respawn list is empty.
+    /// Once empty, set spawning to false.
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator RestartBullet()
     {
         spawning = true;
@@ -100,31 +125,21 @@ public class FireDefense_Shooter : MonoBehaviour
         yield return null;
     }
 
-    private bool checkIfColliding(GameObject obj)
-    {
-        foreach(GameObject bullet in bullets)
-        {
-            if (Vector3.Distance(bullet.transform.position, obj.transform.position) < 1.5 && bullet != obj)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
+    /// <summary>
+    /// Returns the index of a set gameobject in the bullet list
+    /// Returns -1 if not in the list. Returns index if it is.
+    /// </summary>
+    /// <param name="targetObj">Bullet GameObject</param>
+    /// <returns></returns>
     int GameObjectToIndex(GameObject targetObj)
     {
-        //Loop through GameObjects
         for (int i = 0; i < bullets.Count; i++)
         {
-            //Check if GameObject is in the List
             if (bullets[i] == targetObj)
             {
-                //It is. Return the current index
                 return i;
             }
         }
-        //It is not in the List. Return -1
         return -1;
     }
 }

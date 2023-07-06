@@ -82,6 +82,10 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         return needsRepair;
     }
 
+    /// <summary>
+    /// Sets the attack status
+    /// </summary>
+    /// <param name="status"></param>
     public void SetAttackStatus(bool status)
     {
         attacked = status;
@@ -100,6 +104,15 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         selected = true;
     }
 
+    /// <summary>
+    /// On trigger enter deals with enemies to allow for them to bypass the collisions
+    /// If the enemy is in the block's range, add it to it's touch list
+    /// 
+    /// If the block itself isn't attacked and the collision's set target
+    /// is this current wall block, set the block to being attacked and 
+    /// run the coroutine to start draining health.
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Enemy")
@@ -117,6 +130,12 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// When the enemy leaves, remove it from the touching list
+    /// If the touch count is 0 after removing, set the block
+    /// to not be attacked anymore.
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.tag == "Enemy")
@@ -130,10 +149,10 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         }
     }
 
-    
-
     /// <summary>
     /// While staying in collide, repair if need be
+    /// if not being attacked.
+    /// * Cannot repair while being attacked
     /// </summary>
     /// <param name="collision"></param>
     private void OnCollisionStay2D(Collision2D collision)
@@ -185,6 +204,11 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Removes an enemy if in the list
+    /// from touching the wall block.
+    /// </summary>
+    /// <param name="enemy"></param>
     public void RemoveTouching(GameObject enemy)
     {
         if(touching.Contains(enemy))
@@ -228,14 +252,26 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
     }
 
     /// <summary>
-    /// Repairs the block overtime
+    /// Repairs the block overtime based on Backup being in it's touch zone
+    /// 
+    /// Set the time to be 0 and a boolean for checking local repair status.
+    /// While the time is not reached OR it's not repaired,
+    /// ** CHECK IF THE BLOCK IS SELECTED! IF NOT BREAK. DO NOT RUN UNLESS BACKUP IS ON TOP!
+    /// - Update the status to be between 0 and 1 based on the time
+    /// - Set the status bar to follow the repairStatus
+    /// - Increase time.
+    /// 
+    /// If the repair status is very close to 1 (bug preventing at 1 exactly)
+    /// - Set the repair to true and break. 
+    /// 
+    /// If repaired: Heal the block, set the status bar to be full, and update
+    /// the UI element of the statusBar itself.
     /// </summary>
     /// <returns></returns>
     IEnumerator Repair()
     {
         bool repaired = false;
         timeElapsed = 0;
-        Debug.Log("Repair time: " + lerpDuration);
 
         while ((timeElapsed < lerpDuration) || !repaired)
         {
@@ -262,6 +298,24 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Drains block overtime of the block based on an enemy attack.
+    /// 
+    /// Damange the block
+    /// While the time is set OR not dead yet, and there's items touching this block
+    /// - Drain the health over time (more touching, faster it goes)
+    /// 
+    /// If the repairStatus is less than or equal to 0.1, set the block to be fully dead
+    /// Set the repair status to 0 and update the UI.
+    /// 
+    /// If dead, update the UI and set the score -100 for allowing enemies to kill the block.
+    /// For each enemy that is touching, push them back away from the block.
+    /// For each enemy that is not touching but out to get the dead block,
+    /// generate a new target block.
+    /// 
+    /// Clear the target's touching list and set attacked to false to allow repair.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Attack()
     {
         DamageBlock(true);
@@ -270,17 +324,11 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         {
             currentRepairStatus = Mathf.Lerp(currentRepairStatus, 0, timeElapsed / lerpDuration);
             statusBar.transform.localScale = new Vector3(currentRepairStatus, 1, 1);
-            timeElapsed += Time.deltaTime + ((touching.Count/10) * 2);
+            timeElapsed += Time.deltaTime + ((touching.Count/5) * 2);
 
-            if (currentRepairStatus >= 0.1)
-            {
-
-            }
-            else
+            if (currentRepairStatus <= 0.1)
             {
                 dead = true;
-                currentRepairStatus = 0;
-                statusBar.transform.localScale = new Vector3(currentRepairStatus, 1, 1);
                 break;
             }
             yield return null;
@@ -288,7 +336,8 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
 
         if (dead)
         {
-            statusBar.transform.localScale = new Vector3(0, 1, 1);
+            currentRepairStatus = 0;
+            statusBar.transform.localScale = new Vector3(currentRepairStatus, 1, 1);
             minigameManager.UpdateScore(-100);
 
             foreach (GameObject enemy in touching)
@@ -325,11 +374,14 @@ public class FireDefense_RepairWallBlock : MonoBehaviour
         if (defenseManager.startBattle)
         {
             GameObject buttonPressed = gameObject;
-            DebugStats(buttonPressed);
             player.transform.position = Vector3.Lerp(player.transform.position, new Vector3(buttonPressed.transform.position.x, player.transform.position.y, player.transform.position.z), 1.5f);
         }
     }
 
+    /// <summary>
+    /// Prints out block information for debug purposes.
+    /// </summary>
+    /// <param name="buttonPressed"></param>
     private void DebugStats(GameObject buttonPressed)
     {
         Debug.Log("\n----------");

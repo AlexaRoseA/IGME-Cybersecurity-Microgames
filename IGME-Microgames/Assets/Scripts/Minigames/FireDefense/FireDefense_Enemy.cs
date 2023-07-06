@@ -4,25 +4,28 @@ using UnityEngine;
 
 public class FireDefense_Enemy : MonoBehaviour
 {
-    // Start is called before the first frame update
-    private GameObject target = null;
-    [SerializeField] GameObject repairPlayer;
-    [SerializeField] GameObject shootPlayer;
-    [SerializeField] Transform spawnSpot;
+    // Managers
     private MinigameManager minigameManager;
+    private FireDefense_FirewallDefense man;
+
+    // Target and spawn from location
+    private GameObject target = null;
+    private Transform spawnSpot;
 
     // Status bar
     [SerializeField] GameObject statusBar;
 
-    private FireDefense_FirewallDefense man;
-
+    // Enemey information
+    // Health, speed, if attacking a wall, and wander mode
     private int health = 100;
     private float speed = 2f;
     private bool attackingWall;
     private bool wander = false;
 
-    private Rigidbody2D rb;
-
+    /// <summary>
+    /// On creation, find all managers and it's spawn spot
+    /// Set the position based on spawn spot and find the ideal target
+    /// </summary>
     void Start()
     {
         attackingWall = false;
@@ -30,13 +33,15 @@ public class FireDefense_Enemy : MonoBehaviour
         man = GameObject.FindGameObjectWithTag("Phase").GetComponent<FireDefense_FirewallDefense>();
         spawnSpot = GameObject.Find("SpawnEnemies").transform;
         transform.position = new Vector3(Random.Range(0, 9), spawnSpot.position.y, 0f);
-        shootPlayer = GameObject.FindGameObjectWithTag("Player");
-        repairPlayer = GameObject.FindGameObjectWithTag("Spot");
-        rb = gameObject.GetComponent<Rigidbody2D>();
-
         SetTarget();
     }
 
+    /// <summary>
+    /// Resets the enemy to full health,
+    /// not wandering, not attacking, updates the score,
+    /// resets the statusBar, generates a new position
+    /// remove from old target list and generate new target
+    /// </summary>
     public void ResetEnemy()
     {
         health = 100;
@@ -49,12 +54,9 @@ public class FireDefense_Enemy : MonoBehaviour
         SetTarget();
     }
 
-    public Rigidbody2D GetRigidbody2D()
-    {
-        return rb;
-    }
-
-    // Update is called once per frame
+    /// <summary>
+    /// Runs if the game is started, not attacking a wall, and not wandering.
+    /// </summary>
     void Update()
     {
         if (man.startBattle && !attackingWall && !wander)
@@ -63,12 +65,20 @@ public class FireDefense_Enemy : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets a target. Uses an optional parameter
+    /// to ignore a set gameObject passed in as self.
+    /// </summary>
+    /// <param name="self">Target object to ignore in list</param>
     public void SetTarget(GameObject self = null)
     {
         wander = false;
         GameObject[] wallBlocks = GameObject.FindGameObjectWithTag("Phase").GetComponent<FireDefense_FirewallDefense>().GetBlockRow();
         List<GameObject> repaired = new List<GameObject>();
 
+        // For each wallBlock, generate a status
+        // If the wall is repaired AND not set to ignore,
+        // add to a repaired list.
         foreach(GameObject wallBlock in wallBlocks)
         {
             bool status = wallBlock.GetComponent<FireDefense_RepairWallBlock>().GetRepairStatus();
@@ -78,6 +88,9 @@ public class FireDefense_Enemy : MonoBehaviour
             }
         }
 
+        // If the list generated is not 0, pick a random
+        // target from the list and add this enemy as the
+        // target's enemy. Otherwise, wander this enemy.
         if (repaired.Count != 0)
         {
             target = repaired[Random.Range(0, repaired.Count)];
@@ -89,14 +102,22 @@ public class FireDefense_Enemy : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Returns the target of the enemy.
+    /// </summary>
+    /// <returns></returns>
     public GameObject GetTarget()
     {
         return target;
     }
 
+    /// <summary>
+    /// Wanders for a random interval of time in the shooter's range.
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Wander()
     {
-        int counterSeconds = Random.Range(2, 4);
+        int counterSeconds = Random.Range(4, 6);
         float normalizedTime = 0;
         Vector3 pos = new Vector3(Random.Range(-1,9), Random.Range(6f, 18f), transform.position.z);
         while(normalizedTime <= 1f)
@@ -111,6 +132,11 @@ public class FireDefense_Enemy : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// If the enemy is hit by a bullet, reset.
+    /// If the enemy hits a wall, set wall attack to true.
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.tag == "Bullet")
@@ -130,6 +156,10 @@ public class FireDefense_Enemy : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// If the enemy successfully destroys a wall, reset enemy.
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.transform.tag == "Wall")
@@ -138,14 +168,17 @@ public class FireDefense_Enemy : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Pushes the enemy back over a set period of time based on a random force.
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator PushBack()
     {
         Vector3 forcePos = new Vector3(transform.position.x, transform.position.y + Random.Range(6, 8), transform.position.z);
         
         while(Vector3.Distance(transform.position, forcePos) > 0.2)
         {
-            transform.position = Vector3.MoveTowards(transform.position, forcePos, 3 * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, forcePos, 1.5f * Time.deltaTime);
             yield return null;
         }
 

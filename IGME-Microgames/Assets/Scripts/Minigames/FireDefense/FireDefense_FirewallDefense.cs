@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class FireDefense_FirewallDefense : MonoBehaviour
 {
-    // Start is called before the first frame update
 
     // Wall block array, row repair and battle checker
     private GameObject[] wallBlocks;
@@ -17,6 +16,11 @@ public class FireDefense_FirewallDefense : MonoBehaviour
     [SerializeField] Movement movementScript;
     private MinigameManager minigameManager;
 
+    /// <summary>
+    /// Finds all the wall blocks and manager
+    /// For each wallblock, set the color uptime to be
+    /// a random color and set the downtime color to be gray.
+    /// </summary>
     void Start()
     {
         wallBlocks = GameObject.FindGameObjectsWithTag("Wall");
@@ -33,10 +37,17 @@ public class FireDefense_FirewallDefense : MonoBehaviour
             wallBlock.GetComponent<FireDefense_RepairWallBlock>().SetCurrentColor(colorRan);
         }
 
-        Debug.Log("Blocks collected: " + wallBlocks);
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// If the battle hasn't started yet and the phase is 
+    /// set to the fight phase, update the score text and
+    /// start the battle.
+    /// 
+    /// While running the battle, if the row is currently 
+    /// fully repaired, coordinate a new downtime for x 
+    /// amount of blocks randomly chosen.
+    /// </summary>
     void Update()
     {
         if (!startBattle)
@@ -54,6 +65,14 @@ public class FireDefense_FirewallDefense : MonoBehaviour
         } 
     }
 
+    /// <summary>
+    /// Sets up a downtime.
+    /// If the row is repaired on start, give the player 1000 points and reset 
+    /// For each gameObject, generate a random percentage if the block gets damaged.
+    /// Subtract 50 points on break.
+    /// Check if the row is not fully repaired afterwards.
+    /// Has a check in case a rare chance all blocks are fully repaired after run.
+    /// </summary>
     private void CoordinateDowntime()
     {
         if(rowRepaired)
@@ -78,11 +97,19 @@ public class FireDefense_FirewallDefense : MonoBehaviour
         CheckIfRowsRepaired();
     }
 
+    /// <summary>
+    /// Returns the array of blocks in the row
+    /// </summary>
+    /// <returns></returns>
     public GameObject[] GetBlockRow()
     {
         return wallBlocks;
     }
-
+    
+    /// <summary>
+    /// Sets the rowRepaired boolean to true or false 
+    /// based on the row's repair status
+    /// </summary>
     public void CheckIfRowsRepaired()
     {
         bool tempStatus = true;
