@@ -18,5 +18,9 @@ MonoBehaviour:
   workstationSprite: {fileID: 21300000, guid: cee9dbe90b270c944ae1dabf41c93b10, type: 3}
   price: 2000
   isOutline: 1
+  starThresholds: 00000080e8030000b80b00004c1d000010270000
+  challengeCooldown: 3
+  highscore: 0
+  agentLevel: 0
   fresh: 1
   inPlaylist: 0

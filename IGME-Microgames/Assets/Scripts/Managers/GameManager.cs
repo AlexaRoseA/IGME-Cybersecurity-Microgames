@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 public enum GameMode
 {
     practice,
@@ -12,7 +13,7 @@ public enum GameMode
 
 public class GameManager : MonoBehaviour
 {
-    public int currency;
+    public int currency = 2500;
     public int playerLevel;
     public GameMode currentGameMode;
     private Queue<WorkstationData> playlist;
@@ -30,6 +31,11 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene("Agency", LoadSceneMode.Additive);
             SceneManager.SetActiveScene(SceneManager.GetSceneByName("Agency"));
+            UpdateCurrency();
+        }
+        else
+        {
+            UpdateCurrency();
         }
     }
 
@@ -60,6 +66,7 @@ public class GameManager : MonoBehaviour
     private void NewMinigameLoaded(Scene scene, LoadSceneMode mode)
     {
         SceneManager.SetActiveScene(scene);
+        SceneManager.sceneLoaded -= NewMinigameLoaded;
     }
 
     public void BuildPlaylist(WorkstationData[] workstations)
@@ -118,7 +125,7 @@ public class GameManager : MonoBehaviour
 
         WorkstationData finishedGame = playlist.Dequeue();
         finishedGame.FinishMinigame(score, currentGameMode);
-        currency += score * score * 100;
+        currency += ScoreToStars(score, finishedGame) * 100;
 
         lastScore = score;
         lastMinigame = finishedGame;
@@ -126,7 +133,7 @@ public class GameManager : MonoBehaviour
         ClearScenes();
         SceneManager.LoadSceneAsync("MinigameScore", LoadSceneMode.Additive);
         SceneManager.sceneLoaded += PopulateScoreScreen;
-
+        SceneManager.sceneLoaded += UpdateCurrency;
     }
 
     /// <summary>
@@ -154,7 +161,9 @@ public class GameManager : MonoBehaviour
     public void EndStreak()
     {
         ClearScenes();
+        SceneManager.sceneLoaded += UpdateCurrency;
         SceneManager.LoadSceneAsync("Agency", LoadSceneMode.Additive);
+        
     }
 
     /// <summary>
@@ -173,6 +182,36 @@ public class GameManager : MonoBehaviour
 
     private void PopulateScoreScreen(Scene scene, LoadSceneMode mode)
     {
-        FindObjectOfType<ScoreScreenManager>().InitScoreScreen(lastScore, lastMinigame);
+        FindObjectOfType<ScoreScreenManager>().InitScoreScreen(lastScore, ScoreToStars(lastScore, lastMinigame), lastMinigame);
+        SceneManager.sceneLoaded -= PopulateScoreScreen;
+    }
+
+    private void UpdateCurrency(Scene scene, LoadSceneMode mode)
+    {
+        UpdateCurrency();
+        SceneManager.sceneLoaded -= UpdateCurrency;
+    }
+
+    public void UpdateCurrency()
+    {
+        GameObject currencyText = GameObject.Find("Currency");
+        if (currencyText == null) return;
+
+
+        currencyText.GetComponent<TMP_Text>().text = currency.ToString();
+    }
+
+    private int ScoreToStars(int score, WorkstationData game)
+    {
+        int starCount = -1;
+        for (int i = game.starThresholds.Length - 1; i >= 0; i--)
+        {
+            if (score > game.starThresholds[i])
+            {
+                starCount = i + 1;
+                break;
+            }
+        }
+        return starCount;
     }
 }

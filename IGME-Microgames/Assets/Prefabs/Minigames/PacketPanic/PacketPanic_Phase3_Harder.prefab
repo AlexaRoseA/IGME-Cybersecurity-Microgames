@@ -113,7 +113,7 @@ MonoBehaviour:
   - {fileID: 2335588543336205769}
   - {fileID: 2335588542057371058}
   - {fileID: 6288489932285254813}
-  maxDifficulty: 13
+  maxDifficulty: 2.9
 --- !u!1 &2966682023646066889
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,18 +710,6 @@ PrefabInstance:
       propertyPath: spawnerManager
       value: 
       objectReference: {fileID: 2205735413033922488}
-    - target: {fileID: 4536802456655543288, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
-      propertyPath: packetSpawnPatterns.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4536802456655543288, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
-      propertyPath: packetSpawnPatterns.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: ff62a6c7cc0358a4faf7575f7b0814db, type: 2}
-    - target: {fileID: 4536802456655543288, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
-      propertyPath: packetSpawnPatterns.Array.data[4]
-      value: 
-      objectReference: {fileID: 11400000, guid: 1526f2978d28e764f8ffa424ffb1a94b, type: 2}
     - target: {fileID: 4536802456655543290, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
       propertyPath: m_Positions.Array.size
       value: 4
@@ -855,18 +843,6 @@ PrefabInstance:
       propertyPath: spawnerManager
       value: 
       objectReference: {fileID: 2205735413033922488}
-    - target: {fileID: 4536802456655543288, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
-      propertyPath: packetSpawnPatterns.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4536802456655543288, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
-      propertyPath: packetSpawnPatterns.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: ff62a6c7cc0358a4faf7575f7b0814db, type: 2}
-    - target: {fileID: 4536802456655543288, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
-      propertyPath: packetSpawnPatterns.Array.data[4]
-      value: 
-      objectReference: {fileID: 11400000, guid: 1526f2978d28e764f8ffa424ffb1a94b, type: 2}
     - target: {fileID: 4536802456655543290, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
       propertyPath: m_Positions.Array.size
       value: 5
@@ -1008,18 +984,6 @@ PrefabInstance:
       propertyPath: spawnerManager
       value: 
       objectReference: {fileID: 2205735413033922488}
-    - target: {fileID: 4536802456655543288, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
-      propertyPath: packetSpawnPatterns.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4536802456655543288, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
-      propertyPath: packetSpawnPatterns.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: ff62a6c7cc0358a4faf7575f7b0814db, type: 2}
-    - target: {fileID: 4536802456655543288, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
-      propertyPath: packetSpawnPatterns.Array.data[4]
-      value: 
-      objectReference: {fileID: 11400000, guid: 1526f2978d28e764f8ffa424ffb1a94b, type: 2}
     - target: {fileID: 4536802456655543290, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
       propertyPath: m_Positions.Array.size
       value: 5
@@ -1153,18 +1117,6 @@ PrefabInstance:
       propertyPath: spawnerManager
       value: 
       objectReference: {fileID: 2205735413033922488}
-    - target: {fileID: 4536802456655543288, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
-      propertyPath: packetSpawnPatterns.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4536802456655543288, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
-      propertyPath: packetSpawnPatterns.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: ff62a6c7cc0358a4faf7575f7b0814db, type: 2}
-    - target: {fileID: 4536802456655543288, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
-      propertyPath: packetSpawnPatterns.Array.data[4]
-      value: 
-      objectReference: {fileID: 11400000, guid: 1526f2978d28e764f8ffa424ffb1a94b, type: 2}
     - target: {fileID: 4536802456655543290, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
       propertyPath: m_Positions.Array.size
       value: 5
@@ -1306,18 +1258,6 @@ PrefabInstance:
       propertyPath: spawnerManager
       value: 
       objectReference: {fileID: 2205735413033922488}
-    - target: {fileID: 4536802456655543288, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
-      propertyPath: packetSpawnPatterns.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4536802456655543288, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
-      propertyPath: packetSpawnPatterns.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: ff62a6c7cc0358a4faf7575f7b0814db, type: 2}
-    - target: {fileID: 4536802456655543288, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
-      propertyPath: packetSpawnPatterns.Array.data[4]
-      value: 
-      objectReference: {fileID: 11400000, guid: 1526f2978d28e764f8ffa424ffb1a94b, type: 2}
     - target: {fileID: 4536802456655543290, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -1479,18 +1419,6 @@ PrefabInstance:
       propertyPath: spawnerManager
       value: 
       objectReference: {fileID: 2205735413033922488}
-    - target: {fileID: 4536802456655543288, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
-      propertyPath: packetSpawnPatterns.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4536802456655543288, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
-      propertyPath: packetSpawnPatterns.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: ff62a6c7cc0358a4faf7575f7b0814db, type: 2}
-    - target: {fileID: 4536802456655543288, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
-      propertyPath: packetSpawnPatterns.Array.data[4]
-      value: 
-      objectReference: {fileID: 11400000, guid: 1526f2978d28e764f8ffa424ffb1a94b, type: 2}
     - target: {fileID: 4536802456655543290, guid: 02a1fc6a8e021c24a892c4e9a00f4259, type: 3}
       propertyPath: m_Positions.Array.data[1].y
       value: 1

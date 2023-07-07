@@ -146,5 +146,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilemap: {fileID: 0}
   line: {fileID: 8785236587157389650}
-  degreesPerSecond: 360
+  degreesPerSecond: 720
   nodes: []
