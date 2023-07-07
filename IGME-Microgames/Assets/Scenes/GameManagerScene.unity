@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69ea4ed4c35c3d5409b7530f9ac5b90c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currency: 250000
+  currency: 25000
   playerLevel: 0
   currentGameMode: 0
   minigameDuplicates: 2

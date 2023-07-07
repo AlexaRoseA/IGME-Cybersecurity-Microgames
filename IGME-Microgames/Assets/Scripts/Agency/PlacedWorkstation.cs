@@ -13,8 +13,11 @@ public class PlacedWorkstation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        tapUICanvas.SetActive(false);
         agencyManager = gameObject.transform.parent.gameObject.GetComponent<AgencyManager>();
+        tapUICanvas.GetComponent<Canvas>().worldCamera = Camera.main;
+        tapUICanvas.GetComponent<Canvas>().sortingLayerName = "UIUX";
+
+        tapUICanvas.SetActive(false);
     }
 
     /// <summary>
@@ -33,15 +36,16 @@ public class PlacedWorkstation : MonoBehaviour
     /// <param name="active"></param>
     public void SetTapUI(bool active)
     {
+
         if (!active)
         {
             tapUICanvas.SetActive(false);
             return;
         }
+        tapUICanvas.SetActive(true);
         GameObject tapui = tapUICanvas.transform.Find("Buttons").gameObject;
 
-        tapui.transform.position = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-        tapUICanvas.SetActive(true);
+        tapui.transform.position = gameObject.transform.position;
         return;
     }
 
