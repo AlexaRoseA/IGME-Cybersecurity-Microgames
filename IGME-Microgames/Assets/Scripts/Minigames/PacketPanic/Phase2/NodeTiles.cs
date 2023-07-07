@@ -13,7 +13,7 @@ public class NodeTiles : TileBase
 {
     //public Sprite nodeSprite;
     public GameObject nodePrefab;
-
+    private Vector3Int firstIndex;
     public Dictionary<Vector3Int, Node> nodeMap;
 
     public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
@@ -26,8 +26,11 @@ public class NodeTiles : TileBase
     {
         //instead of each tile being a NodeTiles object, the nodeTiles object is the same for each tile.
         //Startup creates a unique gameobject for each tile, from the prefab determined in GetTileData().
-        if (nodeMap == null)
+
+        //on first iteration firstIndex will be null
+        if (nodeMap == null || position == firstIndex)
         {
+            firstIndex = position;
             nodeMap = new Dictionary<Vector3Int, Node>();
         }
 

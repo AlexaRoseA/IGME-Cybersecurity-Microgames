@@ -15,6 +15,7 @@ public class PanicManagerPhase2 : MonoBehaviour
 
     void Start()
     {
+
         //determine how many paths there will be
         int pathsToPlaceRemaining = Random.Range(averagePaths, (int)(averagePaths * 2f));
 
@@ -60,7 +61,6 @@ public class PanicManagerPhase2 : MonoBehaviour
     public void EndPhase(bool captured)
     {
 
-        tilemap.GetTile<NodeTiles>(Vector3Int.zero).nodeMap = null;
         MinigameManager miniManager = FindObjectOfType<MinigameManager>();
         if (miniManager == null)
         {
