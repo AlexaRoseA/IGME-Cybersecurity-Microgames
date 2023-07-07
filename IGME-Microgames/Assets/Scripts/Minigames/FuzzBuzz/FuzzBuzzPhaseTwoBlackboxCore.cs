@@ -4,8 +4,6 @@ using UnityEngine;
 
 /* **************************************************************************
 * 
-* 2023 Alexa Amoriello, IGME PROJECT H4CKB0X
-*
 * This script is phase 2 of the minigame FUZZ BUZZ, which is an adaptation
 * to teach players about blackbox fuzz testing.
 *
