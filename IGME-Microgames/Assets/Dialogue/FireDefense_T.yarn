@@ -1,0 +1,42 @@
+﻿title: FireDefense_T_1
+tags:
+---
+
+<<cameraPhase MainCamera T_1_Intro>>
+Narrator: Welcome to the firewall!
+Narrator: Everyday, data passes through the firewall and gets checked by our defenders.
+Narrator: With this system, we prevent unauthorized access into our system.
+<<cameraPhase MainCamera T_1_ZoomIn>>
+Narrator: Let me show you some examples of our visitors.
+<<cameraPhase MainCamera T_1_FadeIn>>
+
+===
+
+title: FireDefense_T_2
+tags:
+---
+
+<<if $example is "good">>
+Narrator: This visitor is bringing in a contact card!
+Narrator: They are a bright color, have kind eyes, and clean around the edges.
+Narrator: We love these kinds of visitors! They make our system useful.
+<<endif>>
+
+<<if $example is "bad">>
+Narrator: This visitor is bringing in something strange...
+Narrator: They are a dull color, have weird eyes, and are a bit messy.
+Narrator: I wouldn't trust this visitor. If they make a fuss, you can teleport them away.
+<<endif>>
+
+===
+
+title: FireDefense_T_3
+tags:
+---
+
+Narrator: Now that you've help our border patrol, let's see some other jobs at the firewall!
+Narrator: The firewall always needs to be maintaineda nd checked for vulnerabilities.
+Narrator: Our robots Backup would love your help repairing a section of the firewall!
+Narrator: Why don't you go help them?
+
+===
