@@ -6,13 +6,14 @@ using UnityEngine.InputSystem;
 public class InputHandler : MonoBehaviour
 {
 
-    private PlayerInput playerInput;
+    public PlayerInput playerInput;
     private InputAction touchMovementAction;
     private InputAction touchPressAction;
 
     protected void Awake()
     {
-        playerInput = GetComponent<PlayerInput>();
+        if (playerInput == null) playerInput = GetComponent<PlayerInput>();
+        if (playerInput == null) playerInput = FindObjectOfType<PlayerInput>();
         touchPressAction = playerInput.actions.FindAction("TouchPress");
         touchMovementAction = playerInput.actions.FindAction("TouchMovement");
     }

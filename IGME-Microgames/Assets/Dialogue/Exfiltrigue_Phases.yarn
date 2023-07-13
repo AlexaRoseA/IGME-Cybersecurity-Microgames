@@ -1,0 +1,27 @@
+﻿title: Exfiltrigue_Phase1
+---
+<<ShowAllCharacters CharacterDialogDisplayer>>
+
+Packet: Welcome to <color=red>Packet Panic</color>!
+Packet: Defend the network by tapping on the malicious packets. 
+
+<<SetBool CharacterDialogDisplayer 0 determined true>>
+Packet: Here comes an attack!
+
+<<set $timeRemaining to 30>>
+<<SetBool CharacterDialogDisplayer 0 determined false>>
+<<HideAllCharacters CharacterDialogDisplayer>>
+===
+
+title: Exfiltrigue_Phase2
+---
+<<ShowAllCharacters CharacterDialogDisplayer>>
+Packet: We've isolated a malicious packet. Rotate the network pathways to let the antivirus capture it!
+
+<<SetBool CharacterDialogDisplayer 0 determined true>>
+Packet: Capturing the packet will let us learn more about this attack, and our network's integrity will increase!
+
+<<set $timeRemaining to 25>>
+<<SetBool CharacterDialogDisplayer 0 determined false>>
+<<HideAllCharacters CharacterDialogDisplayer>>
+===
