@@ -11,10 +11,6 @@ public class SpearMovement : InputHandler
     public float maxPullDist = 2f;
     public float launchStrengthMultiplier = 2f;
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawRay(transform.position, launchDirection);
-    }
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +22,10 @@ public class SpearMovement : InputHandler
     {
         if(directing)
         {
-            //transform.rotation = Quaternion.LookRotation()
+            //update the rotation while the player is aiming the spear
+            Vector3 forward = (TouchScreenToWorld() - transform.position) * -1f;
+            float angle = Mathf.Rad2Deg * Mathf.Atan2(forward.y, forward.x);
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
     }
 
@@ -34,10 +33,7 @@ public class SpearMovement : InputHandler
     {
         Vector3 touchPos = TouchScreenToWorld();
         touchPos.z = 0f;
-        if(Vector3.Distance(touchPos, transform.position) < 1)
-        {
-            directing = true;
-        }
+        directing = Vector3.Distance(touchPos, transform.position) < 1;
     }
 
     protected override void TouchCancelled(InputAction.CallbackContext context)
