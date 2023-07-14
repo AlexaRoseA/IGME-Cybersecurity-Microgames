@@ -11,6 +11,8 @@ public class FireDefenseT_CameraPan : MonoBehaviour
     private float timer;
     private float percent;
     [SerializeField] GameObject fadeBox;
+    [SerializeField] List<GameObject> popups;
+    private int sceneIndex = 0;
     [SerializeField] List<GameObject> scenes;
     private Material mat;
 
@@ -33,6 +35,14 @@ public class FireDefenseT_CameraPan : MonoBehaviour
     {
         cameraPhase = phase;
         DetermineNext();
+    }
+
+    [YarnCommand("nextScene")]
+    public void NextScene()
+    {
+        sceneIndex++;
+        scenes[sceneIndex - 1].SetActive(false);
+        scenes[sceneIndex].SetActive(true);
     }
 
     private void DetermineNext()
@@ -88,6 +98,12 @@ public class FireDefenseT_CameraPan : MonoBehaviour
             mat.color = new Color(mat.color.r, mat.color.g, mat.color.b, newAlpha);
             yield return null;
         }
+    }
+
+    [YarnCommand("showPopup")]
+    public void ShowHidePopup(bool status, int index)
+    {
+        popups[index].SetActive(status);
     }
 
 } 

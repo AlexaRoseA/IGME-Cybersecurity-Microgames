@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Yarn.Unity;
 
 public class FireDefense_T_ScanGame : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] GameObject currentBot;
-    [SerializeField] GameObject nextBot;
+    private GameObject currentBot;
+    [SerializeField] List<GameObject> botChoices;
     [SerializeField] GameObject scanBar;
     private bool scanned = false;
 
@@ -16,21 +17,82 @@ public class FireDefense_T_ScanGame : MonoBehaviour
     [SerializeField] Button deny;
 
     [SerializeField] Transform standPos;
+    private FireDefenseT_CameraPan cameraScript;
 
     private float seconds = 1.5f;
     private float timer;
     private float percent;
+    private bool startGame = false;
+
+    // Variable storage for YarnSpinner and dialog running
+    public InMemoryVariableStorage variableStorage;
+    public DialogueRunner dialogueRunner;
 
 
     void Start()
     {
+        cameraScript = FindObjectOfType<FireDefenseT_CameraPan>();
         ResetScans();
+        scan.interactable = false;
+
+        dialogueRunner.StartDialogue("FireDefense_T_2");
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    [YarnCommand("SpawnBot")]
+    public void SpawnBot(string forceChoice = "")
+    {
+        if(forceChoice != "")
+        {
+            int ranNum = Random.Range(0, botChoices.Count);
+            currentBot = Instantiate(botChoices[ranNum], standPos.position, Quaternion.identity);
+        } else
+        {
+            foreach(GameObject botChoice in botChoices)
+            {
+                if(botChoice.name == forceChoice)
+                {
+                    currentBot = Instantiate(botChoice, standPos.position, Quaternion.identity);
+                }
+            }
+        }
+    }
+
+    [YarnCommand("StartGame")]
+    public void StartGame()
+    {
+        Debug.Log("GameStart");
+        scan.interactable = true;
+        startGame = true;
+    }
+
+    [YarnCommand("PassGo")]
+    public void YouPassGo(string force = "")
+    {
+        StartCoroutine(BitGo(force));
+    }
+    IEnumerator BitGo(string force = "")
+    {
+        float timer = 0;
+        float seconds = 4f;
+
+        while (timer <= seconds)
+        {
+            timer += Time.deltaTime;
+            percent = timer / seconds;
+            currentBot.transform.position = new Vector3(currentBot.transform.position.x, currentBot.transform.position.y + 1f, currentBot.transform.position.z);
+        }
+
+        Destroy(currentBot);
+        currentBot = null;
+        SpawnBot(force);
+
+        yield return null;
     }
 
     private void ResetScans()
@@ -90,5 +152,4 @@ public class FireDefense_T_ScanGame : MonoBehaviour
 
         yield return null;
     }
-
 }

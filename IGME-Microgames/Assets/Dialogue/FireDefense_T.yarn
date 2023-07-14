@@ -3,12 +3,16 @@ tags:
 ---
 
 <<cameraPhase MainCamera T_1_Intro>>
-Narrator: Welcome to the firewall!
+Narrator: Welcome to the firewall! A network security system that restricts internet traffic!
+<<showPopup MainCamera true 0>>
 Narrator: Everyday, data passes through the firewall and gets checked by our defenders.
-Narrator: With this system, we prevent unauthorized access into our system.
+Narrator: They use set code and rulesets to determine threat level.
+Narrator: With this system, we prevent unauthorized access into our systems.
 <<cameraPhase MainCamera T_1_ZoomIn>>
+<<showPopup MainCamera false 0>>
 Narrator: Let me show you some examples of our visitors.
 <<cameraPhase MainCamera T_1_FadeIn>>
+<<nextScene MainCamera>>
 
 ===
 
@@ -16,17 +20,20 @@ title: FireDefense_T_2
 tags:
 ---
 
-<<if $example is "good">>
+<<SpawnBot SceneTwo CarrierBot_Good1>>
 Narrator: This visitor is bringing in a contact card!
 Narrator: They are a bright color, have kind eyes, and clean around the edges.
 Narrator: We love these kinds of visitors! They make our system useful.
-<<endif>>
 
-<<if $example is "bad">>
+<<PassGo SceneTwo>>
+<<SpawnBot SceneTwo CarrierBot_Bad1>>
+
 Narrator: This visitor is bringing in something strange...
 Narrator: They are a dull color, have weird eyes, and are a bit messy.
 Narrator: I wouldn't trust this visitor. If they make a fuss, you can teleport them away.
-<<endif>>
+
+<<PassGo SceneTwo>>
+<<StartGame SceneTwo>>
 
 ===
 
