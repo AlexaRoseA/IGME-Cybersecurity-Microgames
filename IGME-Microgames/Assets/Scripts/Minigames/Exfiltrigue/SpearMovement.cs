@@ -34,12 +34,14 @@ public class SpearMovement : InputHandler
         Vector3 touchPos = TouchScreenToWorld();
         touchPos.z = 0f;
         directing = Vector3.Distance(touchPos, transform.position) < 1;
+        Time.timeScale = directing ? 0.3f : 1f;
     }
 
     protected override void TouchCancelled(InputAction.CallbackContext context)
     {
         if (!directing) return;
 
+        Time.timeScale = 1f;
         directing = false;
 
         Vector3 touchPos = TouchScreenToWorld();

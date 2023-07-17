@@ -228,7 +228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInput: {fileID: 0}
   maxPullDist: 1.5
-  launchStrengthMultiplier: 3
+  launchStrengthMultiplier: 4
 --- !u!114 &7931052140741376032
 MonoBehaviour:
   m_ObjectHideFlags: 0

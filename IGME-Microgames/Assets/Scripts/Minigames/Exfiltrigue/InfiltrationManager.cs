@@ -78,7 +78,7 @@ public class InfiltrationManager : MonoBehaviour
     public void SendPhishing()
     {
 
-        minigameManager.UpdateScore((int)minigameManager.GetTimeRemaining() * 200);
+        minigameManager.UpdateScore(1000 + ((int)minigameManager.GetTimeRemaining() * 200));
         minigameManager.SetPhase();
     }
 }
