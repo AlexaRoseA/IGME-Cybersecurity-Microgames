@@ -870,7 +870,7 @@ Transform:
   - {fileID: 2073457873}
   - {fileID: 1918930509}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &461646724
 GameObject:
@@ -1128,11 +1128,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 577552293}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -6.8599997, z: -5}
+  m_LocalPosition: {x: -0.23, y: -2.3899999, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1944803304}
+  m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &665561911
@@ -2597,7 +2597,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1095013492
 PrefabInstance:
@@ -2612,7 +2612,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3183266951831634833, guid: 25535030b8921614597f8cb593a559e4, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3183266951831634833, guid: 25535030b8921614597f8cb593a559e4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3332,6 +3332,7 @@ MonoBehaviour:
   - {fileID: 1918930508}
   scenes:
   - {fileID: 447321813}
+  - {fileID: 1944803303}
 --- !u!1 &1205598014
 GameObject:
   m_ObjectHideFlags: 0
@@ -4126,6 +4127,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1715341848}
   m_CullTransparentMesh: 1
+--- !u!114 &1889513331 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3579681405068720530, guid: 25535030b8921614597f8cb593a559e4, type: 3}
+  m_PrefabInstance: {fileID: 1095013492}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bec29c0a230741bdac901dba8da47ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1898579792
 GameObject:
   m_ObjectHideFlags: 0
@@ -4837,9 +4849,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 702770836}
-  - {fileID: 577552294}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1944803305
 MonoBehaviour:
@@ -4853,7 +4864,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e0acf29e732fc44c9a51deea415345b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentBot: {fileID: 0}
   botChoices:
   - {fileID: 8231512977642567363, guid: 6a1e4928f1e95964089f8b5c645d7efe, type: 3}
   - {fileID: 7210560102798244228, guid: 856d307add07f5a44a26c5b69bdd03be, type: 3}
@@ -4864,6 +4874,8 @@ MonoBehaviour:
   approve: {fileID: 2112706830}
   deny: {fileID: 1715341850}
   standPos: {fileID: 577552294}
+  variableStorage: {fileID: 0}
+  dialogueRunner: {fileID: 1889513331}
 --- !u!1 &1953715914
 GameObject:
   m_ObjectHideFlags: 0
@@ -5271,7 +5283,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2112706831}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1944803305}
+        m_TargetAssemblyTypeName: FireDefense_T_ScanGame, Assembly-CSharp
+        m_MethodName: AcceptButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2112706831
 MonoBehaviour:
   m_ObjectHideFlags: 0

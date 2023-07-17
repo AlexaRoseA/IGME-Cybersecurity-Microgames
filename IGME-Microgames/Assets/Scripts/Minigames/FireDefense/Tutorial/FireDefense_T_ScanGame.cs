@@ -8,6 +8,8 @@ public class FireDefense_T_ScanGame : MonoBehaviour
 {
     // Start is called before the first frame update
     private GameObject currentBot;
+    private Animator currentBotAnimator;
+    private GameObject priorBot;
     [SerializeField] List<GameObject> botChoices;
     [SerializeField] GameObject scanBar;
     private bool scanned = false;
@@ -34,6 +36,7 @@ public class FireDefense_T_ScanGame : MonoBehaviour
         cameraScript = FindObjectOfType<FireDefenseT_CameraPan>();
         ResetScans();
         scan.interactable = false;
+        priorBot = null;
 
         dialogueRunner.StartDialogue("FireDefense_T_2");
     }
@@ -41,13 +44,22 @@ public class FireDefense_T_ScanGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(startGame && currentBot == null)
+        {
+            ResetScans();
+            SpawnBot();
+        }
     }
 
     [YarnCommand("SpawnBot")]
     public void SpawnBot(string forceChoice = "")
     {
-        if(forceChoice != "")
+        if(currentBot != null)
+        {
+            priorBot = currentBot;
+        }
+
+        if(forceChoice == "")
         {
             int ranNum = Random.Range(0, botChoices.Count);
             currentBot = Instantiate(botChoices[ranNum], standPos.position, Quaternion.identity);
@@ -61,6 +73,8 @@ public class FireDefense_T_ScanGame : MonoBehaviour
                 }
             }
         }
+
+        currentBotAnimator = currentBot.transform.GetChild(0).GetComponent<Animator>();
     }
 
     [YarnCommand("StartGame")]
@@ -69,6 +83,21 @@ public class FireDefense_T_ScanGame : MonoBehaviour
         Debug.Log("GameStart");
         scan.interactable = true;
         startGame = true;
+
+        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            Destroy(enemy);
+        }
+    }
+
+    [YarnCommand("DestroyAllBits")]
+    public void DestroyAllBits()
+    {
+        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            Debug.Log("found " + enemy.name + ", destroying...");
+            Destroy(enemy);
+        }
     }
 
     [YarnCommand("PassGo")]
@@ -76,23 +105,41 @@ public class FireDefense_T_ScanGame : MonoBehaviour
     {
         StartCoroutine(BitGo(force));
     }
+
     IEnumerator BitGo(string force = "")
     {
         float timer = 0;
         float seconds = 4f;
+        priorBot = currentBot;
 
         while (timer <= seconds)
         {
             timer += Time.deltaTime;
             percent = timer / seconds;
-            currentBot.transform.position = new Vector3(currentBot.transform.position.x, currentBot.transform.position.y + 1f, currentBot.transform.position.z);
+            priorBot.transform.position = new Vector3(priorBot.transform.position.x, priorBot.transform.position.y + 1f, priorBot.transform.position.z);
         }
 
-        Destroy(currentBot);
+        Destroy(priorBot);
+        Debug.Log("Bot Destroyed.");
         currentBot = null;
         SpawnBot(force);
 
         yield return null;
+    }
+
+    IEnumerator BitDead(string force = "")
+    {
+        yield return null;
+    }
+
+    public void AcceptButton()
+    {
+        string type = currentBot.name.Split("_")[1];
+        type = type.Substring(0, type.Length - 8).ToLower();
+
+        Debug.Log(type);
+        StartCoroutine(BitGo());
+        ResetScans();
     }
 
     private void ResetScans()
@@ -100,6 +147,7 @@ public class FireDefense_T_ScanGame : MonoBehaviour
         scanned = false;
         approve.interactable = false;
         deny.interactable = false;
+        scan.interactable = true;
     }
 
     public void StartScan()

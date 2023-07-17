@@ -20,12 +20,13 @@ title: FireDefense_T_2
 tags:
 ---
 
-<<SpawnBot SceneTwo CarrierBot_Good1>>
+<<SpawnBot SceneTwo CarrierBot_Good2>>
 Narrator: This visitor is bringing in a contact card!
 Narrator: They are a bright color, have kind eyes, and clean around the edges.
 Narrator: We love these kinds of visitors! They make our system useful.
 
 <<PassGo SceneTwo>>
+<<DestroyAllBits SceneTwo>>
 <<SpawnBot SceneTwo CarrierBot_Bad1>>
 
 Narrator: This visitor is bringing in something strange...
