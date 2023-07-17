@@ -141,6 +141,10 @@ PlayerSettings:
   bundleVersion: 0.0.1
   preloadedAssets:
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: -3833262900960629937, guid: 574a8680e3ddb14438daf87735ba1268, type: 2}
   - {fileID: 0}
   metroInputSource: 0
@@ -159,7 +163,7 @@ PlayerSettings:
   targetPixelDensity: 30
   resolutionScalingMode: 0
   resetResolutionOnWindowResize: 0
-  androidSupportedAspectRatio: 0
+  androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 1.96
   applicationIdentifier:
     Android: com.DefaultCompany.com.unity.template.mobile2D
