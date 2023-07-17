@@ -53,7 +53,7 @@ public class InfiltrationManager : MonoBehaviour
         string match = regex.Match(phishingTextComp.text).Value;
         if (match.Length == 0)
         {
-            minigameManager.UpdateScore(800);
+            minigameManager.UpdateScore(400);
             return;
         }
 
@@ -63,7 +63,7 @@ public class InfiltrationManager : MonoBehaviour
         updated = updated.Replace("<Account Number>", "********7634");
         phishingTextComp.text = phishingTextComp.text.Replace(match, updated);
 
-        minigameManager.UpdateScore(1600);
+        minigameManager.UpdateScore(800);
 
         //check if there's another PII to fill
         match = regex.Match(phishingTextComp.text).Value;
@@ -78,7 +78,7 @@ public class InfiltrationManager : MonoBehaviour
     public void SendPhishing()
     {
 
-        minigameManager.UpdateScore(1000 + ((int)minigameManager.GetTimeRemaining() * 200));
+        minigameManager.UpdateScore(500 + ((int)minigameManager.GetTimeRemaining() * 80));
         minigameManager.SetPhase();
     }
 }

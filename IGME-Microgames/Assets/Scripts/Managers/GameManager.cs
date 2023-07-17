@@ -206,7 +206,7 @@ public class GameManager : MonoBehaviour
         int starCount = -1;
         for (int i = game.starThresholds.Length - 1; i >= 0; i--)
         {
-            if (score > game.starThresholds[i])
+            if (score >= game.starThresholds[i])
             {
                 starCount = i + 1;
                 break;
