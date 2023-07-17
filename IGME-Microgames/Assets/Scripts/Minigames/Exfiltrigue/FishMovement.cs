@@ -13,10 +13,13 @@ public class FishMovement : MonoBehaviour
     float dartCooldown;
     float nextDartTime;
 
+    MinigameManager minigameManager;
+
     Rigidbody2D rb;
     // Start is called before the first frame update
     void Start()
     {
+        minigameManager = FindObjectOfType<MinigameManager>();
         rb = gameObject.GetComponent<Rigidbody2D>();
         if (fleeTarget == null) fleeTarget = GameObject.Find("Spear");
     }
@@ -24,7 +27,7 @@ public class FishMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (!minigameManager.GetTimer()) return;
         //if fish is further than 20 units away from the player
         Vector3 playerDist = transform.position - fleeTarget.transform.position;
 

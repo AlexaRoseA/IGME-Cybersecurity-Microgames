@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minigameScene: Exfiltrigue
   jobTitle: Cyber Operator
-  minigameName: Exfiltrigue
+  minigameName: EXFILTRIGUE
   workstationSprite: {fileID: 7482667652216324306, guid: 4238cfef943e95d4aa164c7e37df1c9f, type: 3}
   price: 2000
   isOutline: 1

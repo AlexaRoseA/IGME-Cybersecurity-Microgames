@@ -5,11 +5,13 @@ using UnityEngine;
 public class Skewerer : MonoBehaviour
 {
     public GameObject[] skeweredPositions;
+    public InfiltrationManager infilManager;
     private List<GameObject> skewered;
 
     // Start is called before the first frame update
     void Start()
     {
+        if (infilManager == null) infilManager = FindObjectOfType<InfiltrationManager>();
         skewered = new List<GameObject>();
     } 
 
@@ -18,11 +20,12 @@ public class Skewerer : MonoBehaviour
         SkewerTarget target = collider.gameObject.GetComponent<SkewerTarget>();
         if (target == null) return;
 
+        infilManager.NextPII();
+
         Rigidbody2D targetRB = target.GetComponent<Rigidbody2D>();
         if(targetRB != null) Destroy(targetRB);
 
-        target.Skewer(skeweredPositions[skewered.Count].transform);
-
+        target.Skewer(skewered.Count < skeweredPositions.Length ? skeweredPositions[skewered.Count].transform : null);
 
         skewered.Add(target.gameObject);
     }

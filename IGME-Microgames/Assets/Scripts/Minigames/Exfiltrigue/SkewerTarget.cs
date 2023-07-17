@@ -15,10 +15,14 @@ public class SkewerTarget : MonoBehaviour
         FishMovement movement = gameObject.GetComponent<FishMovement>();
         if (movement != null) movement.enabled = false;
 
-        //reset transform and parent to the passed in transform, so that it will be at the desired location
-        transform.parent = newParent;
-        transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.identity;
+        if(newParent != null)
+        {
+            //reset transform and parent to the passed in transform, so that it will be at the desired location
+            transform.parent = newParent;
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
+        }
+
 
         //update this sprite to be the sprite that will be under the skewer
         SpriteRenderer under = gameObject.GetComponent<SpriteRenderer>();
@@ -26,6 +30,8 @@ public class SkewerTarget : MonoBehaviour
         under.sortingLayerName = "Player";
         under.sortingOrder = -1;
 
+        //dont add an over sprite if there isn't a skewer
+        if (newParent == null) return;
 
         //spawn a gameobject with sprite renderer attached to display over the skewer.
         GameObject overGameObject = new GameObject("overSkewer");
