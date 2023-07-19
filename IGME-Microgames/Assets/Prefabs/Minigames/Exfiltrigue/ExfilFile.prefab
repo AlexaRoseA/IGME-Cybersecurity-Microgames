@@ -49,10 +49,54 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   encryptionKey: 0
-  fileName: 
+  fileName: '-'
   importance: 0
-  rb: {fileID: 0}
-  nameText: {fileID: 0}
+  rb: {fileID: -6608817052572384706}
+  nameText: {fileID: 7121109903745689053}
+  possibleNames:
+  - EVIL_PLAN.txt
+  - virus0.3.9.exe
+  - fish.png
+  - fish2.jpg
+  - cookierecipe.pdf
+  - homework.docx
+  - piratedmusic.mp3
+  - piratedmovie.mp4
+  - relevantmemes3.zip
+  - hacking-for-dummies.pdf
+  - wedding.mp4
+  - myHouseAddress.txt
+  - possibleTargets.docx
+  - zooPhotos.zip
+  - me and my hacker buddies.png
+  - malware1.2.5.exe
+  - passwordGuesser.exe
+  - Network Sniffer.exe
+  - mycat.png
+  - mycat2.png
+  - important.tar
+  possibleNamesImportance:
+  - 1
+  - 1
+  - 0
+  - 0
+  - 0.1
+  - 0
+  - 0.2
+  - 0.2
+  - 0
+  - 0.1
+  - 0
+  - 1
+  - 0.6
+  - 0
+  - 1
+  - 1
+  - 1
+  - 1
+  - 0
+  - 0
+  - 0.7
 --- !u!50 &-6608817052572384706
 Rigidbody2D:
   serializedVersion: 4
@@ -65,7 +109,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.05
+  m_Mass: 0.01
   m_LinearDrag: 24
   m_AngularDrag: 0.05
   m_GravityScale: 0

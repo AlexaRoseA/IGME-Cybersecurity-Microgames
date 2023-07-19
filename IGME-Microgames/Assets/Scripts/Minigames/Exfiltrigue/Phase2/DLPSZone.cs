@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class DLPSZone : MonoBehaviour
 {
+    ExfilFileManager fileManager;
 
+    private void Start()
+    {
+        fileManager = FindObjectOfType<ExfilFileManager>();
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("touchedwall");
+        fileManager.FileHit(gameObject);
     }
 }

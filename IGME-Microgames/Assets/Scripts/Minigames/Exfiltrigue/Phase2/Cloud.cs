@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Cloud : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    ExfilFileManager fileManager;
+
+    private void Start()
     {
-        
+        fileManager = FindObjectOfType<ExfilFileManager>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        fileManager.FileHit(gameObject);
     }
 }

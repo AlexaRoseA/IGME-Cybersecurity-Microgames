@@ -15,13 +15,21 @@ public class ExfilFileManager : InputHandler
     public float thrownDrag = 0f;
     public string validCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*(){}[];:',.<>/?~`|";
     public float maxDragSpeed = 2f;
+    public MinigameManager minigameManager;
+
+    public Collider2D moveableZone;
 
     bool dragging = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        currentFile = Instantiate(filePrefab).GetComponent<ExfiltratedFile>();
+        if (minigameManager == null) minigameManager = FindObjectOfType<MinigameManager>();
+        minigameManager.UpdateScoreText();
+        minigameManager.UpdateTimerText();
+
+        if (moveableZone == null) moveableZone = GameObject.Find("FileMoveableZone").GetComponent<Collider2D>();
+        NextFile();
     }
 
     // Update is called once per frame
@@ -29,27 +37,44 @@ public class ExfilFileManager : InputHandler
     {
         if(dragging)
         {
+            //if the player is pressing their finger (in a valid location) add a force to direct the file towards the finger
             currentFile.rb.AddForce(TouchScreenToWorld() - currentFile.transform.position);
             currentFile.rb.velocity = Vector3.ClampMagnitude(currentFile.rb.velocity, maxDragSpeed);
+        }
+        if(!moveableZone.OverlapPoint(TouchScreenToWorld()))
+        {
+            EndDrag();
         }
     }
 
     protected override void TouchPressed(InputAction.CallbackContext context)
     {
-        if(currentFile.encryptionKey == encrytionSlider.value)
+        //if it has been decrypted
+        //and the finger is touching the file
+        //and the finger is in the moveable zone. 
+        if(currentFile.encryptionKey == encrytionSlider.value && 
+            currentFile.rb.OverlapPoint(TouchScreenToWorld()) &&
+            moveableZone.OverlapPoint(TouchScreenToWorld()))
         {
+            
             dragging = true;
-
             currentFile.rb.drag = holdingDrag;
         }
     }
 
     protected override void TouchCancelled(InputAction.CallbackContext context)
     {
+        EndDrag();
+    }
+
+    /// <summary>
+    /// ends the player's drag control on the file. 
+    /// </summary>
+    private void EndDrag()
+    {
         if (!dragging) return;
         dragging = false;
         currentFile.rb.drag = thrownDrag;
-
     }
 
     /// <summary>
@@ -65,9 +90,17 @@ public class ExfilFileManager : InputHandler
         }
     }
 
+    /// <summary>
+    /// creates a new file and sets it as the current file
+    /// </summary>
     public void NextFile()
     {
-
+        if (currentFile != null) 
+            Destroy(currentFile.gameObject);
+        currentFile = Instantiate(filePrefab).GetComponent<ExfiltratedFile>();
+        currentFile.transform.position = new Vector3(0f, -3f);
+        UpdateSlider();
+        dragging = false;
     }
 
     /// <summary>
@@ -85,5 +118,20 @@ public class ExfilFileManager : InputHandler
         }
 
         return new string(randomCharacters);
+    }
+
+    public void FileHit(GameObject hitObj)
+    {
+        if(hitObj.GetComponent<Cloud>() != null)
+        {
+            //hit the cloud - score points
+            minigameManager.UpdateScore((int)(currentFile.importance * 500f));
+        }
+        else 
+        {
+            //hit a wall
+            minigameManager.UpdateScore(-200);
+        }
+        NextFile();
     }
 }

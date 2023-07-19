@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class MoveableZone : MonoBehaviour
 {
+    ExfilFileManager fileManager;
+
+    private void Start()
+    {
+        fileManager = FindObjectOfType<ExfilFileManager>();
+    }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("exit");
+        //fileManager.LeftMoveZone();
     }
 }

@@ -9,15 +9,20 @@ public class ExfiltratedFile : MonoBehaviour
     public Rigidbody2D rb;
     public TMP_Text nameText;
 
+    public string[] possibleNames;
+    public float[] possibleNamesImportance;
+
     private void Start()
     {
-        nameText = GetComponentInChildren<TMP_Text>();
-        GetComponentInChildren<Canvas>().worldCamera = Camera.main;
+        encryptionKey = Random.Range(2, 11);
+        int nameIndex = Random.Range(0, possibleNames.Length);
+        fileName = possibleNames[nameIndex];
+        importance = possibleNamesImportance[nameIndex];
 
         if (rb == null) rb = GetComponent<Rigidbody2D>();
-        encryptionKey = 3;
-        fileName = "evilplans.txt";
-        importance = 1f;
+
+        if(nameText == null) nameText = GetComponentInChildren<TMP_Text>();
+        GetComponentInChildren<Canvas>().worldCamera = Camera.main;
     }
 
     public void Score()
