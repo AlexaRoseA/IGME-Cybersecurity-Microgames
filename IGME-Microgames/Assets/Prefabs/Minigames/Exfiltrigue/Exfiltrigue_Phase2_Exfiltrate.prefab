@@ -51,7 +51,7 @@ MonoBehaviour:
   holdingDrag: 30
   thrownDrag: 8
   validCharacters: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*(){}[];:',.<>/?~`|
-  maxDragSpeed: 3
+  maxDragSpeed: 5
   minigameManager: {fileID: 0}
   moveableZone: {fileID: 0}
 --- !u!1 &1269207870423934616
