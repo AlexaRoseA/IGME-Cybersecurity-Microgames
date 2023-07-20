@@ -7,7 +7,6 @@ using UnityEngine.InputSystem;
 
 public class ExfilFileManager : InputHandler
 {
-    public Slider encrytionSlider;
     //public TMP_Text fileName;
     public ExfiltratedFile currentFile;
     public GameObject filePrefab;
@@ -16,6 +15,7 @@ public class ExfilFileManager : InputHandler
     public string validCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*(){}[];:',.<>/?~`|";
     public float maxDragSpeed = 2f;
     public MinigameManager minigameManager;
+    public int encryptionKey = 0;
 
     public Collider2D moveableZone;
 
@@ -56,7 +56,7 @@ public class ExfilFileManager : InputHandler
         //if it has been decrypted
         //and the finger is touching the file
         //and the finger is in the moveable zone. 
-        if(currentFile.encryptionKey == encrytionSlider.value && 
+        if(currentFile.encryptionKey == encryptionKey && 
             currentFile.rb.OverlapPoint(TouchScreenToWorld()) &&
             moveableZone.OverlapPoint(TouchScreenToWorld()))
         {
@@ -86,7 +86,7 @@ public class ExfilFileManager : InputHandler
     /// </summary>
     public void UpdateSlider()
     {
-        if (encrytionSlider.value == currentFile.encryptionKey)
+        if (encryptionKey == currentFile.encryptionKey)
             currentFile.nameText.text = currentFile.fileName;
         else
         {
@@ -109,7 +109,7 @@ public class ExfilFileManager : InputHandler
             return;
 
         //randomize the file's properties
-        currentFile.encryptionKey = Random.Range(1, 9);
+        currentFile.encryptionKey = Random.Range(1, 5);
         int nameIndex = Random.Range(0, currentFile.possibleNames.Length);
         while(alreadyUsedFileIndexes.Contains(nameIndex))
         {
@@ -119,7 +119,7 @@ public class ExfilFileManager : InputHandler
         currentFile.importance = currentFile.possibleNamesImportance[nameIndex];
         alreadyUsedFileIndexes.Add(nameIndex);
         //reset the slider
-        encrytionSlider.value = 0;
+        encryptionKey = 0;
         UpdateSlider();
         dragging = false;
     }
@@ -159,5 +159,11 @@ public class ExfilFileManager : InputHandler
             minigameManager.UpdateScore(-500);
         }
         NextFile();
+    }
+
+    public void SetEncryptionKey(int newKey)
+    {
+        encryptionKey = newKey;
+        UpdateSlider();
     }
 }
