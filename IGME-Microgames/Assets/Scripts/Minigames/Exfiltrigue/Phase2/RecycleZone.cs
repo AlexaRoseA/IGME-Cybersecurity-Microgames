@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveableZone : MonoBehaviour
+public class RecycleZone : MonoBehaviour
 {
     ExfilFileManager fileManager;
 
@@ -10,8 +10,9 @@ public class MoveableZone : MonoBehaviour
     {
         fileManager = FindObjectOfType<ExfilFileManager>();
     }
-    private void OnTriggerExit2D(Collider2D collision)
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        //fileManager.LeftMoveZone();
+        fileManager.FileHit(gameObject);
     }
 }

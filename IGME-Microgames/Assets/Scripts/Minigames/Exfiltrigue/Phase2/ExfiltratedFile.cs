@@ -14,10 +14,6 @@ public class ExfiltratedFile : MonoBehaviour
 
     private void Start()
     {
-        encryptionKey = Random.Range(2, 11);
-        int nameIndex = Random.Range(0, possibleNames.Length);
-        fileName = possibleNames[nameIndex];
-        importance = possibleNamesImportance[nameIndex];
 
         if (rb == null) rb = GetComponent<Rigidbody2D>();
 

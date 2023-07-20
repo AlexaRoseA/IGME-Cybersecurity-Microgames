@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   encryptionKey: 0
-  fileName: '-'
+  fileName: '********'
   importance: 0
   rb: {fileID: -6608817052572384706}
   nameText: {fileID: 7121109903745689053}

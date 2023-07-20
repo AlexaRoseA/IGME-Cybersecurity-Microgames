@@ -27,7 +27,7 @@ public class ExfilFileManager : InputHandler
         if (minigameManager == null) minigameManager = FindObjectOfType<MinigameManager>();
         minigameManager.UpdateScoreText();
         minigameManager.UpdateTimerText();
-
+        Camera.main.transform.position = new Vector3(0f, 0f, -10f);
         if (moveableZone == null) moveableZone = GameObject.Find("FileMoveableZone").GetComponent<Collider2D>();
         NextFile();
     }
@@ -99,6 +99,15 @@ public class ExfilFileManager : InputHandler
             Destroy(currentFile.gameObject);
         currentFile = Instantiate(filePrefab).GetComponent<ExfiltratedFile>();
         currentFile.transform.position = new Vector3(0f, -3f);
+
+        //randomize the file's properties
+        currentFile.encryptionKey = Random.Range(1, 9);
+        int nameIndex = Random.Range(0, currentFile.possibleNames.Length);
+        currentFile.fileName = currentFile.possibleNames[nameIndex];
+        currentFile.importance = currentFile.possibleNamesImportance[nameIndex];
+
+        //reset the slider
+        encrytionSlider.value = 0;
         UpdateSlider();
         dragging = false;
     }
@@ -122,15 +131,20 @@ public class ExfilFileManager : InputHandler
 
     public void FileHit(GameObject hitObj)
     {
-        if(hitObj.GetComponent<Cloud>() != null)
+        if (hitObj.GetComponent<Cloud>() != null)
         {
             //hit the cloud - score points
-            minigameManager.UpdateScore((int)(currentFile.importance * 500f));
+            minigameManager.UpdateScore((int)(currentFile.importance * 1000f));
         }
-        else 
+        else if (hitObj.GetComponent<RecycleZone>() != null)
+        {
+            //recycled
+            minigameManager.UpdateScore(50);
+        }
+        else
         {
             //hit a wall
-            minigameManager.UpdateScore(-200);
+            minigameManager.UpdateScore(-500);
         }
         NextFile();
     }

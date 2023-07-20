@@ -19,7 +19,7 @@ Surveil: Our target fell for the phishing email. We got you into their system!
 <<SetBool CharacterDialogDisplayer 0 determined true>>
 Surveil: Get the important files past the data loss prevention system. discard unimportant files. 
 
-<<set $timeRemaining to 25>>
+<<set $timeRemaining to 45>>
 <<SetBool CharacterDialogDisplayer 0 determined false>>
 <<HideAllCharacters CharacterDialogDisplayer>>
 ===
