@@ -9,7 +9,7 @@ public class DLPSMovement : MonoBehaviour
     public float speed; // u/s
 
     private float lerpSpeed;
-    private float lerpProgress;
+    public float lerpProgress;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +25,7 @@ public class DLPSMovement : MonoBehaviour
         transform.position = Vector3.Lerp(start, end, lerpProgress);
         if(lerpProgress > 1f || lerpProgress < 0f)
         {
+            lerpProgress = Mathf.Clamp(lerpProgress, 0f, 1f);
             lerpSpeed *= -1f;
         }
     }

@@ -19,6 +19,8 @@ public class ExfilFileManager : InputHandler
 
     public Collider2D moveableZone;
 
+    private List<int> alreadyUsedFileIndexes;
+
     bool dragging = false;
 
     // Start is called before the first frame update
@@ -29,6 +31,8 @@ public class ExfilFileManager : InputHandler
         minigameManager.UpdateTimerText();
         Camera.main.transform.position = new Vector3(0f, 0f, -10f);
         if (moveableZone == null) moveableZone = GameObject.Find("FileMoveableZone").GetComponent<Collider2D>();
+
+        alreadyUsedFileIndexes = new List<int>();
         NextFile();
     }
 
@@ -97,15 +101,23 @@ public class ExfilFileManager : InputHandler
     {
         if (currentFile != null) 
             Destroy(currentFile.gameObject);
+
+
         currentFile = Instantiate(filePrefab).GetComponent<ExfiltratedFile>();
         currentFile.transform.position = new Vector3(0f, -3f);
+        if (alreadyUsedFileIndexes.Count >= currentFile.possibleNames.Length)
+            return;
 
         //randomize the file's properties
         currentFile.encryptionKey = Random.Range(1, 9);
         int nameIndex = Random.Range(0, currentFile.possibleNames.Length);
+        while(alreadyUsedFileIndexes.Contains(nameIndex))
+        {
+            nameIndex = Random.Range(0, currentFile.possibleNames.Length);
+        }
         currentFile.fileName = currentFile.possibleNames[nameIndex];
         currentFile.importance = currentFile.possibleNamesImportance[nameIndex];
-
+        alreadyUsedFileIndexes.Add(nameIndex);
         //reset the slider
         encrytionSlider.value = 0;
         UpdateSlider();
