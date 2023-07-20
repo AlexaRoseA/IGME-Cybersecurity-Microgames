@@ -49,7 +49,7 @@ MonoBehaviour:
   currentFile: {fileID: 0}
   filePrefab: {fileID: 372383629406199927, guid: 7709f9a5c12c46b45b437634c2cc9221, type: 3}
   holdingDrag: 30
-  thrownDrag: 0
+  thrownDrag: 8
   validCharacters: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*(){}[];:',.<>/?~`|
   maxDragSpeed: 3
   minigameManager: {fileID: 0}
@@ -408,7 +408,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4729162903029199600}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
