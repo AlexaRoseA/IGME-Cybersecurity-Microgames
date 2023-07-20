@@ -686,18 +686,18 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Dear <color="red"><Name></color>,
+  m_text: 'Dear <color="red">{Name}</color>,
 
-    We here at  <color="red"><Banking
-    Institution></color> are reaching out to contact you about your account ending
-    in <color="red"><Account Number></color>. Your account has been frozen due to
+    We here at  <color="red">{Banking
+    Institution}</color> are reaching out to contact you about your account ending
+    in <color="red">{Account Number}</color>. Your account has been frozen due to
     a detected fraudulent transaction. Click <color="blue"><u>here</u></color> to
     verify the integrity of your account.
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 80bd0fdd74286d446ab25fdab0adb3cd, type: 2}
+  m_sharedMaterial: {fileID: -4616062518216104897, guid: 80bd0fdd74286d446ab25fdab0adb3cd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -721,8 +721,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48
-  m_fontSizeBase: 48
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

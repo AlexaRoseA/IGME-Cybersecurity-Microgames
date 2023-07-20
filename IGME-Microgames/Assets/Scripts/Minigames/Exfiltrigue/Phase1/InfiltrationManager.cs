@@ -45,8 +45,8 @@ public class InfiltrationManager : MonoBehaviour
     public void NextPII()
     {
         
-        //match <color="red">< followed by any number of characters until the next < character. 
-        Regex regex = new Regex(@"<color=""red""><[^<]*");
+        //match <color="red">{ followed by any number of characters until the next < character. 
+        Regex regex = new Regex(@"<color=""red"">{[^<]*");
 
         TMP_Text phishingTextComp = phishingLetter.GetComponent<TMP_Text>();
 
@@ -58,9 +58,9 @@ public class InfiltrationManager : MonoBehaviour
         }
 
             string updated = match.Replace("red", "green");
-        updated = updated.Replace("<Name>", "Herbert Hacker");
-        updated = updated.Replace("<Banking Institution>", "Shady Bank");
-        updated = updated.Replace("<Account Number>", "********7634");
+        updated = updated.Replace("{Name}", "Herbert Hacker");
+        updated = updated.Replace("{Banking Institution}", "Shady Bank");
+        updated = updated.Replace("{Account Number}", "********7634");
         phishingTextComp.text = phishingTextComp.text.Replace(match, updated);
 
         minigameManager.UpdateScore(800);
