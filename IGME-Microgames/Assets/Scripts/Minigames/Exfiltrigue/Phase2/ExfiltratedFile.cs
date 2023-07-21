@@ -8,35 +8,30 @@ public class ExfiltratedFile : MonoBehaviour
     public float importance;
     public Rigidbody2D rb;
     public TMP_Text nameText;
+    public Sprite unlocked;
+    public Sprite locked;
 
     public string[] possibleNames;
     public float[] possibleNamesImportance;
 
+
     private void Start()
     {
-
+        GetComponent<SpriteRenderer>().sprite = locked;
         if (rb == null) rb = GetComponent<Rigidbody2D>();
 
         if(nameText == null) nameText = GetComponentInChildren<TMP_Text>();
         GetComponentInChildren<Canvas>().worldCamera = Camera.main;
     }
 
-    public void Score()
+    private void Update()
     {
-    }
+        Vector3 screenLoc = Camera.main.WorldToScreenPoint(transform.position);
 
-    public void Send()
-    {
-
-    }
-
-    public void Trash()
-    {
-
-    }
-
-    void Update()
-    {
         
+        if(screenLoc.x < 0 || screenLoc.x > Camera.main.pixelWidth || screenLoc.y < 0 || screenLoc.y > Camera.main.pixelHeight)
+        {
+            Debug.Log("offscreen");
+        }
     }
 }

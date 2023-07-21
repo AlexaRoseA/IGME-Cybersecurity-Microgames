@@ -49,6 +49,14 @@ public class ExfilFileManager : InputHandler
         {
             EndDrag();
         }
+
+        Vector3 screenLoc = Camera.main.WorldToScreenPoint(currentFile.transform.position);
+
+
+        if (screenLoc.x < 0 || screenLoc.x > Camera.main.pixelWidth || screenLoc.y < 0 || screenLoc.y > Camera.main.pixelHeight)
+        {
+            FileHit(null);
+        }
     }
 
     protected override void TouchPressed(InputAction.CallbackContext context)
@@ -87,10 +95,14 @@ public class ExfilFileManager : InputHandler
     public void UpdateSlider()
     {
         if (encryptionKey == currentFile.encryptionKey)
+        {
             currentFile.nameText.text = currentFile.fileName;
+            currentFile.GetComponent<SpriteRenderer>().sprite = currentFile.unlocked;
+        }
         else
         {
             currentFile.nameText.text = BuildRandomString(currentFile.fileName.Length);
+            currentFile.GetComponent<SpriteRenderer>().sprite = currentFile.locked;
         }
     }
 
@@ -143,7 +155,11 @@ public class ExfilFileManager : InputHandler
 
     public void FileHit(GameObject hitObj)
     {
-        if (hitObj.GetComponent<Cloud>() != null)
+        if(hitObj == null)
+        {
+            minigameManager.UpdateScore(-500);
+        }
+        else if (hitObj.GetComponent<Cloud>() != null)
         {
             //hit the cloud - score points
             minigameManager.UpdateScore((int)(currentFile.importance * 1000f));

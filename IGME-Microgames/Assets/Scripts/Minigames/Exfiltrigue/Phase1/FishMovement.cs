@@ -28,13 +28,13 @@ public class FishMovement : MonoBehaviour
     void Update()
     {
         if (!minigameManager.GetTimer()) return;
-        //if fish is further than 20 units away from the player
+        //if fish is further than 10 units away from the player
         Vector3 playerDist = transform.position - fleeTarget.transform.position;
 
         if (Vector3.SqrMagnitude(playerDist) > 100f)
         {
-            //teleport them to 15 units away
-            transform.position = (playerDist.normalized * 8f) + fleeTarget.transform.position;
+            //teleport them to 5 units away
+            transform.position = (Vector3)(Random.insideUnitCircle.normalized * 5f) + fleeTarget.transform.position;
         }
 
         //update dartCD

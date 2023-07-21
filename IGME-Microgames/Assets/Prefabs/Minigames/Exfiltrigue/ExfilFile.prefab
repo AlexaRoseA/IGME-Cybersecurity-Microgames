@@ -53,6 +53,8 @@ MonoBehaviour:
   importance: 0
   rb: {fileID: -6608817052572384706}
   nameText: {fileID: 7121109903745689053}
+  unlocked: {fileID: 21300000, guid: a3665047df25aca4e9fac051fd7304c2, type: 3}
+  locked: {fileID: 21300000, guid: 7f7ff1bf15140bd4eac5b79ee95e56f5, type: 3}
   possibleNames:
   - EVIL_PLAN.txt
   - virus0.3.9.exe
@@ -159,7 +161,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a3665047df25aca4e9fac051fd7304c2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7f7ff1bf15140bd4eac5b79ee95e56f5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
