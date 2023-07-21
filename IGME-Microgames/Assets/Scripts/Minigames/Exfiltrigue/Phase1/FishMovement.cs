@@ -33,8 +33,8 @@ public class FishMovement : MonoBehaviour
 
         if (Vector3.SqrMagnitude(playerDist) > 100f)
         {
-            //teleport them to 5 units away
-            transform.position = (Vector3)(Random.insideUnitCircle.normalized * 5f) + fleeTarget.transform.position;
+            //teleport them to 6 units away
+            transform.position = (Vector3)(Random.insideUnitCircle.normalized * 6f) + fleeTarget.transform.position;
         }
 
         //update dartCD
