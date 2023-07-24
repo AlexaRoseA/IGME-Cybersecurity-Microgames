@@ -60,7 +60,7 @@ public class FireDefense_T_ScanGame : MonoBehaviour
     /// <summary>
     /// Spawns a bot based on either random choice or force choice
     /// </summary>
-    /// <param name="forceChoice"></param>
+    /// <param name="forceChoice">Force the next bot to be a set type</param>
     [YarnCommand("SpawnBot")]
     public void SpawnBot(string forceChoice = "")
     {
@@ -99,10 +99,7 @@ public class FireDefense_T_ScanGame : MonoBehaviour
         scan.interactable = true;
         startGame = true;
 
-        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
-        {
-            Destroy(enemy);
-        }
+        DestroyAllBits();
     }
 
     /// <summary>
@@ -113,7 +110,6 @@ public class FireDefense_T_ScanGame : MonoBehaviour
     {
         foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
         {
-            Debug.Log("found " + enemy.name + ", destroying...");
             Destroy(enemy);
         }
     }
@@ -163,6 +159,8 @@ public class FireDefense_T_ScanGame : MonoBehaviour
 
     /// <summary>
     /// Completes a set task based on good/bad.
+    /// 
+    /// Originally had a different coroutine for bad, currently on pause
     /// </summary>
     /// <param name="value"></param>
     public void CheckStatus(string value)
@@ -277,6 +275,11 @@ public class FireDefense_T_ScanGame : MonoBehaviour
         yield return null;
     }
 
+    /// <summary>
+    /// Fills the orb on the top of the screen based on if the selection is correct
+    /// Also checks for end game state after filling orb
+    /// </summary>
+    /// <param name="correct"></param>
     private void FillOrb(string correct)
     {
         correct = correct.ToLower();
