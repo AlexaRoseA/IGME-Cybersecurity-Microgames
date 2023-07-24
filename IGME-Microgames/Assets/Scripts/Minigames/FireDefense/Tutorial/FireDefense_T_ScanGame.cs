@@ -20,12 +20,14 @@ public class FireDefense_T_ScanGame : MonoBehaviour
     [SerializeField] Button approve;
     [SerializeField] Button deny;
     [SerializeField] Transform standPos;
+    [SerializeField] GameObject orbs;
 
     // Timer and game start variables
     private float seconds = 1.5f;
     private float timer;
     private float percent;
     private bool startGame = false;
+    private int count = 0;
 
     // Variable storage for YarnSpinner and dialog running
     public InMemoryVariableStorage variableStorage;
@@ -117,16 +119,6 @@ public class FireDefense_T_ScanGame : MonoBehaviour
     }
 
     /// <summary>
-    /// Pass go yarn command
-    /// </summary>
-    /// <param name="force"></param>
-    [YarnCommand("PassGo")]
-    public void YouPassGo(string force = "")
-    {
-        StartCoroutine(BitGo(force));
-    }
-
-    /// <summary>
     /// Has the bit progress, makes them walk off screen
     /// </summary>
     /// <param name="force">force spawn bot as next</param>
@@ -145,6 +137,7 @@ public class FireDefense_T_ScanGame : MonoBehaviour
         }
 
         Destroy(priorBot);
+        DestroyAllBits();
         Debug.Log("Bot Destroyed.");
         currentBot = null;
         SpawnBot(force);
@@ -159,6 +152,12 @@ public class FireDefense_T_ScanGame : MonoBehaviour
     /// <returns></returns>
     IEnumerator BitDead(string force = "")
     {
+
+        Destroy(priorBot);
+        Debug.Log("Bot Destroyed.");
+        currentBot = null;
+        SpawnBot(force);
+
         yield return null;
     }
 
@@ -181,9 +180,11 @@ public class FireDefense_T_ScanGame : MonoBehaviour
                 {
                     //give positive stuff - good passed
                     StartCoroutine(BitGo());
+                    FillOrb("yes");
                 } else
                 {
                     //give negative stuff - bad passed
+                    FillOrb("no");
                     StartCoroutine(BitGo());
                 }
                 break;
@@ -191,12 +192,14 @@ public class FireDefense_T_ScanGame : MonoBehaviour
                 if (value == type)
                 {
                     //give positive stuff - bad dead
-                    StartCoroutine(BitDead());
+                    FillOrb("yes");
+                    StartCoroutine(BitGo());
                 }
                 else
                 {
                     //give negative stuff - good dead
-                    StartCoroutine(BitDead());
+                    FillOrb("no");
+                    StartCoroutine(BitGo());
                 }
                 break;
         }
@@ -209,9 +212,12 @@ public class FireDefense_T_ScanGame : MonoBehaviour
     /// </summary>
     private void ResetScans()
     {
-        approve.interactable = false;
-        deny.interactable = false;
-        scan.interactable = true;
+        if(count < 10)
+        {
+            approve.interactable = false;
+            deny.interactable = false;
+            scan.interactable = true;
+        }
     }
 
     /// <summary>
@@ -269,5 +275,30 @@ public class FireDefense_T_ScanGame : MonoBehaviour
         timer = 0;
 
         yield return null;
+    }
+
+    private void FillOrb(string correct)
+    {
+        correct = correct.ToLower();
+        switch(correct)
+        {
+            case "yes":
+                orbs.transform.GetChild(count).GetComponent<Image>().color = Color.green;
+                count++;
+                break;
+            case "no":
+                orbs.transform.GetChild(count).GetComponent<Image>().color = Color.black;
+                count++;
+                break;
+        }
+
+        if(count >= 10)
+        {
+            //endgame
+            approve.interactable = false;
+            deny.interactable = false;
+            scan.interactable = false;
+            dialogueRunner.StartDialogue("FireDefense_T_3");
+        }
     }
 }

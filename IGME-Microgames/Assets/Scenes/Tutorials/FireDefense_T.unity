@@ -4846,7 +4846,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1715341851}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1944803305}
+        m_TargetAssemblyTypeName: FireDefense_T_ScanGame, Assembly-CSharp
+        m_MethodName: CheckStatus
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: bad
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1715341851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6120,14 +6132,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1944803305}
         m_TargetAssemblyTypeName: FireDefense_T_ScanGame, Assembly-CSharp
-        m_MethodName: AcceptButton
-        m_Mode: 1
+        m_MethodName: CheckStatus
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: good
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &2112706831

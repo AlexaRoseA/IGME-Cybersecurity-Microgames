@@ -25,7 +25,6 @@ Narrator: This visitor is bringing in a contact card!
 Narrator: They are a bright color, have kind eyes, and clean around the edges.
 Narrator: We love these kinds of visitors! They make our system useful.
 
-<<PassGo SceneTwo>>
 <<DestroyAllBits SceneTwo>>
 <<SpawnBot SceneTwo CarrierBot_Bad1>>
 
@@ -33,7 +32,6 @@ Narrator: This visitor is bringing in something strange...
 Narrator: They are a dull color, have weird eyes, and are a bit messy.
 Narrator: I wouldn't trust this visitor. If they make a fuss, you can teleport them away.
 
-<<PassGo SceneTwo>>
 <<StartGame SceneTwo>>
 
 ===
@@ -42,8 +40,8 @@ title: FireDefense_T_3
 tags:
 ---
 
-Narrator: Now that you've help our border patrol, let's see some other jobs at the firewall!
-Narrator: The firewall always needs to be maintaineda nd checked for vulnerabilities.
+Narrator: I can take it from here boss! 
+Narrator: The firewall always needs to be maintained and checked for vulnerabilities.
 Narrator: Our robots Backup would love your help repairing a section of the firewall!
 Narrator: Why don't you go help them?
 
