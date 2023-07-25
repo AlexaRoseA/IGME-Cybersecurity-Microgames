@@ -125,7 +125,7 @@ public class Builder : InputHandler
 
                 return false;
             case InteractionMode.Floor:
-                if (floorTile == null)
+                if (wallTile != null && furnitureTile == null)
                 { //replace wall with floor
                     wall.SetTile(tilePos, null);
                     floor.SetTile(tilePos, Instantiate(floorTemplate));
@@ -133,7 +133,7 @@ public class Builder : InputHandler
                 }
                 return false;
             case InteractionMode.Wall:
-                if (wallTile == null && furnitureTile == null)
+                if (floorTile != null && furnitureTile == null)
                 { //replace floor with wall
                     wall.SetTile(tilePos, Instantiate(wallTemplate));
                     floor.SetTile(tilePos, null);
@@ -141,7 +141,7 @@ public class Builder : InputHandler
                 }
                 return false;
             case InteractionMode.Furniture:
-                if(furnitureTile == null && wallTile == null)
+                if(furnitureTile == null && floorTile != null)
                 { //only works if theres a floor tile and no furniture
                     furniture.SetTile(tilePos, Instantiate(furnitureTemplate));
                     return true;

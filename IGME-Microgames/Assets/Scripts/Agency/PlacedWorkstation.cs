@@ -43,9 +43,7 @@ public class PlacedWorkstation : MonoBehaviour
             return;
         }
         tapUICanvas.SetActive(true);
-        GameObject tapui = tapUICanvas.transform.Find("Buttons").gameObject;
-
-        tapui.transform.position = gameObject.transform.position;
+        UpdateButtonPosition();
         return;
     }
 
@@ -87,5 +85,18 @@ public class PlacedWorkstation : MonoBehaviour
         agencyManager.builder.DestroyFurnitureTile(transform.position);
         minigameData.isOutline = true;
         agencyManager.ReturnToShop(this);
+    }
+
+    void UpdateButtonPosition()
+    {
+
+        GameObject tapui = tapUICanvas.transform.Find("Buttons").gameObject;
+
+        tapui.transform.position = gameObject.transform.position;
+    }
+
+    private void Update()
+    {
+        UpdateButtonPosition();
     }
 }
