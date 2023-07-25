@@ -23,6 +23,10 @@ public class Builder : InputHandler
     // gameobject that workstations should be children of in order to be added to the playlist
     public GameObject agencyParent;
 
+    
+    public GameObject player;
+
+
     private InteractionMode interactionMode;
     public TMP_Text interactionModeButtonText; //text that will be updated when the interaction mode is switched
 
@@ -57,6 +61,8 @@ public class Builder : InputHandler
                 moving = true;
 
                 placingWorkstation.transform.position = floor.GetCellCenterWorld(newCellPos);
+
+                UpdateWorkstationColor(newCellPos);
             }
         }
     }
@@ -218,15 +224,17 @@ public class Builder : InputHandler
             return;
         }
 
+
         //shop card-> placed
         finalize(placingShopIndex);
 
         placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.isOutline = false;
         placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.inPlaylist = true;
 
-        
-        //TODO: update sprite, no longer outline
 
+        UpdateWorkstationColor(floor.WorldToCell(placingWorkstation.gameObject.transform.position));
+
+        placingWorkstation.transform.Find("Sprite").GetComponent<Collider2D>().enabled = true;
         SwitchInteractionMode(InteractionMode.Move);
         placingWorkstation = null;
     }
@@ -239,10 +247,15 @@ public class Builder : InputHandler
     /// <param name="index">Index of this workstation in the shop</param>
     public void StartPlacing(GameObject workstation, FinishPlacementDelegate finalize, int index)
     {
+        //move the workstation to the cell one to the right of the player
+        workstation.transform.position = floor.GetCellCenterWorld(floor.WorldToCell(player.transform.position + Vector3.right));
+
         placingWorkstation = workstation;
         SwitchInteractionMode(InteractionMode.Furniture);
         this.finalize = finalize;
         placingShopIndex = index;
+
+        UpdateWorkstationColor(floor.WorldToCell(workstation.transform.position));
     }
 
     /// <summary>
@@ -267,5 +280,16 @@ public class Builder : InputHandler
     public void DestroyFurnitureTile(Vector3 worldPos)
     {
         furniture.SetTile(furniture.WorldToCell(worldPos), null);
+    }
+
+    public void UpdateWorkstationColor(Vector3Int location)
+    {
+        Color newColor = Color.red;
+        if (!placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.isOutline)
+            newColor = Color.white;
+        else if (furniture.GetTile(location) == null && floor.GetTile(location))
+            newColor = Color.green;
+
+        placingWorkstation.transform.Find("Sprite").GetComponent<SpriteRenderer>().color = newColor;
     }
 }

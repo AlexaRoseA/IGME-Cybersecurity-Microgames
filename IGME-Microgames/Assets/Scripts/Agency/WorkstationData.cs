@@ -10,6 +10,7 @@ public class WorkstationData : ScriptableObject
     public string jobTitle;
     public string minigameName;
     public Sprite workstationSprite;
+    public Sprite shopSprite;
     public int price = 2000;
     public bool isOutline = true;
     public int[] starThresholds = { int.MinValue, 1000, 3000, 6000, 10000 };

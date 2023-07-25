@@ -931,13 +931,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInput: {fileID: 0}
   agencyParent: {fileID: 2017908817}
+  player: {fileID: 1675364317}
   interactionModeButtonText: {fileID: 692980754}
   floor: {fileID: 917044679}
   wall: {fileID: 2102732438}
   furniture: {fileID: 1988818540}
   floorTemplate: {fileID: 11400000, guid: 9dc84a28d38077840b4b5c97eb5418ac, type: 2}
   wallTemplate: {fileID: 11400000, guid: fe7a3e627db862343ab55166287a0ebc, type: 2}
-  furnitureTemplate: {fileID: 11400000, guid: 419e504e14644ef49a96ffb9f988a4a8, type: 2}
+  furnitureTemplate: {fileID: 11400000, guid: ae34280453d9c394ba27ea55da7ffa02, type: 2}
   furniturePrefab: {fileID: 949492836694267894, guid: de719a90911e96b4e8e352418bdb15b9, type: 3}
 --- !u!1 &526265303
 GameObject:
@@ -3104,7 +3105,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -10.000061}
+  m_AnchoredPosition: {x: 0, y: -10}
   m_SizeDelta: {x: 1400, y: 210}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1632751806

@@ -127,7 +127,7 @@ public class AgencyManager : LevelManager
             TMP_Text jobTitle = cardBG.Find("WorkstationName").gameObject.GetComponent<TMP_Text>();
             Image img = cardBG.Find("WorkstationImg").gameObject.GetComponent<Image>();
 
-            img.sprite = workstations[i].workstationSprite;
+            img.sprite = workstations[i].shopSprite;
             jobTitle.text = workstations[i].jobTitle;
             UpdatePurchaseStateDisplay(i);
         }
@@ -162,6 +162,8 @@ public class AgencyManager : LevelManager
 
         //attach the new workstation to the agency so that it is added to the playlist
         newWorkstation.transform.parent = agencyParent.transform;
+
+        newWorkstation.transform.Find("Sprite").GetComponent<Collider2D>().enabled = false;
         builder.StartPlacing(newWorkstation, finalize, prefabIndex);
     }
 
