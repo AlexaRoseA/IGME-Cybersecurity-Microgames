@@ -54,6 +54,9 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
     /// </summary>
     void Start()
     {
+        Canvas cL = GetComponent<Canvas>();
+        cL.worldCamera = Camera.main;
+
         minigameManager = GameObject.Find("MinigameManager").GetComponent<MinigameManager>();
         dialogSystem = GameObject.Find("Dialogue System").GetComponent<DialogueRunner>();
         //dialogSystem.StartDialogue("FireDefense_Phase1");
