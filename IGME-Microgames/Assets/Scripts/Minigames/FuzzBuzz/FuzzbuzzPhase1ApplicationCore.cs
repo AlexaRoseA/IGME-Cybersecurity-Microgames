@@ -45,6 +45,7 @@ public class FuzzbuzzPhase1ApplicationCore : MonoBehaviour
     void Start()
     {
         helper = GameObject.FindObjectOfType<MinigameManager>();
+        helper.SetCamera();
         popupList = new List<GameObject>();
         words = new List<string>();
 

@@ -86,6 +86,18 @@ public class MinigameManager : LevelManager
     }
 
     /// <summary>
+    /// Sets all canvases loaded to have the main camera.
+    /// </summary>
+    public void SetCamera()
+    {
+        foreach (Canvas canvasElement in GameObject.FindObjectsOfType<Canvas>())
+        {
+
+            canvasElement.worldCamera = Camera.main;
+        }
+    }
+
+    /// <summary>
     /// Returns the chosen minigame gameobject.
     /// </summary>
     public GameObject GetChosen()

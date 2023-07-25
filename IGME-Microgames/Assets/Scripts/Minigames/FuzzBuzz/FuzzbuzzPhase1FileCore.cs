@@ -38,6 +38,7 @@ public class FuzzbuzzPhase1FileCore : MonoBehaviour
     void Start()
     {
         helper = GameObject.FindObjectOfType<MinigameManager>();
+        helper.SetCamera();
         helper.UpdateTimerText();
         helper.UpdateScoreText();
 
