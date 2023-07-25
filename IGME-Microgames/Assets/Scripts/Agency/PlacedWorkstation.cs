@@ -13,10 +13,13 @@ public class PlacedWorkstation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        agencyManager = gameObject.transform.parent.gameObject.GetComponent<AgencyManager>();
+        agencyManager = transform.parent.gameObject.GetComponent<AgencyManager>();
         tapUICanvas.GetComponent<Canvas>().worldCamera = Camera.main;
         tapUICanvas.GetComponent<Canvas>().sortingLayerName = "UIUX";
 
+        transform.Find("Sprite").gameObject.GetComponent<SpriteRenderer>().sprite = minigameData.workstationSprite;
+
+        
         tapUICanvas.SetActive(false);
     }
 

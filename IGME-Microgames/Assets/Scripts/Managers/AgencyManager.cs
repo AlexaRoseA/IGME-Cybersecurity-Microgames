@@ -127,6 +127,7 @@ public class AgencyManager : LevelManager
             TMP_Text jobTitle = cardBG.Find("WorkstationName").gameObject.GetComponent<TMP_Text>();
             Image img = cardBG.Find("WorkstationImg").gameObject.GetComponent<Image>();
 
+            img.sprite = workstations[i].workstationSprite;
             jobTitle.text = workstations[i].jobTitle;
             UpdatePurchaseStateDisplay(i);
         }
