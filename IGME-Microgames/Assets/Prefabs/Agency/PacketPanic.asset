@@ -15,7 +15,7 @@ MonoBehaviour:
   minigameScene: PacketPanic
   jobTitle: Cyber Defense Analyst
   minigameName: PACKET PANIC
-  workstationSprite: {fileID: 200726732, guid: cd750df0ae9d05b43b6d21f96f90eb72, type: 3}
+  workstationIdle: {fileID: 9100000, guid: 33df6cae26341a34088aa3e1a8419856, type: 2}
   shopSprite: {fileID: 21300000, guid: a7500de68e0c2bc4ea04c4077570a5e4, type: 3}
   price: 2000
   isOutline: 1

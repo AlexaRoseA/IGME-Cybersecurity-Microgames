@@ -9,7 +9,7 @@ public class WorkstationData : ScriptableObject
     public string minigameScene;
     public string jobTitle;
     public string minigameName;
-    public Sprite workstationSprite;
+    public RuntimeAnimatorController workstationIdle;
     public Sprite shopSprite;
     public int price = 2000;
     public bool isOutline = true;

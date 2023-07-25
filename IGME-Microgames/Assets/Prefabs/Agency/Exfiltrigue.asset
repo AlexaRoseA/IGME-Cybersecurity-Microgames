@@ -15,7 +15,7 @@ MonoBehaviour:
   minigameScene: Exfiltrigue
   jobTitle: Cyber Operator
   minigameName: EXFILTRIGUE
-  workstationSprite: {fileID: 21300000, guid: 1878410db157c2743851c071121e9fdd, type: 3}
+  workstationIdle: {fileID: 9100000, guid: 33df6cae26341a34088aa3e1a8419856, type: 2}
   shopSprite: {fileID: 21300000, guid: aaea8cf73df80e24384945084f706429, type: 3}
   price: 2000
   isOutline: 1

@@ -17,7 +17,11 @@ public class PlacedWorkstation : MonoBehaviour
         tapUICanvas.GetComponent<Canvas>().worldCamera = Camera.main;
         tapUICanvas.GetComponent<Canvas>().sortingLayerName = "UIUX";
 
-        transform.Find("Sprite").gameObject.GetComponent<SpriteRenderer>().sprite = minigameData.workstationSprite;
+
+        transform.Find("Sprite").gameObject.GetComponent<Animator>().runtimeAnimatorController = Instantiate(minigameData.workstationIdle);
+        
+        //for some reason setting the size wasn't working with the animation. Now, the size property is keyframed instead. 
+        //transform.Find("Sprite").gameObject.GetComponent<SpriteRenderer>().size = Vector2.one;
 
         
         tapUICanvas.SetActive(false);

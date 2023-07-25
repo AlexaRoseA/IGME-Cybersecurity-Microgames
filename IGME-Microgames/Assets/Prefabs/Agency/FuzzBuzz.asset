@@ -15,7 +15,7 @@ MonoBehaviour:
   minigameScene: FuzzBuzz
   jobTitle: Secure Software Assessor
   minigameName: FUZZBUZZ
-  workstationSprite: {fileID: 124358598, guid: 3eedec534e7f25b48bca798c727d9b5c, type: 3}
+  workstationIdle: {fileID: 9100000, guid: 563e5857bd16f664d841489b6a581d0b, type: 2}
   shopSprite: {fileID: 21300000, guid: c3e72563dbacf8b47ba49fe4689271d5, type: 3}
   price: 2000
   isOutline: 1
