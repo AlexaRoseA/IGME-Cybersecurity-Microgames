@@ -22,6 +22,8 @@ MonoBehaviour:
   starThresholds: 00000080e8030000b80b00007017000010270000
   challengeCooldown: 3
   highscore: 0
-  agentLevel: 0
+  agentLevel: 3
+  tutorialScene: 
   fresh: 1
+  timesPlayed: 0
   inPlaylist: 0

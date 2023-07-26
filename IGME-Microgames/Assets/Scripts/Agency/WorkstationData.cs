@@ -35,6 +35,7 @@ public class WorkstationData : ScriptableObject
     public void FinishMinigame(int score, GameMode gameMode)
     {
         timesPlayed++;
+        fresh = false;
         if (highscore < score)
         {
             highscore = score;
