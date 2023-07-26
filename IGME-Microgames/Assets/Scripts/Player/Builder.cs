@@ -238,10 +238,11 @@ public class Builder : InputHandler
         placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.isOutline = false;
         placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.inPlaylist = true;
 
-
         UpdateWorkstationColor(floor.WorldToCell(placingWorkstation.gameObject.transform.position));
 
         placingWorkstation.transform.Find("Sprite").GetComponent<Collider2D>().enabled = true;
+        placingWorkstation.transform.Find("Sprite").GetComponent<SpriteRenderer>().sortingLayerName = "NPC";
+
         SwitchInteractionMode(InteractionMode.Move);
         placingWorkstation = null;
     }
@@ -256,7 +257,7 @@ public class Builder : InputHandler
     {
         //move the workstation to the cell one to the right of the player
         workstation.transform.position = floor.GetCellCenterWorld(floor.WorldToCell(player.transform.position + Vector3.right));
-
+        workstation.transform.Find("Sprite").GetComponent<SpriteRenderer>().sortingLayerName = "Foreground";
         placingWorkstation = workstation;
         SwitchInteractionMode(InteractionMode.Furniture);
         this.finalize = finalize;
