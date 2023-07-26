@@ -223,7 +223,7 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         if (pieceCount <= 0)
         {
             minigameManager.SetPhase();
-            DestroyImmediate(this.gameObject);
+            //DestroyImmediate(this.gameObject);
         }
     }
 
