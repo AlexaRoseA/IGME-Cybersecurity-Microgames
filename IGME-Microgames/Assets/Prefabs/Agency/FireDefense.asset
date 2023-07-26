@@ -15,7 +15,8 @@ MonoBehaviour:
   minigameScene: FireDefense
   jobTitle: Cyber Security Engineer
   minigameName: FIREDEFENSE
-  workstationSprite: {fileID: 21300000, guid: d5226e8e5ba3b934baa78b600e355da3, type: 3}
+  workstationIdle: {fileID: 9100000, guid: 69709b94223146445813f27d66763d1f, type: 2}
+  shopSprite: {fileID: 21300000, guid: 36a5dd95b8186e046b292ff57b8dbaad, type: 3}
   price: 2000
   isOutline: 1
   starThresholds: 00000080e8030000b80b00007017000010270000

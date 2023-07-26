@@ -22,10 +22,14 @@ public class Builder : InputHandler
 {
     // gameobject that workstations should be children of in order to be added to the playlist
     public GameObject agencyParent;
+    
+    //player, used for original position of workstation outlines
+    public GameObject player;
 
     private InteractionMode interactionMode;
     public TMP_Text interactionModeButtonText; //text that will be updated when the interaction mode is switched
 
+    //Tilemap stuff
     public Tilemap floor;
     public Tilemap wall;
     public Tilemap furniture;
@@ -35,28 +39,33 @@ public class Builder : InputHandler
     public TileBase furnitureTemplate;
     public GameObject furniturePrefab;
 
-    private GameObject placingWorkstation;
-    private bool fingerDragging = false;
-    private bool moving = false;
+    //workstation placement stuff
+    private GameObject placingWorkstation; //workstation that is currently being placed
+    private bool fingerDragging = false; //is the finger down?
+    private bool moving = false; //has the workstation been moved in this instance of the finger being down?
     private int placingShopIndex;
-    private FinishPlacementDelegate finalize;
+    private FinishPlacementDelegate finalize; //called when placement is finalized
 
     private PlacedWorkstation openTapUI;
 
 
     void Update()
     {
+        //moving workstation
         if (placingWorkstation != null && fingerDragging && interactionMode == InteractionMode.Furniture)
         {
             //converting to cell and back to snap to grid
-
             Vector3Int currentCellPos = floor.WorldToCell(placingWorkstation.transform.position);
             Vector3Int newCellPos = floor.WorldToCell(TouchScreenToWorld());
-            if(currentCellPos != newCellPos)
+
+            if(currentCellPos != newCellPos) //moved to a different cell
             {
                 moving = true;
 
                 placingWorkstation.transform.position = floor.GetCellCenterWorld(newCellPos);
+
+                //change the color of the outline (green if its a valid position, red if not)
+                UpdateWorkstationColor(newCellPos);
             }
         }
     }
@@ -68,19 +77,22 @@ public class Builder : InputHandler
     protected override void TouchPressed(InputAction.CallbackContext context)
     {
         if (isTouchingUI()) return;
+
         PlacedWorkstation tappedWorkstation = OverlappingTapUI();
         if(tappedWorkstation != null && !tappedWorkstation.minigameData.isOutline)
         {
+            //tapped on a non-outline workstation- open its tap UI
             if(tappedWorkstation.ToggleTapUI())
             {
                 if(openTapUI != null && openTapUI != tappedWorkstation)
-                {
+                { //if theres abother tap UI open, close it
                     openTapUI.SetTapUI(false);
                 }
                 openTapUI = tappedWorkstation;
             }
             return;
         }
+
         moving = false;
         fingerDragging = true;
         if(interactionMode != InteractionMode.Furniture)
@@ -96,15 +108,12 @@ public class Builder : InputHandler
     protected override void TouchCancelled(InputAction.CallbackContext context)
     {
         fingerDragging = false;
+
+        //if the outline hasn't been moved this press, finalize it
         if(!moving && interactionMode == InteractionMode.Furniture)
         {
             FinalizePlace();
         }
-        //if furniture
-        //stop update follow
-        //if followduration is low && position is same tile
-        //finalizeplacement
-        //set mode to move
     }
 
     /// <summary>
@@ -125,7 +134,7 @@ public class Builder : InputHandler
 
                 return false;
             case InteractionMode.Floor:
-                if (floorTile == null)
+                if (wallTile != null && furnitureTile == null)
                 { //replace wall with floor
                     wall.SetTile(tilePos, null);
                     floor.SetTile(tilePos, Instantiate(floorTemplate));
@@ -133,7 +142,7 @@ public class Builder : InputHandler
                 }
                 return false;
             case InteractionMode.Wall:
-                if (wallTile == null && furnitureTile == null)
+                if (floorTile != null && furnitureTile == null)
                 { //replace floor with wall
                     wall.SetTile(tilePos, Instantiate(wallTemplate));
                     floor.SetTile(tilePos, null);
@@ -141,7 +150,7 @@ public class Builder : InputHandler
                 }
                 return false;
             case InteractionMode.Furniture:
-                if(furnitureTile == null && wallTile == null)
+                if(furnitureTile == null && floorTile != null)
                 { //only works if theres a floor tile and no furniture
                     furniture.SetTile(tilePos, Instantiate(furnitureTemplate));
                     return true;
@@ -218,15 +227,17 @@ public class Builder : InputHandler
             return;
         }
 
+
         //shop card-> placed
         finalize(placingShopIndex);
 
         placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.isOutline = false;
         placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.inPlaylist = true;
 
-        
-        //TODO: update sprite, no longer outline
 
+        UpdateWorkstationColor(floor.WorldToCell(placingWorkstation.gameObject.transform.position));
+
+        placingWorkstation.transform.Find("Sprite").GetComponent<Collider2D>().enabled = true;
         SwitchInteractionMode(InteractionMode.Move);
         placingWorkstation = null;
     }
@@ -239,10 +250,15 @@ public class Builder : InputHandler
     /// <param name="index">Index of this workstation in the shop</param>
     public void StartPlacing(GameObject workstation, FinishPlacementDelegate finalize, int index)
     {
+        //move the workstation to the cell one to the right of the player
+        workstation.transform.position = floor.GetCellCenterWorld(floor.WorldToCell(player.transform.position + Vector3.right));
+
         placingWorkstation = workstation;
         SwitchInteractionMode(InteractionMode.Furniture);
         this.finalize = finalize;
         placingShopIndex = index;
+
+        UpdateWorkstationColor(floor.WorldToCell(workstation.transform.position));
     }
 
     /// <summary>
@@ -267,5 +283,16 @@ public class Builder : InputHandler
     public void DestroyFurnitureTile(Vector3 worldPos)
     {
         furniture.SetTile(furniture.WorldToCell(worldPos), null);
+    }
+
+    public void UpdateWorkstationColor(Vector3Int location)
+    {
+        Color newColor = Color.red;
+        if (!placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.isOutline)
+            newColor = Color.white;
+        else if (furniture.GetTile(location) == null && floor.GetTile(location))
+            newColor = Color.green;
+
+        placingWorkstation.transform.Find("Sprite").GetComponent<SpriteRenderer>().color = newColor;
     }
 }

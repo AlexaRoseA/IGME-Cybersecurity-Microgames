@@ -67,6 +67,9 @@ public class AgencyManager : LevelManager
     }
 
 
+    /// <summary>
+    /// open the shop UI
+    /// </summary>
     public void OpenShop()
     {
         builder.CancelPlace();
@@ -87,6 +90,9 @@ public class AgencyManager : LevelManager
         }
     }
 
+    /// <summary>
+    /// close the shop UI
+    /// </summary>
     public void CloseShop()
     {
         shopUI.SetActive(false);
@@ -127,12 +133,17 @@ public class AgencyManager : LevelManager
             TMP_Text jobTitle = cardBG.Find("WorkstationName").gameObject.GetComponent<TMP_Text>();
             Image img = cardBG.Find("WorkstationImg").gameObject.GetComponent<Image>();
 
+            img.sprite = workstations[i].shopSprite;
             jobTitle.text = workstations[i].jobTitle;
             UpdatePurchaseStateDisplay(i);
         }
         shopUI.SetActive(false); //hide the shop until it is shown
     }
 
+    /// <summary>
+    /// attempt to purchase a workstation.
+    /// </summary>
+    /// <param name="prefabIndex">index of the workstation to buy</param>
     public void Purchase(int prefabIndex)
     {
         if (workstations[prefabIndex].price > gameManager.currency) return;
@@ -161,6 +172,8 @@ public class AgencyManager : LevelManager
 
         //attach the new workstation to the agency so that it is added to the playlist
         newWorkstation.transform.parent = agencyParent.transform;
+
+        newWorkstation.transform.Find("Sprite").GetComponent<Collider2D>().enabled = false;
         builder.StartPlacing(newWorkstation, finalize, prefabIndex);
     }
 

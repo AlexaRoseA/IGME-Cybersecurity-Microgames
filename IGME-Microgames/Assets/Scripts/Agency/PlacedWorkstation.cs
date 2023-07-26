@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class PlacedWorkstation : MonoBehaviour
@@ -8,16 +9,33 @@ public class PlacedWorkstation : MonoBehaviour
     public GameObject tapUICanvas;
     private AgencyManager agencyManager;
     public WorkstationData minigameData;
+
+    GameObject tapui;
     public int shopIndex;
 
     // Start is called before the first frame update
     void Start()
     {
-        agencyManager = gameObject.transform.parent.gameObject.GetComponent<AgencyManager>();
+        agencyManager = transform.parent.gameObject.GetComponent<AgencyManager>();
         tapUICanvas.GetComponent<Canvas>().worldCamera = Camera.main;
         tapUICanvas.GetComponent<Canvas>().sortingLayerName = "UIUX";
 
+
+        transform.Find("Sprite").gameObject.GetComponent<Animator>().runtimeAnimatorController = Instantiate(minigameData.workstationIdle);
+
+        //for some reason setting the size wasn't working with the animation. Now, the size property is keyframed instead. 
+        //transform.Find("Sprite").gameObject.GetComponent<SpriteRenderer>().size = Vector2.one;
+
+        tapui = tapUICanvas.transform.Find("Buttons").gameObject;
+
+
         tapUICanvas.SetActive(false);
+    }
+
+    private void Update()
+    {
+        //move the UI to stay on the workstation
+        tapui.transform.position = gameObject.transform.position;
     }
 
     /// <summary>
@@ -37,15 +55,30 @@ public class PlacedWorkstation : MonoBehaviour
     public void SetTapUI(bool active)
     {
 
-        if (!active)
+        if (!active) //close
         {
             tapUICanvas.SetActive(false);
             return;
         }
-        tapUICanvas.SetActive(true);
-        GameObject tapui = tapUICanvas.transform.Find("Buttons").gameObject;
 
-        tapui.transform.position = gameObject.transform.position;
+        //make ui visible
+        tapUICanvas.SetActive(true);
+
+        GameObject tapuiBG = tapui.transform.Find("TapUIBG").gameObject;
+
+        //set job title
+        tapuiBG.transform.Find("JobTitle").GetComponent<TMP_Text>().text = minigameData.BuildJobTitle();
+
+        //workstation is max level
+        if (minigameData.agentLevel >= 3)
+        {
+            tapuiBG.transform.Find("ChallengeProgressText").GetComponent<TMP_Text>().text = "Max Level";
+            tapuiBG.transform.Find("ChallengeProgress").GetComponent<Slider>().value = 1f;
+            return;
+        }
+        //workstation isn't max level
+        tapuiBG.transform.Find("ChallengeProgressText").GetComponent<TMP_Text>().text = minigameData.challengeCooldown + "/" + Mathf.Pow(2, minigameData.agentLevel + 1);
+        tapuiBG.transform.Find("ChallengeProgress").GetComponent<Slider>().value = minigameData.challengeCooldown / Mathf.Pow(2f, minigameData.agentLevel + 1f);
         return;
     }
 
@@ -62,7 +95,7 @@ public class PlacedWorkstation : MonoBehaviour
     /// </summary>
     public void Challenge()
     {
-        if(minigameData.challengeCooldown <= 0)
+        if(minigameData.challengeCooldown >= Mathf.Pow(2, minigameData.agentLevel))
         {
             agencyManager.gameManager.BuildPlaylist(new WorkstationData[] { minigameData }, 1, false, GameMode.challenge);
         }
