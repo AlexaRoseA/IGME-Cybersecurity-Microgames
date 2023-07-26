@@ -169,7 +169,7 @@ public class FuzzbuzzPhase1ApplicationCore : MonoBehaviour
     private void GenerateNewPopUp()
     {
         choosePopup = Random.Range(0, popupList.Count);
-        currentPopup = Instantiate(ReturnPopup(), new Vector3(Random.Range(600, Screen.width - 600), Random.Range(600, Screen.height - 600), 0f), Quaternion.identity, transform);
+        currentPopup = Instantiate(ReturnPopup(), new Vector3(0f, Random.Range(0, 3), 0f), Quaternion.identity, transform);
         ResetGame();
     }
 

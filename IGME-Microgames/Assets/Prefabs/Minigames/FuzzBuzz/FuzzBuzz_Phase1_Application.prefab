@@ -78,7 +78,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -235,7 +235,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 0
+  m_SortingLayerID: -1263651935
   m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &3698369740014592580
@@ -255,7 +255,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -290,9 +290,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30a34af0de1d52a41989262c119c18c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popupButton: {fileID: 1667072807180198349, guid: 74b1b4938976db0469a7d6d7b40730fb, type: 3}
-  popupSlider: {fileID: 1667072807180198349, guid: 9a040c6edf44744419c6f93fe43ff5f8, type: 3}
-  popupText: {fileID: 1667072807180198349, guid: 35d6ad4629cb0954081f52baffc40e03, type: 3}
+  popupButton: {fileID: 2537889116163553101, guid: eab204e4abfe6fe4dbb9cee49242736d, type: 3}
+  popupSlider: {fileID: 96568633725147430, guid: 060480bab29f83f4d8d284907ff5ae0a, type: 3}
+  popupText: {fileID: 8036411394320536059, guid: 215a4591f387cdb4f8211bf6c19ec544, type: 3}
   wordFilePath: wordlist
 --- !u!1 &7963197726176860644
 GameObject:
@@ -366,6 +366,14 @@ PrefabInstance:
     - target: {fileID: 3049884489653533319, guid: 550f0c85a6882db4f9700e2bea6d0a57, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3784942329567192801, guid: 550f0c85a6882db4f9700e2bea6d0a57, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3784942329567192802, guid: 550f0c85a6882db4f9700e2bea6d0a57, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3784942329567192802, guid: 550f0c85a6882db4f9700e2bea6d0a57, type: 3}
       propertyPath: m_SortingOrder
@@ -458,6 +466,38 @@ PrefabInstance:
     - target: {fileID: 3784942329567192807, guid: 550f0c85a6882db4f9700e2bea6d0a57, type: 3}
       propertyPath: m_Name
       value: Timer_TopLeft
+      objectReference: {fileID: 0}
+    - target: {fileID: 3826813420572171547, guid: 550f0c85a6882db4f9700e2bea6d0a57, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3826813420572171547, guid: 550f0c85a6882db4f9700e2bea6d0a57, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3826813420572171547, guid: 550f0c85a6882db4f9700e2bea6d0a57, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 71.400024
+      objectReference: {fileID: 0}
+    - target: {fileID: 3826813420572171547, guid: 550f0c85a6882db4f9700e2bea6d0a57, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.3063645
+      objectReference: {fileID: 0}
+    - target: {fileID: 3826813420572171547, guid: 550f0c85a6882db4f9700e2bea6d0a57, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.3063645
+      objectReference: {fileID: 0}
+    - target: {fileID: 3826813420572171547, guid: 550f0c85a6882db4f9700e2bea6d0a57, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.3063645
+      objectReference: {fileID: 0}
+    - target: {fileID: 3826813420572171547, guid: 550f0c85a6882db4f9700e2bea6d0a57, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 2.181301
+      objectReference: {fileID: 0}
+    - target: {fileID: 3826813420572171547, guid: 550f0c85a6882db4f9700e2bea6d0a57, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -82
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 550f0c85a6882db4f9700e2bea6d0a57, type: 3}
