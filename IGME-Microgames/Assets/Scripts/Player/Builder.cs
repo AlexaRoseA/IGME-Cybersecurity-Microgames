@@ -33,10 +33,12 @@ public class Builder : InputHandler
     public Tilemap floor;
     public Tilemap wall;
     public Tilemap furniture;
+    public Tilemap ceiling;
 
     public TileBase floorTemplate;
     public TileBase wallTemplate;
     public TileBase furnitureTemplate;
+    public TileBase ceilingTemplate;
     public GameObject furniturePrefab;
 
     //workstation placement stuff
@@ -137,6 +139,7 @@ public class Builder : InputHandler
                 if (wallTile != null && furnitureTile == null)
                 { //replace wall with floor
                     wall.SetTile(tilePos, null);
+                    ceiling.SetTile(tilePos, null);
                     floor.SetTile(tilePos, Instantiate(floorTemplate));
                     return true;
                 }
@@ -145,6 +148,7 @@ public class Builder : InputHandler
                 if (floorTile != null && furnitureTile == null)
                 { //replace floor with wall
                     wall.SetTile(tilePos, Instantiate(wallTemplate));
+                    ceiling.SetTile(tilePos, Instantiate(ceilingTemplate));
                     floor.SetTile(tilePos, null);
                     return true;
                 }
