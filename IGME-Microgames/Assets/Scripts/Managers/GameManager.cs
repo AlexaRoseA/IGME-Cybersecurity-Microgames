@@ -56,8 +56,21 @@ public class GameManager : MonoBehaviour
         }*/
 
         //dequeue is called at the end of the minigame
-        string nextSceneName = playlist.Peek().minigameScene;
+        WorkstationData next = playlist.Peek();
+        string nextSceneName = next.minigameScene;
 
+        if (next.fresh)
+        {
+            if (next.tutorialScene != "")
+            {
+                nextSceneName = next.tutorialScene;
+            }
+            else
+            {
+                Debug.Log("no tutorial found");
+            }
+        }
+        
         ClearScenes();
         SceneManager.sceneLoaded += NewMinigameLoaded;
         SceneManager.LoadSceneAsync(nextSceneName, LoadSceneMode.Additive);
@@ -93,7 +106,7 @@ public class GameManager : MonoBehaviour
                 {
                     //if its fresh, its first in the playlist and will show up later. 
                     playlist.Enqueue(tile);
-                    tile.fresh = false;
+                    //tile.fresh = false;
                 }
 
                 for(int i = 0; i < duplicates; i++)
@@ -120,15 +133,25 @@ public class GameManager : MonoBehaviour
     /// <param name="score"></param>
     public void EndMinigame(int score)
     {
-
-        
-
         WorkstationData finishedGame = playlist.Dequeue();
         finishedGame.FinishMinigame(score, currentGameMode);
         currency += ScoreToStars(score, finishedGame) * 100;
 
         lastScore = score;
         lastMinigame = finishedGame;
+
+        ClearScenes();
+        SceneManager.LoadSceneAsync("MinigameScore", LoadSceneMode.Additive);
+        SceneManager.sceneLoaded += PopulateScoreScreen;
+        SceneManager.sceneLoaded += UpdateCurrency;
+    }
+
+    public void EndTutorial(int score)
+    {
+
+        lastScore = score;
+        lastMinigame = playlist.Peek();
+        lastMinigame.fresh = false;
 
         ClearScenes();
         SceneManager.LoadSceneAsync("MinigameScore", LoadSceneMode.Additive);

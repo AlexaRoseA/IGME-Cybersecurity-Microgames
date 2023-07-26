@@ -23,15 +23,4 @@ public class ExfiltratedFile : MonoBehaviour
         if(nameText == null) nameText = GetComponentInChildren<TMP_Text>();
         GetComponentInChildren<Canvas>().worldCamera = Camera.main;
     }
-
-    private void Update()
-    {
-        Vector3 screenLoc = Camera.main.WorldToScreenPoint(transform.position);
-
-        
-        if(screenLoc.x < 0 || screenLoc.x > Camera.main.pixelWidth || screenLoc.y < 0 || screenLoc.y > Camera.main.pixelHeight)
-        {
-            Debug.Log("offscreen");
-        }
-    }
 }

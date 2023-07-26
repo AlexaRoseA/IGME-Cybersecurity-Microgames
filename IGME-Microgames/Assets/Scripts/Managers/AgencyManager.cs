@@ -67,6 +67,9 @@ public class AgencyManager : LevelManager
     }
 
 
+    /// <summary>
+    /// open the shop UI
+    /// </summary>
     public void OpenShop()
     {
         builder.CancelPlace();
@@ -87,6 +90,9 @@ public class AgencyManager : LevelManager
         }
     }
 
+    /// <summary>
+    /// close the shop UI
+    /// </summary>
     public void CloseShop()
     {
         shopUI.SetActive(false);
@@ -134,6 +140,10 @@ public class AgencyManager : LevelManager
         shopUI.SetActive(false); //hide the shop until it is shown
     }
 
+    /// <summary>
+    /// attempt to purchase a workstation.
+    /// </summary>
+    /// <param name="prefabIndex">index of the workstation to buy</param>
     public void Purchase(int prefabIndex)
     {
         if (workstations[prefabIndex].price > gameManager.currency) return;
