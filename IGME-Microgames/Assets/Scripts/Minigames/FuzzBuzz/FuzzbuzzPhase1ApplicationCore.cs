@@ -99,8 +99,8 @@ public class FuzzbuzzPhase1ApplicationCore : MonoBehaviour
             // - Set the goal value text
             case 1:
                 //currentPopup.GetComponentInChildren<Button>().OnPointerDown.AddListener(SetText);
-                EventTrigger trigger = GameObject.Find("SliderKnob").GetComponent<EventTrigger>();
-                MinigameManager.AddEventTriggerListener(trigger, EventTriggerType.PointerUp, SetText);
+                Slider sliderGame = GameObject.Find("SliderBuiltIn").GetComponent<Slider>();
+                sliderGame.onValueChanged.AddListener(delegate { SetText(sliderGame.value); });
                 current = GameObject.Find("CurrentSliderValue").GetComponent<TextMeshProUGUI>();
 
                 userGoal = Random.Range(10, 90);
@@ -225,7 +225,7 @@ public class FuzzbuzzPhase1ApplicationCore : MonoBehaviour
     {
         current.text = value.ToString();
 
-        if (value <= userGoal + 5 && value >= userGoal - 5)
+        if (value == userGoal)
         {
             animator = null;
             DestroyPopup();
