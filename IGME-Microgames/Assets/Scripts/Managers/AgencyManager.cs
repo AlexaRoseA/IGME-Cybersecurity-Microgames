@@ -70,7 +70,12 @@ public class AgencyManager : LevelManager
         int playlistLength = gameManager.BuildPlaylist(workstations);
 
         if(playlistLength == 0)
+        {
+            tutorial.RefreshTip("NeedAgentToPlay");
             tutorial.ShowTip("NeedAgentToPlay");
+
+        }
+            
     }
 
 

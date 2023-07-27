@@ -1234,8 +1234,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6887616222290371283, guid: a032b5699b6324344bd900512f64ace7, type: 3}
       propertyPath: m_text
-      value: Now you can tap on your new Agent to view options and stats, or tap
-        Play to shuffle all available minigames.
+      value: Tap on your new Agent to view options and stats, or tap Play to shuffle
+        all available minigames.
       objectReference: {fileID: 0}
     - target: {fileID: 7251172774408946337, guid: a032b5699b6324344bd900512f64ace7, type: 3}
       propertyPath: m_RootOrder
