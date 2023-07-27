@@ -74,11 +74,19 @@ public class PlacedWorkstation : MonoBehaviour
         {
             tapuiBG.transform.Find("ChallengeProgressText").GetComponent<TMP_Text>().text = "Max Level";
             tapuiBG.transform.Find("ChallengeProgress").GetComponent<Slider>().value = 1f;
+
+            tapuiBG.transform.Find("ChallengeButton").GetComponent<Button>().interactable = false;
             return;
         }
         //workstation isn't max level
         tapuiBG.transform.Find("ChallengeProgressText").GetComponent<TMP_Text>().text = minigameData.challengeCooldown + "/" + Mathf.Pow(2, minigameData.agentLevel + 1);
         tapuiBG.transform.Find("ChallengeProgress").GetComponent<Slider>().value = minigameData.challengeCooldown / Mathf.Pow(2f, minigameData.agentLevel + 1f);
+
+        if(minigameData.challengeCooldown / Mathf.Pow(2f, minigameData.agentLevel + 1f) < 1f)
+        {
+            //challenge bar isnt full
+            tapuiBG.transform.Find("ChallengeButton").GetComponent<Button>().interactable = false;
+        }
         return;
     }
 

@@ -20,9 +20,9 @@ MonoBehaviour:
   price: 2000
   isOutline: 1
   starThresholds: 00000080e8030000b80b00007017000010270000
-  challengeCooldown: 3
+  challengeCooldown: 4
   highscore: 0
-  agentLevel: 3
+  agentLevel: 1
   tutorialScene: 
   fresh: 1
   timesPlayed: 0

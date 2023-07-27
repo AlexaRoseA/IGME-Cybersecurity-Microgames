@@ -170,6 +170,8 @@ public class AgencyManager : LevelManager
 
         for(int i = 0; i < workstations.Length; i++)
             UpdatePurchaseStateDisplay(i);
+
+        Place(prefabIndex);
     }
 
     public void Place(int prefabIndex)
