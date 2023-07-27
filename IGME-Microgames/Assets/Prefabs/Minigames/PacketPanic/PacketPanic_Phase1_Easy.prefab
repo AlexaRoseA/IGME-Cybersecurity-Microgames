@@ -208,6 +208,7 @@ GameObject:
   - component: {fileID: 7636586184387843202}
   - component: {fileID: 8677675828974871034}
   - component: {fileID: 1376027178045850696}
+  - component: {fileID: 1144390347650921917}
   m_Layer: 5
   m_Name: CoreHealthText
   m_TagString: Untagged
@@ -332,6 +333,26 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!95 &1144390347650921917
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3395388386824631124}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9328a9e470fb8794b91a93ea22e9348d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4999571735196797288
 GameObject:
   m_ObjectHideFlags: 0

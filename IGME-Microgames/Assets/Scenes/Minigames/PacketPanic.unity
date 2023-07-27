@@ -237,6 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coreHealth: 10
   helper: {fileID: 157341857}
+  deadPacket: {fileID: 4825633782335366568, guid: 83a2e4c3fc13dd142a0154d1c4298fdb, type: 3}
   coreHealthText: {fileID: 0}
 --- !u!1001 &949780129
 PrefabInstance:

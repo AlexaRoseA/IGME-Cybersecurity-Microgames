@@ -8,7 +8,7 @@ public class PanicManager : MonoBehaviour
     public int coreHealth = 10;
 
     public MinigameManager helper;
-
+    public GameObject deadPacket;
     public TMP_Text coreHealthText;
 
     public void DestroyPacket(GameObject packet, bool tapped)
@@ -18,6 +18,7 @@ public class PanicManager : MonoBehaviour
             if(tapped)
             {
                 //tapped malicious
+                Instantiate(deadPacket).transform.position = packet.transform.position;
                 //helper.UpdateScore(100);
             }
             else
@@ -75,7 +76,7 @@ public class PanicManager : MonoBehaviour
         }
 
         coreHealthText.text = coreHealth.ToString();
-
+        coreHealthText.gameObject.GetComponent<Animator>().SetTrigger("LoseHealth");
 
     }
 }
