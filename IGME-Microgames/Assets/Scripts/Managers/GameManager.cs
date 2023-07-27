@@ -82,9 +82,9 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded -= NewMinigameLoaded;
     }
 
-    public void BuildPlaylist(WorkstationData[] workstations)
+    public int BuildPlaylist(WorkstationData[] workstations)
     {
-        BuildPlaylist(workstations, minigameDuplicates, true, GameMode.shuffle);
+        return BuildPlaylist(workstations, minigameDuplicates, true, GameMode.shuffle);
     }
 
 
@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
     /// Compiles the available minigames into a shuffled queue.
     /// </summary>
     /// <param name="rooms">room objects that the player has in their agency.</param>
-    public void BuildPlaylist(WorkstationData[] workstations, int duplicates, bool useFreshness, GameMode gameMode)
+    public int BuildPlaylist(WorkstationData[] workstations, int duplicates, bool useFreshness, GameMode gameMode)
     {
         currentGameMode = gameMode;
         List<WorkstationData> activeMinigames = new List<WorkstationData>();
@@ -124,6 +124,7 @@ public class GameManager : MonoBehaviour
         }
 
         PlayNext();
+        return playlist.Count;
     }
 
     /// <summary>

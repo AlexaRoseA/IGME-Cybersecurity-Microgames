@@ -21,6 +21,8 @@ public class AgencyManager : LevelManager
     public GameObject workstationShopCardPrefab; // prefab for what a shop card looks like
     public Behaviour[] disableWhileInShop; // components that will be disabled when the shop is opened
     public Builder builder; // Handles placing shop items after being bought
+    public AgencyTutorial tutorial;
+
 
     public GameObject workstationPrefab;
     public WorkstationData[] workstations;
@@ -36,6 +38,8 @@ public class AgencyManager : LevelManager
 
 
         InitShop();
+
+        tutorial.ShowTip("OpenStore");
     }
 
     /// <summary>
@@ -63,7 +67,10 @@ public class AgencyManager : LevelManager
         }
 
         
-        gameManager.BuildPlaylist(workstations);
+        int playlistLength = gameManager.BuildPlaylist(workstations);
+
+        if(playlistLength == 0)
+            tutorial.ShowTip("NeedAgentToPlay");
     }
 
 
@@ -73,6 +80,9 @@ public class AgencyManager : LevelManager
     public void OpenShop()
     {
         builder.CancelPlace();
+        tutorial.HideTip("OpenStore");
+        tutorial.HideTip("NeedAgentToPlay");
+        tutorial.ShowTip("HireAgent");
 
         shopUI.SetActive(true); //set shop visibility and interactability
 
@@ -161,6 +171,7 @@ public class AgencyManager : LevelManager
     {
 
         CloseShop();
+        tutorial.ShowTip("PlaceAgent");
 
         //passes the method to be called when placement is finalized- this won't get called if the placement is cancelled. 
         FinishPlacementDelegate finalize = FinalizePlacement;
@@ -212,8 +223,10 @@ public class AgencyManager : LevelManager
 
     private void FinalizePlacement(int shopIndex)
     {
+        tutorial.ShowTip("PlayGame");
         purchaseStates[shopIndex] = PurchaseState.Placed;
         UpdatePurchaseStateDisplay(shopIndex);
+
     }
 
     public void ReturnToShop(PlacedWorkstation workstation)

@@ -1,0 +1,29 @@
+﻿title: Agency_Tutorial
+---
+//<<ShowAllCharacters CharacterDialogDisplayer>>
+
+Robot: Welcome to your new cybersecurity agency!
+Robot: Shall I show you around?
+    ->Yes
+        Robot: Sure thing! Let's take a look at the hiring board. 
+        Robot: press the <color=green>Agent Store</color> button in the bottom left.
+        <<hide_continue>>
+        <<await_openShop>>
+        <<show_continue>>
+        Robot: Here you can find the different cybersecurity agents you can hire, each with their own unique minigame to show you!
+        Robot: Get started by hiring the IT Auditor.
+        <<hide_continue>>
+        <<await_hireAuditor>>
+        <<show_continue>>
+        Robot: Now it's time to find the new IT Auditor a place to work! drag them to where you want them to be, and then tap them to finalize the placement.
+        <<hide_continue>>
+        <<await_finalizedAuditor>>
+        <<show_continue>>
+        Robot: Great! now you can tap the IT Auditor to view options and stats, or tap <color=green>Play</color> to shuffle all of your available minigames!
+    ->No
+        Robot: Sure thing. Bye!
+
+//<<set $timeRemaining to 30>>
+//<<SetBool CharacterDialogDisplayer 0 determined false>>
+//<<HideAllCharacters CharacterDialogDisplayer>>
+===
