@@ -15,6 +15,7 @@ TagManager:
   - Enemy
   - Phase
   - BulletBoundary
+  - Music
   layers:
   - Default
   - TransparentFX

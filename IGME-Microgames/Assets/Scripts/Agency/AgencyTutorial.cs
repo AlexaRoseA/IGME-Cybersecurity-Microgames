@@ -8,9 +8,11 @@ public class AgencyTutorial : MonoBehaviour
     Dictionary<string, GameObject> tips;
     List<GameObject> shownTips;
 
+    private AudioSource _audioSource;
 
     private void Start()
     {
+        _audioSource = GetComponent<AudioSource>();
         shownTips = new List<GameObject>();
         tips = new Dictionary<string, GameObject>();
         for(int i = 0; i < transform.childCount; i++)
@@ -34,6 +36,7 @@ public class AgencyTutorial : MonoBehaviour
         //shownTips.Clear();
         tips[tipName].SetActive(true);
         shownTips.Add(tips[tipName]);
+        _audioSource.Play();
     }
 
     /// <summary>
