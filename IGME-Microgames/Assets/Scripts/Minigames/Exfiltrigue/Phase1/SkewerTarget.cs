@@ -15,7 +15,9 @@ public class SkewerTarget : MonoBehaviour
         FishMovement movement = gameObject.GetComponent<FishMovement>();
         if (movement != null) movement.enabled = false;
 
-        if(newParent != null)
+        if (GetComponent<ParticleSystem>() != null) GetComponent<ParticleSystem>().Play();
+
+        if (newParent != null)
         {
             //reset transform and parent to the passed in transform, so that it will be at the desired location
             transform.parent = newParent;
