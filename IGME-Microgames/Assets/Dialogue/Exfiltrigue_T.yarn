@@ -1,0 +1,14 @@
+﻿title: Exfiltrigue_T
+---
+Narrator: Welcome to Exfiltrigue! This minigame is all about gaining access to a protected system, and sneaking important data out. 
+Narrator: Gaining access is called <color=red>infiltration</color>. There are many ways to do it, but in this minigame you'll be using <color=red>spearphishing</color>. 
+Narrator: You've probably heard of phishing; it's when you get an email or message that tries to get you to click a link. Clicking the link will let a hacker gain access to your system. 
+Narrator: Spearphishing is a lot like normal phishing, but it involves crafting a phishing message for a specific target, often using personal information, instead of sending a generic message to everyone. 
+
+Narrator: The first phase of Exfiltrigue is about gathering that personal information to write your spearphishing email!
+
+Narrator: Once you have access to the protected system, you're going to want to take data off their system: this is called <color=red>exfiltration</color>. 
+Narrator: In this minigame, it's important to only take the files that are important to the mission, because with each file you try to exfiltrate you run the risk of getting caught by their Data Loss Prevention System. 
+Narrator: So if it doesn't look important, throw it in the trash!
+Narrator: If it is important, drag it to the cloud to exfiltrate it. 
+===
