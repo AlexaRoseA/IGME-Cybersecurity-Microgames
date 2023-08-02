@@ -20,7 +20,7 @@ public class SkewerTarget : MonoBehaviour
         {
             GameObject particles = Instantiate(onHitParticles);
             particles.transform.position = transform.position;
-            particles.transform.rotation = newParent.parent.rotation;
+            if(newParent != null) particles.transform.rotation = newParent.parent.rotation;
         }
 
         if (newParent != null)
