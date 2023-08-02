@@ -164,32 +164,9 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
             parent.name = "Piece_" + (totalPieces.Count + 1);
             blockObj.GetComponent<SpriteRenderer>().color = ranColor;
 
-            Vector3 centerpoint = Vector3.zero;
-            List<GameObject> objBlocks = new List<GameObject>();
-
-            foreach (Block block in blocksFilled)
-            {
-                Vector3 pos = block.GetCenter();
-                
-                GameObject child = Instantiate(blockObj, new Vector3(Mathf.Floor(pos.x / 100), Mathf.Floor(pos.y / 100), Mathf.Floor(pos.z / 100)), Quaternion.identity, parent.transform.GetChild(0).transform);
-                centerpoint += child.transform.position;
-                objBlocks.Add(child);
-            }
-
-            parent.transform.GetChild(0).transform.DetachChildren();
-            centerpoint /= blocksFilled.Count;
-            centerpoint = new Vector3(Mathf.RoundToInt(centerpoint.x), Mathf.RoundToInt(centerpoint.y), 0f);
-
-            Debug.Log("CENTERPOINT: " + centerpoint);
-            parent.transform.GetChild(0).transform.position = centerpoint;
-
-            foreach (GameObject obj in objBlocks)
-            {
-                obj.transform.SetParent(parent.transform.GetChild(0).transform);
-            }
+            ChangeCenterpoint(parent);
 
             totalPieces.Add(parent);
-            //parent.SetActive(false);
             Debug.Log("Block saved!");
 
             ranColor = GenerateNewColor();
@@ -208,6 +185,70 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         {
             Debug.Log("Please finish placing blocks to create a shape!");
         }
+    }
+
+    private void ChangeCenterpoint(GameObject parent)
+    {
+        Vector3 centerpoint = Vector3.zero;
+        List<GameObject> objBlocks = new List<GameObject>();
+
+        foreach (Block block in blocksFilled)
+        {
+            Vector3 pos = block.GetCenter();
+            GameObject child = Instantiate(blockObj, new Vector3(Mathf.Floor(pos.x / 100), Mathf.Floor(pos.y / 100), Mathf.Floor(pos.z / 100)), Quaternion.identity, parent.transform.GetChild(0).transform);
+            centerpoint += child.transform.position;
+            Debug.Log("Child pos: " + child.transform.position);
+            Debug.Log("Current centerpoint: " + centerpoint);
+            objBlocks.Add(child);
+        }
+
+        parent.transform.GetChild(0).transform.DetachChildren();
+
+        if(CheckAllX(objBlocks) || CheckAllY(objBlocks))
+        {
+            Debug.Log("Sidepiece!");
+            centerpoint /= blocksFilled.Count;
+            centerpoint = new Vector3(Mathf.RoundToInt(centerpoint.x), Mathf.RoundToInt(centerpoint.y), 0f);
+        } else
+        {
+            centerpoint = Vector3.zero;
+        }
+
+        Debug.Log("Final Centerpoint: " + centerpoint);
+
+        Debug.Log("CENTERPOINT: " + centerpoint);
+        parent.transform.GetChild(0).transform.position = centerpoint;
+
+        foreach (GameObject obj in objBlocks)
+        {
+            obj.transform.SetParent(parent.transform.GetChild(0).transform);
+        }
+    }
+
+    private bool CheckAllX(List<GameObject> blocklist)
+    {
+        float x = blocklist[0].transform.position.x;
+        foreach (GameObject block in blocklist)
+        {
+            if (block.transform.position.x != x)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private bool CheckAllY(List<GameObject> blocklist)
+    {
+        float y = blocklist[0].transform.position.y;
+        foreach (GameObject block in blocklist)
+        {
+            if (block.transform.position.y != y)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     /// <summary>
@@ -369,7 +410,7 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         private Color disableColor;
         private Color defaultColor;
 
-        private GameObject clicker;
+        private GameObject clicker; 
 
         public Vector3 GetCenter()
         {
