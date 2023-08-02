@@ -29,6 +29,8 @@ public class FireDefense_Piece : MonoBehaviour
 
     bool quickDrop = false;
 
+    private ParticleSystem fastPlaceParticle;
+
     /// <summary>
     /// Sets up the firewall manager, grabs player input AND
     /// finds the touch double action, sets up swipe listener.
@@ -44,6 +46,7 @@ public class FireDefense_Piece : MonoBehaviour
             touchDoubleAction = playerInput.actions.FindAction("TouchDouble");
             parent = transform.parent.gameObject;
             swipeListener = gameObject.GetComponent<SwipeListener>();
+            fastPlaceParticle = parent.transform.GetChild(1).GetChild(0).GetComponent<ParticleSystem>();
         }
     }
 
@@ -154,6 +157,8 @@ public class FireDefense_Piece : MonoBehaviour
         AddToGrid();
 
         enabled = false;
+
+        fastPlaceParticle.Play();
 
         yield return new WaitForSeconds(.1f);
 

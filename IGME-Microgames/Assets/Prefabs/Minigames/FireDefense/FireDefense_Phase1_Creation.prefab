@@ -814,6 +814,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridUIElement: {fileID: 7648774008277062273}
   counter: {fileID: 2654332767143046905}
+  fastPlaceParticle: {fileID: 7253361273124050473, guid: cd9b9f732c6096c4abd6c4399844be9b, type: 3}
   blockObj: {fileID: 1199848253934345982, guid: 21b99ab9c92b56d4a9c3b28eb41aefd3, type: 3}
   blockParent: {fileID: 777127445078999026, guid: 7b37518e37b59d946b5b9689ddb4287d, type: 3}
 --- !u!1 &7648774009069226731
