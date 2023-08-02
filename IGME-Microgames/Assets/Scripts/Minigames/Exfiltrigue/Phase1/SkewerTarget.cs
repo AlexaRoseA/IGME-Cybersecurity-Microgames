@@ -6,6 +6,7 @@ public class SkewerTarget : MonoBehaviour
 {
     public Sprite underSkewer;
     public Sprite overSkewer;
+    public GameObject onHitParticles;
 
     public void Skewer(Transform newParent)
     {
@@ -15,7 +16,12 @@ public class SkewerTarget : MonoBehaviour
         FishMovement movement = gameObject.GetComponent<FishMovement>();
         if (movement != null) movement.enabled = false;
 
-        if (GetComponent<ParticleSystem>() != null) GetComponent<ParticleSystem>().Play();
+        if (onHitParticles != null)
+        {
+            GameObject particles = Instantiate(onHitParticles);
+            particles.transform.position = transform.position;
+            particles.transform.rotation = newParent.parent.rotation;
+        }
 
         if (newParent != null)
         {
