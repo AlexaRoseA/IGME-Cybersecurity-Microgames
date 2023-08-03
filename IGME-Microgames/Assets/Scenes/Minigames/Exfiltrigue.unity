@@ -218,6 +218,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0034d7a6fd70ee4ca155107454e649d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &420206897 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1105834894623519836, guid: 3a09cda32689f4c4b94507f614832094, type: 3}
+  m_PrefabInstance: {fileID: 952127995}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &949780129
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -567,18 +572,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1105834893951784830, guid: 3a09cda32689f4c4b94507f614832094, type: 3}
+      propertyPath: allCharsOnScreen.Array.data[0]
+      value: 
+      objectReference: {fileID: 420206897}
     - target: {fileID: 1105834894623519808, guid: 3a09cda32689f4c4b94507f614832094, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 4fa5cd428dc49ea49a82f8b9ab72ac29, type: 2}
+      objectReference: {fileID: 9100000, guid: bf06c3692efd3eb4c9669f85d9ae5bdd, type: 2}
     - target: {fileID: 1105834894623519836, guid: 3a09cda32689f4c4b94507f614832094, type: 3}
       propertyPath: m_Name
-      value: Packet
+      value: Sir
       objectReference: {fileID: 0}
     - target: {fileID: 1105834894623519837, guid: 3a09cda32689f4c4b94507f614832094, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -10
       objectReference: {fileID: 0}
+    - target: {fileID: 1105834894623519837, guid: 3a09cda32689f4c4b94507f614832094, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1105834894623519838, guid: 3a09cda32689f4c4b94507f614832094, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1732096439, guid: d24530bd6401c12479e1f03d08be4b8a, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a09cda32689f4c4b94507f614832094, type: 3}
 --- !u!114 &1061285509 stripped
