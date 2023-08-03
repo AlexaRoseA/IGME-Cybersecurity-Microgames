@@ -209,11 +209,10 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         {
             Debug.Log("Sidepiece!");
             centerpoint /= blocksFilled.Count;
-            centerpoint = new Vector3(Mathf.RoundToInt(centerpoint.x), Mathf.RoundToInt(centerpoint.y), 0f);
-            Instantiate(fastPlaceParticle, centerpoint, Quaternion.identity, parent.transform);
+            Instantiate(fastPlaceParticle, new Vector3(Mathf.RoundToInt(centerpoint.x), Mathf.RoundToInt(centerpoint.y), 20f), Quaternion.identity, parent.transform);
         } else
         {
-            Instantiate(fastPlaceParticle, centerpoint /= blocksFilled.Count, Quaternion.identity, parent.transform);
+            Instantiate(fastPlaceParticle, new Vector3(Mathf.RoundToInt((centerpoint /= blocksFilled.Count).x), Mathf.RoundToInt((centerpoint /= blocksFilled.Count).y), 20f), Quaternion.identity, parent.transform);
             centerpoint = Vector3.zero;
         }
 

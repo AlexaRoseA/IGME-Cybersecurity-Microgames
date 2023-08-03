@@ -236,7 +236,7 @@ public class FireDefense_Piece : MonoBehaviour
     public void Movement()
     {
         Vector3 oldPos = transform.position;
-        parent.transform.position = new Vector3(Mathf.Clamp(Mathf.FloorToInt(firewallManager.ReturnMovementScript().TouchScreenToWorld().x), 1, 9), parent.transform.position.y, parent.transform.position.z);
+        parent.transform.position = new Vector3(Mathf.Clamp(Mathf.FloorToInt(firewallManager.ReturnMovementScript().TouchScreenToWorld().x), 0, 10), parent.transform.position.y, parent.transform.position.z);
 
         if (!CheckInValidPos())
         {

@@ -29,6 +29,7 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
 
     private double amtFilled = 0;
     private double totalAmt;
+    private double amtNeeded;
     private bool gameStarted = false;
 
     public static Transform[,] grid;
@@ -53,6 +54,9 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
             totalPieces.Add(block);
             block.SetActive(false);
         }
+
+        amtNeeded = Random.Range(40, 60);
+        amtNeeded = System.Math.Round(amtNeeded, 2);
     }
 
     private void Update()
@@ -65,7 +69,7 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
             }
         }
 
-        if(amtFilled >= 10.0)
+        if(amtFilled >= amtNeeded)
         {
             foreach(GameObject piece in GameObject.FindGameObjectsWithTag("Piece"))
             {
