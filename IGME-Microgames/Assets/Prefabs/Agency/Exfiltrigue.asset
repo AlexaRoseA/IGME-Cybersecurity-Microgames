@@ -23,7 +23,7 @@ MonoBehaviour:
   challengeCooldown: 0
   highscore: 0
   agentLevel: 3
-  tutorialScene: 
+  tutorialScene: Exfiltrigue_T
   fresh: 1
   timesPlayed: 0
   inPlaylist: 0

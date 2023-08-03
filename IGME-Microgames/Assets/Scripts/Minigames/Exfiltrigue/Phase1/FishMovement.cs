@@ -9,6 +9,7 @@ public class FishMovement : MonoBehaviour
 
     public GameObject fleeTarget;
     public float fleeRange = 3f;
+    public bool tutorial = false;
 
     float dartCooldown;
     float nextDartTime;
@@ -41,7 +42,7 @@ public class FishMovement : MonoBehaviour
         dartCooldown -= Time.deltaTime;
 
         //if CD is less than zero, fish is able to dart
-        if (dartCooldown > 0) return;
+        if (dartCooldown > 0 || tutorial) return;
 
         //spear is too close, dart away
         if(Vector3.SqrMagnitude(transform.position - fleeTarget.transform.position) < fleeRange * fleeRange)
