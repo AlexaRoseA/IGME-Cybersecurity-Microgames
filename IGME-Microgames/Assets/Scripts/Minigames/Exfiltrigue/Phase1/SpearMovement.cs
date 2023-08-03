@@ -10,11 +10,13 @@ public class SpearMovement : InputHandler
     private bool directing = false;
     public float maxPullDist = 2f;
     public float launchStrengthMultiplier = 2f;
+    public MinigameManager minigameManager;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
+        if (minigameManager == null) minigameManager = FindObjectOfType<MinigameManager>();
     }
 
     // Update is called once per frame
@@ -31,6 +33,7 @@ public class SpearMovement : InputHandler
 
     protected override void TouchPressed(InputAction.CallbackContext context)
     {
+        if (!minigameManager.GetTimer()) return;
         Vector3 touchPos = TouchScreenToWorld();
         touchPos.z = 0f;
         directing = Vector3.Distance(touchPos, transform.position) < 2.25;

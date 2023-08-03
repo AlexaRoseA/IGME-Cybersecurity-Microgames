@@ -63,7 +63,7 @@ public class PlacedWorkstation : MonoBehaviour
 
         //make ui visible
         tapUICanvas.SetActive(true);
-
+        agencyManager.tutorial.HideTip("PlayGame");
         GameObject tapuiBG = tapui.transform.Find("TapUIBG").gameObject;
 
         //set job title

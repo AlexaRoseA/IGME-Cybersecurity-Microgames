@@ -98,6 +98,9 @@ public class ExfilFileManager : InputHandler
         {
             currentFile.nameText.text = currentFile.fileName;
             currentFile.GetComponent<SpriteRenderer>().sprite = currentFile.unlocked;
+
+            ExfiltrigueTutorialManager tutorial = FindObjectOfType<ExfiltrigueTutorialManager>();
+            if (tutorial != null) tutorial.Decrypted();
         }
         else
         {
@@ -158,21 +161,33 @@ public class ExfilFileManager : InputHandler
         if(hitObj == null)
         {
             minigameManager.UpdateScore(-500);
+
+            ExfiltrigueTutorialManager tutorial = FindObjectOfType<ExfiltrigueTutorialManager>();
+            if (tutorial != null) tutorial.GotCaught();
         }
         else if (hitObj.GetComponent<Cloud>() != null)
         {
             //hit the cloud - score points
             minigameManager.UpdateScore((int)(currentFile.importance * 1000f));
+
+            ExfiltrigueTutorialManager tutorial = FindObjectOfType<ExfiltrigueTutorialManager>();
+            if (tutorial != null) tutorial.Exfiltrate(currentFile.importance, false);
         }
         else if (hitObj.GetComponent<RecycleZone>() != null)
         {
             //recycled
             minigameManager.UpdateScore(50);
+            
+            ExfiltrigueTutorialManager tutorial = FindObjectOfType<ExfiltrigueTutorialManager>();
+            if (tutorial != null) tutorial.Exfiltrate(currentFile.importance, true);
         }
         else
         {
             //hit a wall
             minigameManager.UpdateScore(-500);
+
+            ExfiltrigueTutorialManager tutorial = FindObjectOfType<ExfiltrigueTutorialManager>();
+            if (tutorial != null) tutorial.GotCaught();
         }
         NextFile();
     }

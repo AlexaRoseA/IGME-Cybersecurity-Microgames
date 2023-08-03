@@ -28,5 +28,9 @@ public class Skewerer : MonoBehaviour
         target.Skewer(skewered.Count < skeweredPositions.Length ? skeweredPositions[skewered.Count].transform : null);
 
         skewered.Add(target.gameObject);
+
+        //if this is the tutorial, call the tutorial caught fish dialogue
+        ExfiltrigueTutorialManager tutorial = FindObjectOfType<ExfiltrigueTutorialManager>();
+        if (tutorial != null) tutorial.CaughtFish();
     }
 }

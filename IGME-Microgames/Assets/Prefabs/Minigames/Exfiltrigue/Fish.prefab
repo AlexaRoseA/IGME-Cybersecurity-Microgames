@@ -123,6 +123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   underSkewer: {fileID: 21300000, guid: 13ca9b447321dd24594ffe977d144f7c, type: 3}
   overSkewer: {fileID: 21300000, guid: 7588b8c096a8d7340ba85913a59fa136, type: 3}
+  onHitParticles: {fileID: 8936735783997675326, guid: 89b39fe1842afa945bbb41f757a455ea, type: 3}
 --- !u!70 &9184350506106873474
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
