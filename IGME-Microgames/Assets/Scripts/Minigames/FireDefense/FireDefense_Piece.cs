@@ -160,7 +160,7 @@ public class FireDefense_Piece : MonoBehaviour
 
         fastPlaceParticle.Play();
 
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(.35f);
 
         firewallManager.UpdateNumFilled();
 
@@ -205,7 +205,7 @@ public class FireDefense_Piece : MonoBehaviour
     /// <param name="swipe"></param>
     private void OnSwipe(string swipe)
     {
-        if (swipe.ToLower() == "up" || swipe.ToLower() == "upright" || swipe.ToLower() == "upleft")
+        if (swipe.ToLower() == "up")
         {
             quickDrop = true;
             StartCoroutine(QuickDropMovement());
@@ -276,7 +276,7 @@ public class FireDefense_Piece : MonoBehaviour
         {
             Vector2 pos = firewallManager.RoundVector(block.transform.position);
 
-            firewallManager.SetGridPos((int)pos.x, (int)pos.y, block);
+            firewallManager.SetGridPos(Mathf.Clamp((int)pos.x,0, 10), (int)pos.y, block);
         }
     }
 }

@@ -55,6 +55,8 @@ public class FireDefense_FirewallDefense : MonoBehaviour
             if (minigameManager.GetPhase() == "fighting")
             {
                 minigameManager.UpdateScoreText();
+                minigameManager.UpdateTimerText();
+                minigameManager.StartTimer(120000);
                 startBattle = true;
             }
         }
