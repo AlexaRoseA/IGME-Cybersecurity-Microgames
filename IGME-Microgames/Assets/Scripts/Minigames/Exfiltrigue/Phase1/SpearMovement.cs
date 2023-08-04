@@ -12,10 +12,13 @@ public class SpearMovement : InputHandler
     public float launchStrengthMultiplier = 2f;
     public MinigameManager minigameManager;
 
+    AudioSource sploosher;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
+        sploosher = GetComponent<AudioSource>();
         if (minigameManager == null) minigameManager = FindObjectOfType<MinigameManager>();
     }
 
@@ -56,6 +59,7 @@ public class SpearMovement : InputHandler
         
 
         rb.AddForce(launchDirection, ForceMode2D.Impulse);
-        
+
+        sploosher.Play();
     }
 }

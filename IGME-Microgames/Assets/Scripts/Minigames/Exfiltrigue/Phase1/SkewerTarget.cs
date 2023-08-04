@@ -13,6 +13,8 @@ public class SkewerTarget : MonoBehaviour
 
         gameObject.GetComponent<Collider2D>().enabled = false;
 
+        GetComponent<AudioSource>().Play();
+
         FishMovement movement = gameObject.GetComponent<FishMovement>();
         if (movement != null) movement.enabled = false;
 
