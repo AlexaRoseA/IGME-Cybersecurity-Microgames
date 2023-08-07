@@ -309,7 +309,7 @@ public class FireDefense_T_ScanGame : LevelManager
         }
     }
 
-    [YarnCommand("EndTutorial")]
+    [YarnCommand("End")]
     public void EndTutorial()
     {
         gameManager.EndTutorial(score);
