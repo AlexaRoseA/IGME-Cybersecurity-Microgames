@@ -25,7 +25,7 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
     // 9 by 20 playable
     public static int row = 9;
     public static int column = 25;
-    private int pieceCount;
+    public int pieceCount;
 
     private double amtFilled = 0;
     private double totalAmt;
@@ -139,11 +139,11 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
     public void UpdateNumFilled()
     {
         float temp = 0;
-        for (int i = 0; i < row + 1; i++)
+        for (int i = 0; i < row; i++)
         {
-            for (int j = 0; j < 21; j++)
+            for (int j = 0; j < column; j++)
             {
-                if (grid[i,j] != null)
+                if (gridNew[Mathf.RoundToInt(i), Mathf.RoundToInt(j)] != null)
                 {
                     temp++;
                 }
@@ -219,11 +219,15 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
     /// </summary>
     public void GeneratePiece()
     {
-        int ranIndex = Random.Range(0, totalPieces.Count);
-        int ranX = Random.Range(1, 8);
+        if(pieceCount == 0)
+        {
+            int ranIndex = Random.Range(0, totalPieces.Count);
+            int ranX = Random.Range(1, 8);
 
-        GameObject piece = Instantiate(totalPieces[ranIndex], new Vector3(ranX, 22, 0f), Quaternion.identity);
-        piece.SetActive(true);
+            GameObject piece = Instantiate(totalPieces[ranIndex], new Vector3(ranX, 22, 0f), Quaternion.identity);
+            piece.SetActive(true);
+            pieceCount++;
+        }
     }
 
     #endregion

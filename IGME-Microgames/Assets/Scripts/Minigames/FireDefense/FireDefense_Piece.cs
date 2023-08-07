@@ -288,6 +288,7 @@ public class FireDefense_Piece : MonoBehaviour
 
     bool quickDrop = false;
 
+
     void Awake()
     {
         minigameManager = GameObject.Find("MinigameManager").GetComponent<MinigameManager>();
@@ -470,6 +471,8 @@ public class FireDefense_Piece : MonoBehaviour
 
         enabled = false;
 
+        firewallManager.pieceCount--;
+
         //fastPlaceParticle.Play();
 
         yield return new WaitForSeconds(.35f);
@@ -496,6 +499,7 @@ public class FireDefense_Piece : MonoBehaviour
                 else
                 {
                     transform.position += new Vector3(0, 1, 0);
+                    firewallManager.pieceCount--;
                     firewallManager.GeneratePiece();
                     enabled = false;
                 }
