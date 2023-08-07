@@ -40,6 +40,7 @@ public class FireDefense_T_ScanGame : LevelManager
     /// </summary>
     void Start()
     {
+        base.Start();
         ResetScans();
         scan.interactable = false;
         priorBot = null;

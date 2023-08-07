@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour
 
         ClearScenes();
         SceneManager.LoadSceneAsync("MinigameScore", LoadSceneMode.Additive);
-        SceneManager.sceneLoaded += PopulateScoreScreen;
+        SceneManager.sceneLoaded += PopulateTutorialScoreScreen;
         SceneManager.sceneLoaded += UpdateCurrency;
     }
 
@@ -209,6 +209,12 @@ public class GameManager : MonoBehaviour
     {
         FindObjectOfType<ScoreScreenManager>().InitScoreScreen(lastScore, ScoreToStars(lastScore, lastMinigame), lastMinigame);
         SceneManager.sceneLoaded -= PopulateScoreScreen;
+    }
+
+    private void PopulateTutorialScoreScreen(Scene scene, LoadSceneMode mode)
+    {
+        FindObjectOfType<ScoreScreenManager>().InitScoreScreen(0, 5, lastMinigame);
+        SceneManager.sceneLoaded -= PopulateTutorialScoreScreen;
     }
 
     private void UpdateCurrency(Scene scene, LoadSceneMode mode)

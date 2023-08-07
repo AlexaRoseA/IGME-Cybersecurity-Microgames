@@ -72,5 +72,5 @@ Narrator: Oh no! You got caught by the Data Loss Prevention System! Try again!
 title: CompletedTutorial
 ---
 Narrator: Great! looks like you've got it from here. Have Fun!
-<<EndGame MinigameManager>>
+<<EndTutorial MinigameManager>>
 ===

@@ -117,6 +117,18 @@ public class MinigameManager : LevelManager
         gameManager.EndMinigame(score);
     }
 
+    /// <summary>
+    /// End Game method for tutorial
+    /// </summary>
+    [YarnCommand("EndTutorial")]
+    public void EndTutorial()
+    {
+        // end game
+        Debug.Log("Tutorial Ended!");
+
+        gameManager.EndTutorial(score);
+    }
+
     public static void AddEventTriggerListener(EventTrigger trigger, EventTriggerType eventType, System.Action<BaseEventData> callback)
     {
         EventTrigger.Entry entry = new EventTrigger.Entry();
