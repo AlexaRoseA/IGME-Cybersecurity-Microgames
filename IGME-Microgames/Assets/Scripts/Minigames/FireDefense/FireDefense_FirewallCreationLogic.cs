@@ -23,9 +23,9 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
     private MinigameManager minigameManager;
 
     // 9 by 20 playable
-    private int width = 8;
-    private int height = 25;
-    private int pieceCount;
+    public static int row = 9;
+    public static int column = 25;
+    public int pieceCount;
 
     private double amtFilled = 0;
     private double totalAmt;
@@ -37,6 +37,8 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
 
     // Finalized pieces array made of blocks
     private List<GameObject> totalPieces;
+
+    private Canvas[] canvasElements;
 
     #region Start/Middle/End General Methods and Helpers
 
@@ -55,8 +57,15 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
             block.SetActive(false);
         }
 
-        amtNeeded = Random.Range(40, 60);
+        amtNeeded = Random.Range(20, 30);
         amtNeeded = System.Math.Round(amtNeeded, 2);
+
+        canvasElements = GameObject.FindObjectsOfType<Canvas>();
+        foreach(Canvas c in canvasElements)
+        {
+            c.worldCamera = Camera.main;
+        }
+
     }
 
     private void Update()
@@ -85,8 +94,8 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
     /// </summary>
     void Start()
     {
-        grid = new Transform[width + 1, height];
-        totalAmt = (width + 1) * 21;
+        grid = new Transform[row + 1, column];
+        totalAmt = (row + 1) * 21;
         movementScript = GameObject.Find("InputManager").GetComponent<Movement>();
         blockCreationScreen = GameObject.Find("BlockCreationScreen");
     }
@@ -130,11 +139,11 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
     public void UpdateNumFilled()
     {
         float temp = 0;
-        for (int i = 0; i < width + 1; i++)
+        for (int i = 0; i < row; i++)
         {
-            for (int j = 0; j < 21; j++)
+            for (int j = 0; j < column; j++)
             {
-                if (grid[i,j] != null)
+                if (gridNew[Mathf.RoundToInt(i), Mathf.RoundToInt(j)] != null)
                 {
                     temp++;
                 }
@@ -149,10 +158,10 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
     /// </summary>
     /// <param name="pos"></param>
     /// <returns></returns>
-    public Vector2 RoundVector(Vector2 pos)
-    {
-        return new Vector2(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y));
-    }
+    //public Vector2 RoundVector(Vector2 pos)
+    //{
+    //    return new Vector2(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y));
+    //}
 
     #endregion
 
@@ -164,10 +173,10 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
     /// <param name="x">X position</param>
     /// <param name="y">Y positon</param>
     /// <param name="value">Transform in said grid position [x,y]</param>
-    public void SetGridPos(int x, int y, Transform value)
-    {
-        grid[x, y] = value;
-    }
+    //public void SetGridPos(int x, int y, Transform value)
+    //{
+    //    grid[x, y] = value;
+    //}
 
     /// <summary>
     /// Returns the transform value at a set position in the grid ARRAY
@@ -175,10 +184,10 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
     /// <param name="x">X position</param>
     /// <param name="y">Y position</param>
     /// <returns></returns>
-    public Transform ReturnGridStatusAtPos(int x, int y)
-    {
-        return grid[x, y];
-    }
+    //public Transform ReturnGridStatusAtPos(int x, int y)
+    //{
+    //    return grid[x, y];
+    //}
 
     /// <summary>
     /// Returns a boolean
@@ -186,10 +195,10 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
     /// </summary>
     /// <param name="pos"></param>
     /// <returns></returns>
-    public bool CheckInsideGrid(Vector2 pos)
-    {
-        return ((int)pos.x >= 0 && (int)pos.x <= width && (int)pos.y >= 0);
-    }
+    //public bool CheckInsideGrid(Vector2 pos)
+    //{
+    //    return ((int)pos.x >= 0 && (int)pos.x <= row && (int)pos.y >= 0);
+    //}
 
     #endregion
 
@@ -210,11 +219,42 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
     /// </summary>
     public void GeneratePiece()
     {
-        int ranIndex = Random.Range(0, totalPieces.Count);
-        int ranX = Random.Range(1, 8);
+        if(pieceCount == 0)
+        {
+            int ranIndex = Random.Range(0, totalPieces.Count);
+            int ranX = Random.Range(1, 8);
 
-        GameObject piece = Instantiate(totalPieces[ranIndex], new Vector3(ranX, 22, 0f), Quaternion.identity);
-        piece.SetActive(true);
+            GameObject piece = Instantiate(totalPieces[ranIndex], new Vector3(ranX, 22, 0f), Quaternion.identity);
+            piece.SetActive(true);
+            pieceCount++;
+        }
+    }
+
+    #endregion
+
+
+    #region MatrixGrid
+
+    public Transform[,] gridNew = new Transform[row, column];
+
+    public Vector2 RoundVector(Vector2 v)
+    {
+        return new Vector2(Mathf.Round(v.x), Mathf.Round(v.y));
+    }
+
+    public bool IsInsideBorder(Vector2 position)
+    {
+        return ((int)position.x >= 0 && (int)position.x < row && (int)position.y >= 0);
+    }
+
+    public int ReturnCol()
+    {
+        return column;
+    }
+
+    public int ReturnRow()
+    {
+        return row;
     }
 
     #endregion
