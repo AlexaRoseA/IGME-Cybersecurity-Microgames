@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 ///* **************************************************************************
 //*
@@ -281,6 +282,12 @@ public class FireDefense_Piece : MonoBehaviour
 
     float lastFall = 0f;
 
+    Button buttonRight;
+    Button buttonLeft;
+    Button buttonRotate;
+
+    bool quickDrop = false;
+
     void Awake()
     {
         minigameManager = GameObject.Find("MinigameManager").GetComponent<MinigameManager>();
@@ -291,6 +298,15 @@ public class FireDefense_Piece : MonoBehaviour
             playerInput = GameObject.FindObjectOfType<PlayerInput>();
             swipeListener = gameObject.GetComponent<SwipeListener>();
             touchDoubleAction = playerInput.actions.FindAction("TouchDouble");
+
+            buttonRight = GameObject.Find("Right").GetComponent<Button>();
+            buttonLeft = GameObject.Find("Left").GetComponent<Button>();
+            buttonRotate = GameObject.Find("Rotate").GetComponent<Button>();
+
+            buttonRight.onClick.AddListener(MoveRight);
+            buttonLeft.onClick.AddListener(MoveLeft);
+            buttonRotate.onClick.AddListener(Rotate);
+
         }
     }
 
@@ -345,7 +361,9 @@ public class FireDefense_Piece : MonoBehaviour
     {
         if (swipe.ToLower() == "up")
         {
-
+            Debug.Log("Swipe!");
+            quickDrop = true;
+            StartCoroutine("QuickDropMovement");
         }
     }
 
@@ -353,16 +371,114 @@ public class FireDefense_Piece : MonoBehaviour
     /// On double touchPress, determine safeRotation
     /// </summary>
     /// <param name="context"></param>
-    private void TouchPressed(InputAction.CallbackContext context)
+    //private void TouchPressed(InputAction.CallbackContext context)
+    //{
+    //    transform.Rotate(new Vector3(0, 0, -90));
+    //    if(isValidGridPos())
+    //    {
+    //        UpdateMatrixGrid();
+    //    } else
+    //    {
+    //        transform.Rotate(new Vector3(0, 0, 90));
+    //    }
+    //}
+
+    public void Rotate()
     {
+        if(!quickDrop)
+        {
         transform.Rotate(new Vector3(0, 0, -90));
-        if(isValidGridPos())
+        if (isValidGridPos())
         {
             UpdateMatrixGrid();
-        } else
+        }
+        else
         {
             transform.Rotate(new Vector3(0, 0, 90));
         }
+        }
+
+    }
+
+    public void MoveRight()
+    {
+        if(!quickDrop)
+        {
+        //right
+        transform.position += new Vector3(1, 0, 0);
+        Debug.Log("MoveRight");
+
+        if (isValidGridPos())
+        {
+            UpdateMatrixGrid();
+        }
+        else
+        {
+            transform.position += new Vector3(-1, 0, 0);
+        }
+        }
+
+    }
+
+    public void MoveLeft()
+    {
+        if(!quickDrop)
+        {
+        //left
+        transform.position += new Vector3(-1, 0, 0);
+        Debug.Log("MoveLeft");
+
+        if (isValidGridPos())
+        {
+            UpdateMatrixGrid();
+        }
+        else
+        {
+            transform.position += new Vector3(1, 0, 0);
+        }
+        }
+
+    }
+
+    /// <summary>
+    /// Simulates the quick drop animation movement, waiting a few seconds
+    /// in between to allow for "animation" to take place.
+    /// 
+    /// After placement, set the quickdrop back to false, add the block
+    /// to the grid, disable the script. Wait a few seconds before updating the
+    /// percentage filled and generating a new piece. 
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator QuickDropMovement()
+    {
+        while (isValidGridPos())
+        {
+            transform.parent.position -= new Vector3(0, 1, 0);
+
+            if (isValidGridPos())
+            {
+                yield return new WaitForSeconds(.05f);
+            }
+
+        }
+
+        transform.parent.position -= new Vector3(0, -1, 0);
+
+        quickDrop = false;
+
+        UpdateMatrixGrid();
+
+        enabled = false;
+
+        //fastPlaceParticle.Play();
+
+        yield return new WaitForSeconds(.35f);
+
+        firewallManager.UpdateNumFilled();
+
+        firewallManager.GeneratePiece();
+
+        yield return null;
     }
 
     private void Update()
@@ -386,50 +502,61 @@ public class FireDefense_Piece : MonoBehaviour
                 lastFall = Time.time;
             }
 
-            if (Input.touchCount <= 0)
-                return;
+            //if (firewallManager.ReturnMovementScript().checkIfWithinDragCircle())
+            //{
+            //    Vector3 oldPos = transform.position;
+            //    transform.parent.position = new Vector3(Mathf.Clamp(Mathf.FloorToInt(firewallManager.ReturnMovementScript().TouchScreenToWorld().x), 0, 10), transform.parent.position.y, transform.parent.position.z);
 
-            //horizontal movement
-            foreach (var touch in Input.touches)
-            {
-                if (touch.phase == UnityEngine.TouchPhase.Began)
-                {
-                    initialTouch = touch;
-                }
+            //    if (isValidGridPos())
+            //    {
+            //        transform.parent.position = oldPos;
+            //    }
+            //}
 
-                if (firewallManager.ReturnMovementScript().checkIfWithinDragCircle())
-                {
-                    var deltaX = touch.position.x - initialTouch.position.x; //greater than 0 is right and less than zero is left
-                    if (deltaX > 0)
-                    {
-                        //right
-                        transform.position += new Vector3(1, 0, 0);
+            //if (Input.touchCount <= 0)
+            //    return;
 
-                        if (isValidGridPos())
-                        {
-                            UpdateMatrixGrid();
-                        }
-                        else
-                        {
-                            transform.position += new Vector3(-1, 0, 0);
-                        }
-                    }
-                    else
-                    {
-                        //left
-                        transform.position += new Vector3(-1, 0, 0);
+            ////horizontal movement
+            //foreach (var touch in Input.touches)
+            //{
+            //    if (touch.phase == UnityEngine.TouchPhase.Began)
+            //    {
+            //        initialTouch = touch;
+            //    }
 
-                        if (isValidGridPos())
-                        {
-                            UpdateMatrixGrid();
-                        }
-                        else
-                        {
-                            transform.position += new Vector3(1, 0, 0);
-                        }
-                    }
-                }
-            }
+            //    if (firewallManager.ReturnMovementScript().checkIfWithinDragCircle())
+            //    {
+            //        var deltaX = touch.position.x - initialTouch.position.x; //greater than 0 is right and less than zero is left
+            //        if (deltaX > 0)
+            //        {
+            //            //right
+            //            transform.position += new Vector3(1, 0, 0);
+
+            //            if (isValidGridPos())
+            //            {
+            //                UpdateMatrixGrid();
+            //            }
+            //            else
+            //            {
+            //                transform.position += new Vector3(-1, 0, 0);
+            //            }
+            //        }
+            //        else
+            //        {
+            //            //left
+            //            transform.position += new Vector3(-1, 0, 0);
+
+            //            if (isValidGridPos())
+            //            {
+            //                UpdateMatrixGrid();
+            //            }
+            //            else
+            //            {
+            //                transform.position += new Vector3(1, 0, 0);
+            //            }
+            //        }
+            //    }
+            //}
         }
     }
 
@@ -442,7 +569,7 @@ public class FireDefense_Piece : MonoBehaviour
         if (minigameManager.GetPhase() == "placingPieces")
         {
             firewallManager.ReturnMovementScript().UpdatePlayer(gameObject);
-            touchDoubleAction.performed += TouchPressed;
+            //touchDoubleAction.performed += TouchPressed;
             swipeListener.OnSwipe.AddListener(OnSwipe);
         }
     }
@@ -455,8 +582,11 @@ public class FireDefense_Piece : MonoBehaviour
     {
         if (minigameManager.GetPhase() == "placingPieces")
         {
-            touchDoubleAction.performed -= TouchPressed;
+            //touchDoubleAction.performed -= TouchPressed;
             swipeListener.OnSwipe.RemoveListener(OnSwipe);
+            buttonRight.onClick.RemoveListener(MoveRight);
+            buttonLeft.onClick.RemoveListener(MoveLeft);
+            buttonRotate.onClick.RemoveListener(Rotate);
         }
     }
 }

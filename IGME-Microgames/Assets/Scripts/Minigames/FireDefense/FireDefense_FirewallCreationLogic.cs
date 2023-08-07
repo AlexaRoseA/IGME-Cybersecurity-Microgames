@@ -23,7 +23,7 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
     private MinigameManager minigameManager;
 
     // 9 by 20 playable
-    public static int row = 8;
+    public static int row = 9;
     public static int column = 25;
     private int pieceCount;
 
@@ -37,6 +37,8 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
 
     // Finalized pieces array made of blocks
     private List<GameObject> totalPieces;
+
+    private Canvas[] canvasElements;
 
     #region Start/Middle/End General Methods and Helpers
 
@@ -57,6 +59,13 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
 
         amtNeeded = Random.Range(40, 60);
         amtNeeded = System.Math.Round(amtNeeded, 2);
+
+        canvasElements = GameObject.FindObjectsOfType<Canvas>();
+        foreach(Canvas c in canvasElements)
+        {
+            c.worldCamera = Camera.main;
+        }
+
     }
 
     private void Update()
