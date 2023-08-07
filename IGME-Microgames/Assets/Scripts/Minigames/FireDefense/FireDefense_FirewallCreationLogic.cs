@@ -57,7 +57,7 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
             block.SetActive(false);
         }
 
-        amtNeeded = Random.Range(40, 60);
+        amtNeeded = Random.Range(20, 30);
         amtNeeded = System.Math.Round(amtNeeded, 2);
 
         canvasElements = GameObject.FindObjectsOfType<Canvas>();
