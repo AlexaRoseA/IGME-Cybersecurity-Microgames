@@ -56,7 +56,7 @@ public class FireDefense_FirewallDefense : MonoBehaviour
             {
                 minigameManager.UpdateScoreText();
                 minigameManager.UpdateTimerText();
-                minigameManager.StartTimer(120000);
+                minigameManager.StartTimer(120);
                 startBattle = true;
             }
         }

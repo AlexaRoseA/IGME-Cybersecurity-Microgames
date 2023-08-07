@@ -40,15 +40,8 @@ tags:
 <<SetBool CharacterDialogDisplayer 0 hammer true>>
 
 Backup: Random pieces will fall from the <color=red>top of your screen.</color>
-Backup: Drag them with your finger left and right to move them!
+Backup: Press the buttons to rotate and move the piece left and right!
 Backup: <color=red>Quickly swipe up</color> to fast place the piece!
-Backup: <color=red>Don't hold swipe up</color> for too long or the next pieces <color=red>will be too fast to control!</color>
-
-<<SetBool CharacterDialogDisplayer 0 peace true>>
-
-Backup: <color=red>Double tap</color> to rotate the piece!
-
-<<SetBool CharacterDialogDisplayer 0 peace false>>
 
 <<SetBool CharacterDialogDisplayer 0 mining true>>
 Backup: Time to build the wall! I bet you're better than me!
