@@ -40,7 +40,7 @@ tags:
 <<SetBool CharacterDialogDisplayer 0 hammer true>>
 
 Backup: Random pieces will fall from the <color=red>top of your screen.</color>
-Backup: Press the buttons to rotate and move the piece left and right!
+Backup: Press the buttons to rotate the piece and move it left and right!
 Backup: <color=red>Quickly swipe up</color> to fast place the piece!
 
 <<SetBool CharacterDialogDisplayer 0 mining true>>
