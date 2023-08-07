@@ -244,4 +244,9 @@ public class AgencyManager : LevelManager
         purchaseStates[shopIndex] = PurchaseState.Purchased;
         UpdatePurchaseStateDisplay(shopIndex);
     }
+
+    public void SetTutorials(Toggle toggle)
+    {
+        gameManager.tutorialsEnabled = toggle.isOn;
+    }
 }

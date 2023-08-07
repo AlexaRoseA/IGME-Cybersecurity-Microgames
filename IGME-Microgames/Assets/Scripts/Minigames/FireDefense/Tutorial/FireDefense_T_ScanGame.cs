@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
 
-public class FireDefense_T_ScanGame : MonoBehaviour
+public class FireDefense_T_ScanGame : LevelManager
 {
     // Bot storage information - current and prior
     private GameObject currentBot;
@@ -28,6 +28,8 @@ public class FireDefense_T_ScanGame : MonoBehaviour
     private float percent;
     private bool startGame = false;
     private int count = 0;
+
+    private int score = 0;
 
     // Variable storage for YarnSpinner and dialog running
     public InMemoryVariableStorage variableStorage;
@@ -288,6 +290,7 @@ public class FireDefense_T_ScanGame : MonoBehaviour
             case "yes":
                 orbs.transform.GetChild(count).GetComponent<Image>().color = Color.green;
                 count++;
+                score += 100;
                 break;
             case "no":
                 orbs.transform.GetChild(count).GetComponent<Image>().color = Color.black;
@@ -303,5 +306,11 @@ public class FireDefense_T_ScanGame : MonoBehaviour
             scan.interactable = false;
             dialogueRunner.StartDialogue("FireDefense_T_3");
         }
+    }
+
+    [YarnCommand("EndTutorial")]
+    public void EndTutorial()
+    {
+        gameManager.EndTutorial(score);
     }
 }

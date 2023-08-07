@@ -23,7 +23,7 @@ MonoBehaviour:
   challengeCooldown: 3
   highscore: 0
   agentLevel: 2
-  tutorialScene: 
+  tutorialScene: FireDefense_T
   fresh: 1
   timesPlayed: 0
   inPlaylist: 0

@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public int playerLevel;
     public GameMode currentGameMode;
     private Queue<WorkstationData> playlist;
+    public bool tutorialsEnabled = true;
 
     private int lastScore;
     private WorkstationData lastMinigame;
@@ -59,7 +60,7 @@ public class GameManager : MonoBehaviour
         WorkstationData next = playlist.Peek();
         string nextSceneName = next.minigameScene;
 
-        if (next.fresh)
+        if (next.fresh && tutorialsEnabled)
         {
             if (next.tutorialScene != "")
             {
