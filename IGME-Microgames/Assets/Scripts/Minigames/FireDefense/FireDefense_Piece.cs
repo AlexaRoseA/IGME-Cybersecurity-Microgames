@@ -471,7 +471,7 @@ public class FireDefense_Piece : MonoBehaviour
 
         enabled = false;
 
-        firewallManager.pieceCount--;
+        firewallManager.pieceCount = 0;
 
         //fastPlaceParticle.Play();
 
@@ -499,7 +499,8 @@ public class FireDefense_Piece : MonoBehaviour
                 else
                 {
                     transform.position += new Vector3(0, 1, 0);
-                    firewallManager.pieceCount--;
+                    firewallManager.pieceCount = 0;
+                    firewallManager.UpdateNumFilled();
                     firewallManager.GeneratePiece();
                     enabled = false;
                 }
