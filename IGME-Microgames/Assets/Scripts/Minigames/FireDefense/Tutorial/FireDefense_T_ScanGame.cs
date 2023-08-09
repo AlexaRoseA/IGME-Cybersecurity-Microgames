@@ -124,16 +124,11 @@ public class FireDefense_T_ScanGame : LevelManager
     /// <returns></returns>
     IEnumerator BitGo(string force = "")
     {
-        float timer = 0;
-        float seconds = 4f;
         priorBot = currentBot;
 
-        while (timer <= seconds)
-        {
-            timer += Time.deltaTime;
-            percent = timer / seconds;
-            priorBot.transform.position = new Vector3(priorBot.transform.position.x, priorBot.transform.position.y + 1f, priorBot.transform.position.z);
-        }
+        float animationLength = scanBar.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
+        scanBar.GetComponent<Animator>().Play("Scanbar");
+        yield return new WaitForSecondsRealtime(animationLength);
 
         Destroy(priorBot);
         DestroyAllBits();
@@ -243,32 +238,9 @@ public class FireDefense_T_ScanGame : LevelManager
 
         timer = 0;
 
-        // top to bottom
-        while (timer <= seconds)
-        {
-            Debug.Log("timer: " + timer + "seconds: " + seconds);
-            timer += Time.deltaTime / seconds;
-            scanBar.transform.position = Vector3.MoveTowards(scanBar.transform.position, endPos, 0.01f);
-            if (scanBar.transform.position == endPos)
-            {
-                timer = seconds + 1;
-            }
-            yield return null;
-        }
-
-        timer = 0;
-
-        //bottom to top
-        while (timer <= seconds)
-        {
-            timer += Time.deltaTime / seconds;
-            scanBar.transform.position = Vector3.MoveTowards(scanBar.transform.position, startPos, 0.01f);
-            if (scanBar.transform.position == startPos)
-            {
-                timer = seconds + 1;
-            }
-            yield return null;
-        }
+        float animationLength = scanBar.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
+        scanBar.GetComponent<Animator>().Play("Scanbar");
+        yield return new WaitForSecondsRealtime(animationLength);
 
         scanBar.SetActive(false);
         approve.interactable = true;
