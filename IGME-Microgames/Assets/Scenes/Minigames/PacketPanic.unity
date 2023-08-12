@@ -239,6 +239,31 @@ MonoBehaviour:
   helper: {fileID: 157341857}
   deadPacket: {fileID: 4825633782335366568, guid: 83a2e4c3fc13dd142a0154d1c4298fdb, type: 3}
   coreHealthText: {fileID: 0}
+--- !u!1 &647532379 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7200733762205286458, guid: 4d7ea2c4610c46b4dbc893d5a1c5dc17, type: 3}
+  m_PrefabInstance: {fileID: 1533287159}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &647532381
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647532379}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cb237b0e927197d4098f15ab8ac47012, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &949780129
 PrefabInstance:
   m_ObjectHideFlags: 0
