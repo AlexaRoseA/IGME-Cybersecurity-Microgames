@@ -620,6 +620,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 610c541718d694070a21327d1ae62e75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1400248776 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7200733762205286458, guid: 4d7ea2c4610c46b4dbc893d5a1c5dc17, type: 3}
+  m_PrefabInstance: {fileID: 1533287159}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1400248778
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400248776}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cb237b0e927197d4098f15ab8ac47012, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &1533287159
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -661,7 +686,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1555231454316501033, guid: 4d7ea2c4610c46b4dbc893d5a1c5dc17, type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 4294967295
+      value: 4278255360
       objectReference: {fileID: 0}
     - target: {fileID: 1555231454316501033, guid: 4d7ea2c4610c46b4dbc893d5a1c5dc17, type: 3}
       propertyPath: m_HorizontalAlignment
