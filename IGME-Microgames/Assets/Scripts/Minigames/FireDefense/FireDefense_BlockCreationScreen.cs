@@ -208,8 +208,8 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         if(CheckAllX(objBlocks) || CheckAllY(objBlocks))
         {
             Debug.Log("Sidepiece!");
-            centerpoint /= blocksFilled.Count;
-            Instantiate(fastPlaceParticle, new Vector3(Mathf.RoundToInt(centerpoint.x), Mathf.RoundToInt(centerpoint.y), 20f), Quaternion.identity, parent.transform);
+            Instantiate(fastPlaceParticle, new Vector3(Mathf.RoundToInt((centerpoint /= blocksFilled.Count).x), Mathf.RoundToInt((centerpoint /= blocksFilled.Count).y), 20f), Quaternion.identity, parent.transform);
+            centerpoint = Vector3.zero;
         } else
         {
             Instantiate(fastPlaceParticle, new Vector3(Mathf.RoundToInt((centerpoint /= blocksFilled.Count).x), Mathf.RoundToInt((centerpoint /= blocksFilled.Count).y), 20f), Quaternion.identity, parent.transform);
