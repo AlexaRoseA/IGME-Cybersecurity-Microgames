@@ -31,6 +31,7 @@ public class MinigameManager : LevelManager
     // Score Variables
     private int score;
     private TextMeshProUGUI scoreText;
+    public int scoreAnimationThreshold = 100; //how much does the score have to change by to play the animation?
 
     #region Start/Middle/End General Methods
 
@@ -62,7 +63,7 @@ public class MinigameManager : LevelManager
     {
         if (timeText != null)
         {
-            UpdateScoreUI();
+            //UpdateScoreUI();
         }
 
         if (timerIsRunning)
@@ -204,8 +205,13 @@ public class MinigameManager : LevelManager
     private void DisplayTime(float displayTime, TextMeshProUGUI timerText)
     {
         displayTime += 1;
-        float minutes = Mathf.FloorToInt(displayTime / 60);
-        float seconds = Mathf.FloorToInt(displayTime % 60);
+        int minutes = Mathf.FloorToInt(displayTime / 60);
+        int seconds = Mathf.FloorToInt(displayTime % 60);
+
+        //string[] displayed = timerText.text.Split(":");
+
+        //if (minutes == int.Parse(displayed[0]) && seconds == int.Parse(displayed[1])) return;
+
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
@@ -371,7 +377,7 @@ public class MinigameManager : LevelManager
     /// <param name="amount">Amount to add to score</param>
     public void UpdateScore(int amount)
     {
-        SetScore(score += amount);
+        SetScore(score + amount);
     }
 
     /// <summary>
@@ -389,8 +395,16 @@ public class MinigameManager : LevelManager
     /// <param name="total"></param>
     public void SetScore(int total)
     {
+        if (Mathf.Abs(score - total) < scoreAnimationThreshold)
+        {
+            score = total;
+            UpdateScoreUI();
+            return;
+        }
+
+        bool increase = total > score;
         score = total;
-        UpdateScoreUI();
+        UpdateScoreUI(increase);
     }
 
     /// <summary>
@@ -399,6 +413,23 @@ public class MinigameManager : LevelManager
     public void ResetScore()
     {
         SetScore(0);
+    }
+
+    /// <summary>
+    /// Update the UI score text
+    /// Plays the score change animation
+    /// </summary>
+    private void UpdateScoreUI(bool increase)
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = score.ToString();
+            Animator controller = scoreText.gameObject.GetComponent<Animator>();
+            if (controller != null)
+            {
+                controller.SetTrigger(increase ? "ChangeNumberGood" : "ChangeNumberBad");
+            }
+        }
     }
 
     /// <summary>
