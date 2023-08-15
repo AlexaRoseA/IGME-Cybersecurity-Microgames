@@ -499,9 +499,12 @@ public class FireDefense_Piece : MonoBehaviour
                 else
                 {
                     transform.position += new Vector3(0, 1, 0);
-                    firewallManager.pieceCount = 0;
-                    firewallManager.UpdateNumFilled();
-                    firewallManager.GeneratePiece();
+                    if(!quickDrop)
+                    {
+                        firewallManager.UpdateNumFilled();
+                        firewallManager.GeneratePiece();
+                        firewallManager.pieceCount = 0;
+                    }
                     enabled = false;
                 }
                 lastFall = Time.time;
