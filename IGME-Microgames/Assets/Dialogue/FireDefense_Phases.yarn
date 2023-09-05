@@ -16,8 +16,13 @@ Backup: My name is Backup, and I am so glad to get some help!
 
 Backup: We're building pieces for the firewall today!
 Backup: <color=red>Click on the blocks</color> to place one down.
+<<MoveToPositionInstant ClickerParent true Button_BottomLeftBlock>>
+<<SetPieceColorTutorial FireDefense_Phase1_Creation(Clone) Button_BottomLeftBlock>>
 Backup: <color=red>Click on the same block again</color> to remove it.
+<<Click ClickerParent>>
+<<SetPieceColorTutorial FireDefense_Phase1_Creation(Clone) Button_BottomLeftBlock>>
 Backup: Once you've placed the maxium amount for the piece, <color=red>save the piece</color> to our database!
+<<ShowHideClicker ClickerParent false>>
 
 <<SetBool CharacterDialogDisplayer 0 peace true>>
 

@@ -46,6 +46,8 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
     [SerializeField] GameObject blockObj;
     [SerializeField] GameObject blockParent;
 
+    private string forceClick;
+
     #region Start/Middle/End General Methods and Helpers
 
     /// <summary>
@@ -57,6 +59,8 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
     {
         Canvas cL = GetComponent<Canvas>();
         cL.worldCamera = Camera.main;
+
+        forceClick = "noobject";
 
         minigameManager = GameObject.Find("MinigameManager").GetComponent<MinigameManager>();
         dialogSystem = GameObject.Find("Dialogue System").GetComponent<DialogueRunner>();
@@ -97,7 +101,7 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
 
     public int GeneratePieceCount()
     {
-       return Random.Range(2, 7);
+        return Random.Range(2, 7);
     }
 
     /// <summary>
@@ -171,7 +175,7 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
             Debug.Log("Block saved!");
 
             ranColor = GenerateNewColor();
-            foreach(Block block in blocks)
+            foreach (Block block in blocks)
             {
                 block.SetSelectedC(ranColor);
             }
@@ -205,12 +209,13 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
 
         parent.transform.GetChild(0).transform.DetachChildren();
 
-        if(CheckAllX(objBlocks) || CheckAllY(objBlocks))
+        if (CheckAllX(objBlocks) || CheckAllY(objBlocks))
         {
             Debug.Log("Sidepiece!");
             Instantiate(fastPlaceParticle, new Vector3(Mathf.RoundToInt((centerpoint /= blocksFilled.Count).x), Mathf.RoundToInt((centerpoint /= blocksFilled.Count).y), 20f), Quaternion.identity, parent.transform);
             centerpoint = Vector3.zero;
-        } else
+        }
+        else
         {
             Instantiate(fastPlaceParticle, new Vector3(Mathf.RoundToInt((centerpoint /= blocksFilled.Count).x), Mathf.RoundToInt((centerpoint /= blocksFilled.Count).y), 20f), Quaternion.identity, parent.transform);
             centerpoint = Vector3.zero;
@@ -270,6 +275,8 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         }
     }
 
+
+
     /// <summary>
     /// Grabs the current block selected. Runs directly on the UI element.
     /// 
@@ -287,49 +294,87 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
     /// If the block limit is reached, run command to block block placements.
     /// </summary>
     /// 
-    public void OnToggleValueChanged()
-    {
-        if (minigameManager.GetPhase() == "creatingPieces")
-        {
 
-        Block tempblock = GameObjectToBlock(EventSystem.current.currentSelectedGameObject);
+
+    [YarnCommand("SetPieceColorTutorial")]
+    public void SetPieceColorTutorial(string name)
+    {
+        forceClick = name;
+
+        Block tempblock = GameObjectToBlock(GameObject.Find(forceClick));
 
         if (tempblock.GetColor() == tempblock.GetSelectedC())
         {
-            Debug.Log("Unselecting block...");
-            blockCurrentSize--;
-            blocksStillOpen.Clear();
-            blocksFilled.Remove(tempblock);
-
             tempblock.SetColor(tempblock.GetDefaultC());
-
-            if (blocksFilled.Count == 0)
-            {
-                ResetBoard();
-            }
-            else
-            {
-                foreach (Block block in blocksFilled)
-                {
-                    HideIfNotConnected(block);
-                }
-            }
-
+            ResetBoard();
         }
         else if (blockCurrentSize != blockTotalSize && (tempblock.GetColor() != tempblock.GetDisableC() && tempblock.GetColor() != tempblock.GetSelectedC()))
         {
-            Debug.Log("Adding block to the list...");
-
             tempblock.SetColor(tempblock.GetSelectedC());
-            blocksFilled.Add(tempblock);
-            blockCurrentSize++;
             HideIfNotConnected(tempblock);
         }
+    }
 
-        if (blockCurrentSize == blockTotalSize)
+    public void OnToggleValueChanged()
+    {
+
+        if (minigameManager.GetPhase() == "creatingPieces" || forceClick != "noobject")
         {
-            BlockLimitReach();
-        }
+            Block tempblock = null;
+
+            if (forceClick == "noobject")
+            {
+                tempblock = GameObjectToBlock(EventSystem.current.currentSelectedGameObject);
+
+            }
+            else
+            {
+                Debug.Log(forceClick);
+                tempblock = GameObjectToBlock(GameObject.Find(forceClick));
+
+            }
+
+            if (tempblock.GetColor() == tempblock.GetSelectedC())
+            {
+                Debug.Log("Unselecting block...");
+                blockCurrentSize--;
+                blocksStillOpen.Clear();
+                blocksFilled.Remove(tempblock);
+
+                tempblock.SetColor(tempblock.GetDefaultC());
+
+                if (blocksFilled.Count == 0)
+                {
+                    ResetBoard();
+                }
+                else
+                {
+                    foreach (Block block in blocksFilled)
+                    {
+                        HideIfNotConnected(block);
+                    }
+                }
+
+            }
+            else if (blockCurrentSize != blockTotalSize && (tempblock.GetColor() != tempblock.GetDisableC() && tempblock.GetColor() != tempblock.GetSelectedC()))
+            {
+                Debug.Log("Adding block to the list...");
+
+                tempblock.SetColor(tempblock.GetSelectedC());
+                blocksFilled.Add(tempblock);
+                blockCurrentSize++;
+                HideIfNotConnected(tempblock);
+            }
+
+            if (blockCurrentSize == blockTotalSize)
+            {
+                BlockLimitReach();
+            }
+             
+            if (forceClick != "noobject")
+            {
+                forceClick = "noobject";
+            }
         }
     }
 
@@ -344,7 +389,7 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
     /// <returns></returns>
     private Block GameObjectToBlock(GameObject block)
     {
-        foreach(Block blockTemp in blocks)
+        foreach (Block blockTemp in blocks)
         {
             if (blockTemp.GetCenter() == block.gameObject.transform.localPosition)
             {
@@ -388,7 +433,8 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
             if (!tempBlock.ReturnTouching(blockCheck.GetCenter()) && blockCheck.GetColor() != blockCheck.GetSelectedC() && !blocksStillOpen.Contains(blockCheck))
             {
                 blockCheck.SetColor(blockCheck.GetDisableC());
-            } else
+            }
+            else
             {
                 blocksStillOpen.Add(blockCheck);
             }
@@ -412,7 +458,7 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         private Color disableColor;
         private Color defaultColor;
 
-        private GameObject clicker; 
+        private GameObject clicker;
 
         public Vector3 GetCenter()
         {
@@ -456,9 +502,9 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         /// <returns></returns>
         public bool ReturnTouching(Vector3 pos)
         {
-            foreach(Vector3 positionTouching in positions)
+            foreach (Vector3 positionTouching in positions)
             {
-                if(positionTouching == pos)
+                if (positionTouching == pos)
                 {
                     return true;
                 }
