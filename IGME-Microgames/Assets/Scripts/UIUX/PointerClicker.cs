@@ -77,11 +77,11 @@ public class PointerClicker : MonoBehaviour
     {
         if (status)
         {
-            pointer.gameObject.SetActive(true);
+            pointer.GetComponent<Image>().enabled = true;
         }
         else
         {
-            pointer.gameObject.SetActive(false);
+            pointer.GetComponent<Image>().enabled = false;
         }
     }
 
