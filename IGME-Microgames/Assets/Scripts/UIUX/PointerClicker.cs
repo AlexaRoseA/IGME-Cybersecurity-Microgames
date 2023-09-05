@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
@@ -76,11 +77,11 @@ public class PointerClicker : MonoBehaviour
     {
         if (status)
         {
-            pointer.GetComponent<Image>().enabled = true;
+            pointer.gameObject.SetActive(true);
         }
         else
         {
-            pointer.GetComponent<Image>().enabled = false;
+            pointer.gameObject.SetActive(false);
         }
     }
 
