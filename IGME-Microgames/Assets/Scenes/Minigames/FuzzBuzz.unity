@@ -530,9 +530,13 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2804876071144062016, guid: b6abf6827bad51549ae4c498753a852f, type: 3}
-      propertyPath: phases.Array.data[1]
+      propertyPath: phases.Array.data[0]
       value: 
       objectReference: {fileID: 7470728117110829727, guid: f014deb6ab0b6384fa7685de68fc1937, type: 3}
+    - target: {fileID: 2804876071144062016, guid: b6abf6827bad51549ae4c498753a852f, type: 3}
+      propertyPath: phases.Array.data[1]
+      value: 
+      objectReference: {fileID: 7963197726176860644, guid: 5ce26355e1b1c3442bc2e350ff89636a, type: 3}
     - target: {fileID: 2804876071144062016, guid: b6abf6827bad51549ae4c498753a852f, type: 3}
       propertyPath: phases.Array.data[2]
       value: 

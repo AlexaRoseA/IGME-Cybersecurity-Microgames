@@ -9,15 +9,20 @@ tags:
 Poet: WELCOME TO FUZZ BUZZ, <color=red>ORACLE!</color>
 Poet: MY NAME IS POET, AND WE'RE GOING TO <color=red>FUZZ TEST THIS PROGRAM WITH SPAM!</color>
 
-<<SetBool CharacterDialogDisplayer 0 devious true>>
+<<SetBool CharacterDialogDisplayer 0 thinking true>>
 <<SetBool CharacterDialogDisplayer 0 excited false>>
 
+Poet: <i>Tap letters in the correct order to solve the word puzzle!<i>
+Poet: <i>Drag the slider to the correct value at the top!<i>
+Poet: <i>Close out that annoying spam message... why does it keep coming back!?<i>
+
+<<SetBool CharacterDialogDisplayer 0 devious true>>
+<<SetBool CharacterDialogDisplayer 0 thinking false>>
 
 Poet: WARNING: INVALID INPUTS UNBOUNDED! GO GO GO!
-<<set $currentPhase to "application">>
 
-<<SetBool CharacterDialogDisplayer 0 devious false>>
 <<HideAllCharacters CharacterDialogDisplayer>>
+<<set $currentPhase to "application">>
 
 <<endif>>
 
@@ -38,8 +43,11 @@ Poet: WHAT HAPPENS WHEN YOU UPLOAD <color=red>ANY KIND OF FILE</color> TO THE SY
 <<SetBool CharacterDialogDisplayer 0 thinking false>>
 
 Poet: LET'S FIND OUT! HEHE!
-<<set $currentPhase to "file">>
 <<SetBool CharacterDialogDisplayer 0 devious false>>
+Poet: <i>Click on the images as fast as you can!<i>
+Poet: <i>Multipliers can appear which give you more points!<i>
+Poet: <i>Multipliers only stay for a limited amount of time, so press them quick!<i>
+<<set $currentPhase to "file">>
 <<HideAllCharacters CharacterDialogDisplayer>>
 <<endif>>
 
