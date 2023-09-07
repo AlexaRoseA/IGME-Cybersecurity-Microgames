@@ -305,8 +305,22 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
 
         if (tempblock.GetColor() == tempblock.GetSelectedC())
         {
+            blocksStillOpen.Clear();
+            blocksFilled.Remove(tempblock);
+
             tempblock.SetColor(tempblock.GetDefaultC());
-            ResetBoard();
+
+            if (blocksFilled.Count == 0)
+            {
+                ResetBoard();
+            }
+            else
+            {
+                foreach (Block block in blocksFilled)
+                {
+                    HideIfNotConnected(block);
+                }
+            }
         }
         else if (blockCurrentSize != blockTotalSize && (tempblock.GetColor() != tempblock.GetDisableC() && tempblock.GetColor() != tempblock.GetSelectedC()))
         {
