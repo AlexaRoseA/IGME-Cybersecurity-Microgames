@@ -102,7 +102,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
-    maxTextureSize: 8192
+    maxTextureSize: 16384
     resizeAlgorithm: 0
     textureFormat: 50
     textureCompression: 1
@@ -805,10 +805,10 @@ TextureImporter:
       Backup_HammerMoving_26: -1653675015
       Backup_HammerMoving_13: -116424511
       Backup_HammerMoving_27: -1095822560
-      Backup_HammerMoving_20: -299787183
-      Backup_HammerMoving_3: 982466363
-      Backup_HammerMoving_2: 1671952945
       Backup_HammerMoving_6: -1457660458
+      Backup_HammerMoving_20: -299787183
+      Backup_HammerMoving_2: 1671952945
+      Backup_HammerMoving_3: 982466363
       Backup_HammerMoving_10: -2077712517
   spritePackingTag: 
   pSDRemoveMatte: 0
