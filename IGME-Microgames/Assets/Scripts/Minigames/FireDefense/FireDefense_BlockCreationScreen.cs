@@ -332,23 +332,13 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
     public void OnToggleValueChanged()
     {
 
-        if (minigameManager.GetPhase() == "creatingPieces" || forceClick != "noobject")
+        if (minigameManager.GetPhase() == "creatingPieces")
         {
             Block tempblock = null;
 
-            if (forceClick == "noobject")
-            {
-                tempblock = GameObjectToBlock(EventSystem.current.currentSelectedGameObject);
+            tempblock = GameObjectToBlock(EventSystem.current.currentSelectedGameObject);
 
-            }
-            else
-            {
-                Debug.Log(forceClick);
-                tempblock = GameObjectToBlock(GameObject.Find(forceClick));
-
-            }
-
-            if (tempblock.GetColor() == tempblock.GetSelectedC())
+            if (tempblock.GetColor() == tempblock.GetSelectedC() && blocksFilled[blocksFilled.Count - 1].GetAttachedObj() == tempblock.GetAttachedObj())
             {
                 Debug.Log("Unselecting block...");
                 blockCurrentSize--;
@@ -578,6 +568,15 @@ public class FireDefense_BlockCreationScreen : MonoBehaviour
         public Color GetDefaultC()
         {
             return defaultColor;
+        }
+
+        /// <summary>
+        /// Returns the gameobject the block is attached to
+        /// </summary>
+        /// <returns></returns>
+        public GameObject GetAttachedObj()
+        {
+            return clicker;
         }
     }
     #endregion

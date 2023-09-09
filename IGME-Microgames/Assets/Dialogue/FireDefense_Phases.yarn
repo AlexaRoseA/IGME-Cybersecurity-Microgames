@@ -28,6 +28,7 @@ Backup: Once you've placed the maxium amount for the piece, <color=red>save the 
 
 Backup: Let's go! I know you can do it! 
 
+<<MoveToPositionInstant ClickerParent true HideMouse>>
 <<SetBool CharacterDialogDisplayer 0 peace false>>
 <<HideAllCharacters CharacterDialogDisplayer>>
 

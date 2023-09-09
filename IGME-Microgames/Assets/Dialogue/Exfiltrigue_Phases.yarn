@@ -4,6 +4,7 @@
 
 Sir Veil: Welcome to <color=red>Exfiltrigue</color>!
 Sir Veil: Collect information on our target to build a spearphishing email!
+Sir Veil: <i><color=red>Tap on your spear and pull back</color> to aim it. Then release to launch your spear forward!<i>
 
 <<set $timeRemaining to 30>>
 <<HideAllCharacters CharacterDialogDisplayer>>
@@ -15,6 +16,8 @@ title: Exfiltrigue_Phase2
 Sir Veil: Our target fell for the phishing email. We got you into their system!
 
 Sir Veil: Get the important files past the data loss prevention system. discard unimportant files. 
+Sir Veil: <i><color=red>Tap/color> on each key at the bottom until you find a decrypted key.<i>
+Sir Veil: <i>Either <color=red>drag/color> the file to the cloud or to the trash!<i>
 
 <<set $timeRemaining to 45>>
 <<HideAllCharacters CharacterDialogDisplayer>>
