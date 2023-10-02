@@ -125,7 +125,7 @@ public class PlacedWorkstation : MonoBehaviour
         minigameData.inPlaylist = !minigameData.inPlaylist;
 
         tapUICanvas.transform.Find("Buttons").Find("TapUIBG").Find("DeactivateButton").Find("Text (TMP)").
-            gameObject.GetComponent<TMP_Text>().text = minigameData.inPlaylist ? "Deactivate" : "Activate";
+            gameObject.GetComponent<TMP_Text>().text = minigameData.inPlaylist ? "Remove from playlist" : "Add to playlist";
     }
 
     /// <summary>
