@@ -48,6 +48,11 @@ public class PlacedWorkstation : MonoBehaviour
         return gameObject.activeSelf;
     }
 
+    public void ToggleTapUIButton()
+    {
+        ToggleTapUI();
+    }
+
     /// <summary>
     /// enables or disables the workstation options UI
     /// </summary>
