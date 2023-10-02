@@ -35,7 +35,7 @@ public class PlacedWorkstation : MonoBehaviour
     private void Update()
     {
         //move the UI to stay on the workstation
-        tapui.transform.position = gameObject.transform.position;
+        //tapui.transform.position = gameObject.transform.position;
     }
 
     /// <summary>
@@ -68,6 +68,9 @@ public class PlacedWorkstation : MonoBehaviour
 
         //set job title
         tapuiBG.transform.Find("JobTitle").GetComponent<TMP_Text>().text = minigameData.BuildJobTitle();
+
+        //set character ui image
+        tapuiBG.transform.Find("FitInParentCharacter").transform.GetComponent<Animator>().runtimeAnimatorController = Instantiate(minigameData.workstationIdle);
 
         //workstation is max level
         if (minigameData.agentLevel >= 3)
