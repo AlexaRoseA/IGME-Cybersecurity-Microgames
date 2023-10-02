@@ -203,7 +203,7 @@ public class AgencyManager : LevelManager
     {
         Transform cardBG = workstationCards[i].transform;
         Button purchaseButton = cardBG.Find("PurchaseButton").gameObject.GetComponent<Button>();
-        TMP_Text purchaseText = cardBG.Find("PurchaseButton").Find("Text (TMP)").gameObject.GetComponent<TMP_Text>();
+        TMP_Text purchaseText = cardBG.Find("PurchaseButton").Find("GridGroup").Find("Text (TMP)").gameObject.GetComponent<TMP_Text>();
         
         purchaseButton.onClick.RemoveAllListeners();
 
