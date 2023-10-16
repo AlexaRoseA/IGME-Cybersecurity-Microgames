@@ -18,6 +18,7 @@ public class AgencyManager : LevelManager
 
     public GameObject agencyParent; // where the gamemanager checks for workstations to build playlist
     public GameObject shopUI; // shown and hidden when shop is opened and closed
+    public GameObject profileUI; //shown and hidden when profile is opened and closed
     public GameObject workstationShopCardPrefab; // prefab for what a shop card looks like
     public Behaviour[] disableWhileInShop; // components that will be disabled when the shop is opened
     public Builder builder; // Handles placing shop items after being bought
@@ -38,6 +39,8 @@ public class AgencyManager : LevelManager
 
 
         InitShop();
+
+        profileUI.SetActive(false); //hide the shop until it is shown
 
         tutorial.ShowTip("OpenStore");
     }
@@ -78,6 +81,48 @@ public class AgencyManager : LevelManager
             
     }
 
+
+
+    /// <summary>
+    /// open the shop UI
+    /// </summary>
+    public void OpenProfile()
+    {
+        builder.CancelPlace();
+        tutorial.HideTip("OpenStore");
+        tutorial.HideTip("NeedAgentToPlay");
+
+        profileUI.SetActive(true); //set profile visibility and interactability
+                                   //disable everything that should be disabled
+        foreach (Behaviour comp in disableWhileInShop)
+        {
+            if (comp is Selectable) //ui elements that have interactable
+            {
+                ((Selectable)comp).interactable = false;
+            }
+            else
+            {
+                comp.enabled = false;
+            }
+        }
+    }
+
+    public void CloseProfile()
+    {
+        profileUI.SetActive(false);
+
+        foreach (Behaviour comp in disableWhileInShop)
+        {
+            if (comp is Selectable)
+            {
+                ((Selectable)comp).interactable = true;
+            }
+            else
+            {
+                comp.enabled = true;
+            }
+        }
+    }
 
     /// <summary>
     /// open the shop UI

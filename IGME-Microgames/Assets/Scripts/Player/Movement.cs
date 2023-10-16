@@ -14,6 +14,8 @@ public class Movement : MonoBehaviour
     private InputAction touchMovementAction;
     private InputAction touchPressAction;
 
+    private GameObject model = null;
+
     [SerializeField] string moveType;
 
     // World position of the mouse press
@@ -61,6 +63,15 @@ public class Movement : MonoBehaviour
         if (checkIfWithinDragCircle() && moveType == "Player")
         {
             rb.MovePosition(Vector3.Lerp(player.transform.position, TouchScreenToWorld(), moveSpeed * Time.deltaTime));
+
+            if(model == null)
+            {
+                model = GameObject.Find("RoboPlayer");
+                
+            } else
+            {
+                //rotate to mouse
+            }
         }
     }
 
