@@ -113,7 +113,7 @@ MonoBehaviour:
   - {fileID: 2335588543336205769}
   - {fileID: 2335588542057371058}
   - {fileID: 6288489932285254813}
-  maxDifficulty: 2.9
+  maxDifficulty: 2.5
 --- !u!1 &2966682023646066889
 GameObject:
   m_ObjectHideFlags: 0

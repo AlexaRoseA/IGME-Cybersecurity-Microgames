@@ -10,6 +10,7 @@ public enum PurchaseState
 {
     ForSale, //hasn't been bought
     Purchased, //bought, but not placed in agency
+    Placing, //green/red highlight
     Placed
 }
 
@@ -181,6 +182,7 @@ public class AgencyManager : LevelManager
                 comp.enabled = true;
             }
         }
+        UpdatePlayButton();
     }
 
     /// <summary>
@@ -211,6 +213,7 @@ public class AgencyManager : LevelManager
             UpdatePurchaseStateDisplay(i);
         }
         shopUI.SetActive(false); //hide the shop until it is shown
+        UpdatePlayButton();
     }
 
     /// <summary>
@@ -260,7 +263,7 @@ public class AgencyManager : LevelManager
     private void UpdatePurchaseStateDisplay(int i)
     {
         Transform cardBG = workstationCards[i].transform;
-        Button purchaseButton = cardBG.Find("PurchaseButton").gameObject.GetComponent<Button>();
+        Button purchaseButton = cardBG.gameObject.GetComponent<Button>();
         TMP_Text purchaseText = cardBG.Find("PurchaseButton").Find("GridGroup").Find("Text (TMP)").gameObject.GetComponent<TMP_Text>();
         
         purchaseButton.onClick.RemoveAllListeners();
@@ -284,14 +287,26 @@ public class AgencyManager : LevelManager
                 purchaseButton.interactable = false;
                 break;
         }
+        
     }
+
+    private void UpdatePlayButton()
+    {
+        bool canPlay = false;
+        for (int i = 0; i < purchaseStates.Length; i++)
+        {
+            if (purchaseStates[i] == PurchaseState.Placed) canPlay = true;
+        }
+        GameObject.Find("PlayGameButton").GetComponent<Button>().interactable = canPlay;
+    }
+
 
     private void FinalizePlacement(int shopIndex)
     {
         tutorial.ShowTip("PlayGame");
         purchaseStates[shopIndex] = PurchaseState.Placed;
         UpdatePurchaseStateDisplay(shopIndex);
-
+        UpdatePlayButton();
     }
 
     public void ReturnToShop(PlacedWorkstation workstation)
@@ -301,6 +316,7 @@ public class AgencyManager : LevelManager
         Destroy(workstation.gameObject);
         purchaseStates[shopIndex] = PurchaseState.Purchased;
         UpdatePurchaseStateDisplay(shopIndex);
+        UpdatePlayButton();
     }
 
     public void SetTutorials(Toggle toggle)

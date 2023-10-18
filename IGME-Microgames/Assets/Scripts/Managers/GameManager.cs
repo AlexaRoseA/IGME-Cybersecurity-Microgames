@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
         if(SceneManager.sceneCount < 2)
         {
             SceneManager.LoadScene("Agency", LoadSceneMode.Additive);
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName("Agency"));
+            //SceneManager.SetActiveScene(SceneManager.GetSceneByName("Agency"));
             UpdateCurrency();
         }
         else

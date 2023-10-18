@@ -6,33 +6,32 @@ using UnityEngine;
 using UnityEngine.UI;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
+using GooglePlayGames.BasicApi.SavedGame;
 
 public class TitlescreenManager : MonoBehaviour
 {
+
     public void Start()
     {
-        Debug.Log("START!");
-        //PlayGamesPlatform.Instance.ManuallyAuthenticate(ProcessAuthentication);
         PlayGamesPlatform.Instance.Authenticate(SignInInteractivity.CanPromptAlways, (code) =>
         {
             Debug.Log(code);
             if (code == SignInStatus.Success)
             {
                 // Continue with Play Games Services
+                Debug.Log("Authentication Successful!");
             }
             else
             {
-                GameObject.Find("Play").GetComponent<Image>().color = Color.black;
+                //TODO: Google play failed
+                Debug.Log("Authentication Failed");
+                //GameObject.Find("Play").GetComponent<Image>().color = Color.black;
+
 
                 // Disable your integration with Play Games Services or show a login button
                 // to ask users to sign-in. Clicking it should call
                 // PlayGamesPlatform.Instance.ManuallyAuthenticate(ProcessAuthentication).
             }
         });
-    }
-
-    internal void ProcessAuthentication(SignInStatus status)
-    {
-
     }
 }

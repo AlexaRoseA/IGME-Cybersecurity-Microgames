@@ -59,7 +59,7 @@ public class FireDefense_Enemy : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (man.startBattle && !attackingWall && !wander)
+        if (man.startBattle && !attackingWall && !wander && target != null)
         {
             transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
         }

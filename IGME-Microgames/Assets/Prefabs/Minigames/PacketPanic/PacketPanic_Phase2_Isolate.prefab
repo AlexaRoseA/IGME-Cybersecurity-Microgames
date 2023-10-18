@@ -37,8 +37,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0.000030518, y: 59.702}
-  m_SizeDelta: {x: 798.5884, y: 119.4048}
+  m_AnchoredPosition: {x: 0, y: 100}
+  m_SizeDelta: {x: 880, y: 195}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3019189387428349885
 MonoBehaviour:
@@ -1835,7 +1835,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   track: {fileID: 5659701203198802532}
-  speed: 1.2
+  speed: 0.83
   movingForward: 1
   helper: {fileID: 0}
   tilemap: {fileID: 1867393889029505127}
@@ -1990,13 +1990,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   track: {fileID: 740733675294506293}
-  speed: 1
+  speed: 0.9
   movingForward: 1
   helper: {fileID: 0}
   tilemap: {fileID: 1867393889029505127}
   target: {fileID: 7014101260687172002}
   panicManager: {fileID: 3235260087670200145}
-  captureSpeed: 0.6
+  captureSpeed: 0.9
   captureDecayRate: 0.2
   capturingPercent: 0
   capturing: {fileID: 21300000, guid: ca81ed5d3a38fc54bb020b33121a8235, type: 3}
