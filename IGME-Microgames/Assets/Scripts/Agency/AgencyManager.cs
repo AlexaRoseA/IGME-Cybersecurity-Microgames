@@ -10,7 +10,6 @@ public enum PurchaseState
 {
     ForSale, //hasn't been bought
     Purchased, //bought, but not placed in agency
-    Placing, //green/red highlight
     Placed
 }
 
