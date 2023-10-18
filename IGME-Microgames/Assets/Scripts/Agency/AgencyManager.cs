@@ -93,7 +93,9 @@ public class AgencyManager : LevelManager
         tutorial.HideTip("NeedAgentToPlay");
 
         profileUI.SetActive(true); //set profile visibility and interactability
-                                   //disable everything that should be disabled
+
+        UpdateProfileInformation();
+        //disable everything that should be disabled
         foreach (Behaviour comp in disableWhileInShop)
         {
             if (comp is Selectable) //ui elements that have interactable
@@ -105,6 +107,17 @@ public class AgencyManager : LevelManager
                 comp.enabled = false;
             }
         }
+    }
+    /// <summary>
+    /// Updates the profile information based on the player's current information
+    /// </summary>
+    public void UpdateProfileInformation()
+    {
+        GameObject.Find("CurrencyTxtProfile").GetComponent<TextMeshProUGUI>().text = gameManager.currency.ToString();
+        GameObject.Find("LevelProfile").GetComponent<TextMeshProUGUI>().text = "Level " + gameManager.playerLevel.ToString();
+        
+        // Add update to google profile (username, image) information here if not populated
+
     }
 
     public void CloseProfile()

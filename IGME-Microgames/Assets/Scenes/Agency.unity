@@ -1389,7 +1389,7 @@ GameObject:
   - component: {fileID: 239113175}
   - component: {fileID: 239113174}
   m_Layer: 5
-  m_Name: Currency
+  m_Name: CurrencyTxtProfile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1645,7 +1645,7 @@ GameObject:
   - component: {fileID: 268398979}
   - component: {fileID: 268398978}
   m_Layer: 5
-  m_Name: Level
+  m_Name: LevelProfile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5823,7 +5823,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: -1263651935
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_TargetDisplay: 0
 --- !u!224 &950249607
 RectTransform:
