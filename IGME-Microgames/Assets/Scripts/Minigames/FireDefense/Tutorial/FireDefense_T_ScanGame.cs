@@ -208,7 +208,7 @@ public class FireDefense_T_ScanGame : LevelManager
     /// </summary>
     private void ResetScans()
     {
-        if(count < 10)
+        if(count < 5)
         {
             approve.interactable = false;
             deny.interactable = false;
@@ -271,7 +271,7 @@ public class FireDefense_T_ScanGame : LevelManager
                 break;
         }
 
-        if(count >= 10)
+        if(count >= 5)
         {
             //endgame
             approve.interactable = false;

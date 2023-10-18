@@ -2,10 +2,11 @@
 ---
 Narrator: Welcome to Exfiltrigue! This minigame is all about gaining access to a protected system, and sneaking important data out. 
 Narrator: Gaining access is called <color=red>infiltration</color>. There are many ways to do it, but in this minigame you'll be using <color=red>spearphishing</color>. 
-Narrator: You've probably heard of phishing; it's when you get an email or message that tries to get you to click a link. Clicking the link will let a hacker gain access to your system. 
-Narrator: Spearphishing is a lot like normal phishing, but it involves crafting a phishing message for a specific target, often using personal information, instead of sending a generic message to everyone. 
+Narrator: Phishing: it's when you get an email or message that tries to get you to click a link and when you do, you let a hacker gain access to your system. 
+Narrator: Spearphishing is a lot like normal phishing, but it involves crafting a phishing message for a specific target.
+Narrator: Often it uses personal information, instead of sending a generic message to everyone. 
 Narrator: The first phase of Exfiltrigue is about gathering that personal information to write your spearphishing email!
-Narrator: Tap on your spear and pull back to aim it. Then release to launch your spear forward!
+Narrator: <i><color=red>Tap on your spear and pull back</color> to aim it. Then release to launch your spear forward!<i>
 Narrator: Skewer the fish to gain personal information about your target!
 
 
@@ -21,16 +22,19 @@ Narrator: Nice! Now that you've gathered their personal information, we're able 
 title: Exfiltrigue_Phase2
 ---
 Narrator: And now we're in! You're going to want to take data off their system: this is called <color=red>exfiltration</color>. 
-Narrator: Unfortunately, it looks like these files are encrypted. Encryption is a method of protecting information, where you scramble the data in a way that only the correct encryption key can unscramble. 
-Narrator: Luckily, we know all the data will be encrypted with one of these 4 keys- try each of them until you find the right one!
+Narrator: Unfortunately, it looks like these files are encrypted. 
+Narrator: Encryption is a method of protecting information, where you scramble the data in a way that only the correct encryption key can unscramble. 
+Narrator: Luckily, we know all the data will be encrypted with one of these 4 keys!
+Narrator: <i>Try <color=red>tapping on each of them</color> until you find the right one!<i>
 ===
 
 title: KeyFound
 ---
 Narrator: Nice! you found the right key!
-Narrator: In this minigame, it's important to only take the files that are important to the mission, because with each file you try to exfiltrate you run the risk of getting caught by their Data Loss Prevention System. 
-Narrator: So if it doesn't look important, throw it in the trash!
-Narrator: If it is important, drag it to the cloud to exfiltrate it. 
+Narrator: In this minigame, it's important to only take the files that are important to the mission.
+Narrator: Each file you try to exfiltrate, you run the risk of getting caught by their Data Loss Prevention System!
+Narrator: So if it doesn't look important,  <color=red>drag</color> and throw it in the trash!
+Narrator: If it is important, <color=red>drag</color> it to the cloud to exfiltrate it. 
 ===
 
 title: TrashedTrash

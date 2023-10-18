@@ -18,6 +18,7 @@ public class AgencyManager : LevelManager
 
     public GameObject agencyParent; // where the gamemanager checks for workstations to build playlist
     public GameObject shopUI; // shown and hidden when shop is opened and closed
+    public GameObject profileUI; //shown and hidden when profile is opened and closed
     public GameObject workstationShopCardPrefab; // prefab for what a shop card looks like
     public Behaviour[] disableWhileInShop; // components that will be disabled when the shop is opened
     public Builder builder; // Handles placing shop items after being bought
@@ -38,6 +39,8 @@ public class AgencyManager : LevelManager
 
 
         InitShop();
+
+        profileUI.SetActive(false); //hide the shop until it is shown
 
         tutorial.ShowTip("OpenStore");
     }
@@ -78,6 +81,61 @@ public class AgencyManager : LevelManager
             
     }
 
+
+
+    /// <summary>
+    /// open the shop UI
+    /// </summary>
+    public void OpenProfile()
+    {
+        builder.CancelPlace();
+        tutorial.HideTip("OpenStore");
+        tutorial.HideTip("NeedAgentToPlay");
+
+        profileUI.SetActive(true); //set profile visibility and interactability
+
+        UpdateProfileInformation();
+        //disable everything that should be disabled
+        foreach (Behaviour comp in disableWhileInShop)
+        {
+            if (comp is Selectable) //ui elements that have interactable
+            {
+                ((Selectable)comp).interactable = false;
+            }
+            else
+            {
+                comp.enabled = false;
+            }
+        }
+    }
+    /// <summary>
+    /// Updates the profile information based on the player's current information
+    /// </summary>
+    public void UpdateProfileInformation()
+    {
+        GameObject.Find("CurrencyTxtProfile").GetComponent<TextMeshProUGUI>().text = gameManager.currency.ToString();
+        GameObject.Find("LevelProfile").GetComponent<TextMeshProUGUI>().text = "Level " + gameManager.playerLevel.ToString();
+        
+        // Add update to google profile (username, image) information here if not populated
+
+    }
+
+    public void CloseProfile()
+    {
+        profileUI.SetActive(false);
+
+        foreach (Behaviour comp in disableWhileInShop)
+        {
+            if (comp is Selectable)
+            {
+                ((Selectable)comp).interactable = true;
+            }
+            else
+            {
+                comp.enabled = true;
+            }
+        }
+    }
 
     /// <summary>
     /// open the shop UI
@@ -203,7 +261,7 @@ public class AgencyManager : LevelManager
     {
         Transform cardBG = workstationCards[i].transform;
         Button purchaseButton = cardBG.Find("PurchaseButton").gameObject.GetComponent<Button>();
-        TMP_Text purchaseText = cardBG.Find("PurchaseButton").Find("Text (TMP)").gameObject.GetComponent<TMP_Text>();
+        TMP_Text purchaseText = cardBG.Find("PurchaseButton").Find("GridGroup").Find("Text (TMP)").gameObject.GetComponent<TMP_Text>();
         
         purchaseButton.onClick.RemoveAllListeners();
 
