@@ -360,7 +360,7 @@ public class FireDefense_Piece : MonoBehaviour
     /// <param name="swipe"></param>
     private void OnSwipe(string swipe)
     {
-        if (swipe.ToLower() == "up")
+        if (swipe.ToLower() == "up" || swipe.ToLower() == "down")
         {
             Debug.Log("Swipe!");
             quickDrop = true;
@@ -484,7 +484,7 @@ public class FireDefense_Piece : MonoBehaviour
         yield return null;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (minigameManager.GetPhase() == "placingPieces")
         {
