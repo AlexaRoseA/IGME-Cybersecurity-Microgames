@@ -96,8 +96,7 @@ public class ExfilFileManager : InputHandler
     {
         if (encryptionKey == currentFile.encryptionKey)
         {
-            currentFile.nameText.text = currentFile.fileName;
-            currentFile.GetComponent<SpriteRenderer>().sprite = currentFile.unlocked;
+            currentFile.Unlock();
 
             ExfiltrigueTutorialManager tutorial = FindObjectOfType<ExfiltrigueTutorialManager>();
             if (tutorial != null) tutorial.Decrypted();
