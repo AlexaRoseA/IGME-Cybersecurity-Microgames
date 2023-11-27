@@ -62,4 +62,10 @@ public class SpearMovement : InputHandler
 
         sploosher.Play();
     }
+
+    protected void OnDestroy()
+    {
+        Debug.Log("destroy");
+        Time.timeScale = 1f;
+    }
 }
