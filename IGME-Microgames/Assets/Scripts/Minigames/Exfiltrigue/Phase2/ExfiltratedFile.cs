@@ -10,6 +10,7 @@ public class ExfiltratedFile : MonoBehaviour
     public TMP_Text nameText;
     public Sprite unlocked;
     public Sprite locked;
+    public GameObject unlockParticles;
 
     public string[] possibleNames;
     public float[] possibleNamesImportance;
@@ -22,5 +23,17 @@ public class ExfiltratedFile : MonoBehaviour
 
         if(nameText == null) nameText = GetComponentInChildren<TMP_Text>();
         GetComponentInChildren<Canvas>().worldCamera = Camera.main;
+    }
+
+    public void Unlock()
+    {
+        nameText.text = fileName;
+        GetComponent<SpriteRenderer>().sprite = unlocked;
+
+        if (unlockParticles != null)
+        {
+            GameObject particles = Instantiate(unlockParticles);
+            particles.transform.position = transform.position;
+        }
     }
 }
