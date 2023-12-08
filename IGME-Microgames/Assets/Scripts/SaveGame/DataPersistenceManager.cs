@@ -13,11 +13,15 @@ public class DataPersistenceManager : MonoBehaviour
 
     GooglePlaySaveHandler googlePlayHandler;
 
+    /// <summary>
+    /// singleton
+    /// </summary>
     private void Awake()
     {
         if(instance != null) Debug.LogError("Found multiple data persistence managers");
         instance = this;
     }
+
 
     private void Start()
     {
@@ -37,9 +41,9 @@ public class DataPersistenceManager : MonoBehaviour
         {
             obj.SaveData(ref gameData);
         }
-
-        googlePlayHandler.Save(gameData);
         Debug.Log("saved " + gameData.currency);
+        googlePlayHandler.Save(gameData);
+        
     }
 
     public void LoadGame()

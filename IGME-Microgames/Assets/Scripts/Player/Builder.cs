@@ -18,7 +18,7 @@ public enum InteractionMode
     Furniture //the player is placing/moving furniture. 
 }
 
-public class Builder : InputHandler
+public class Builder : InputHandler, IDataPersistence
 {
     // gameobject that workstations should be children of in order to be added to the playlist
     public GameObject agencyParent;
@@ -126,6 +126,7 @@ public class Builder : InputHandler
     {
         //get the tile at the location in each tilemap
         Vector3Int tilePos = floor.WorldToCell(worldPos);
+        //Debug.Log(tilePos);
         TileBase floorTile = floor.GetTile(tilePos);
         TileBase wallTile = wall.GetTile(tilePos);
         TileBase furnitureTile = furniture.GetTile(tilePos);
@@ -299,5 +300,34 @@ public class Builder : InputHandler
             newColor = Color.green;
 
         placingWorkstation.transform.Find("Sprite").GetComponent<SpriteRenderer>().color = newColor;
+    }
+
+    void IDataPersistence.LoadData(GameData data)
+    {
+        Debug.Log("Loading Tilemap...");
+        for (int x = -9; x < 19; x++)
+        {
+            for (int y = -8; y < 6; y++)
+            {
+                bool thisTile = false;
+                data.isFloor.TryGetValue(new Vector3Int(x, y), out thisTile);
+                interactionMode = thisTile ? InteractionMode.Floor : InteractionMode.Wall;
+
+                Debug.Log("Tile At: " + x + ", " + y + " Type: " + interactionMode);
+                SetTileAtWorldPos(new Vector3Int(x, y));
+            }
+        }
+    }
+
+    void IDataPersistence.SaveData(ref GameData data)
+    {
+        Debug.Log("Saving Tilemap...");
+        for (int x = -9; x < 19; x++)
+        {
+            for(int y = -8; y < 6; y++)
+            {
+                data.isFloor[new Vector3Int(x, y)] = floor.GetTile(new Vector3Int(x, y)) != null;
+            }
+        }
     }
 }
