@@ -13,7 +13,7 @@ public enum PurchaseState
     Placed
 }
 
-public class AgencyManager : LevelManager
+public class AgencyManager : LevelManager, IDataPersistence
 {
 
     public GameObject agencyParent; // where the gamemanager checks for workstations to build playlist
@@ -24,6 +24,7 @@ public class AgencyManager : LevelManager
     public Builder builder; // Handles placing shop items after being bought
     public AgencyTutorial tutorial;
 
+    public int currency;
 
     public GameObject workstationPrefab;
     public WorkstationData[] workstations;
@@ -61,6 +62,9 @@ public class AgencyManager : LevelManager
                 furnitureList.Add((FurnitureTile)tile);
             }
         }*/
+
+        DataPersistenceManager.instance.SaveGame();
+
         PlacedWorkstation[] placed = agencyParent.GetComponentsInChildren<PlacedWorkstation>();
         WorkstationData[] workstations = new WorkstationData[placed.Length];
 
@@ -76,7 +80,6 @@ public class AgencyManager : LevelManager
         {
             tutorial.RefreshTip("NeedAgentToPlay");
             tutorial.ShowTip("NeedAgentToPlay");
-
         }
             
     }
@@ -302,6 +305,7 @@ public class AgencyManager : LevelManager
 
     private void FinalizePlacement(int shopIndex)
     {
+        currency++;
         tutorial.ShowTip("PlayGame");
         purchaseStates[shopIndex] = PurchaseState.Placed;
         UpdatePurchaseStateDisplay(shopIndex);
@@ -321,5 +325,17 @@ public class AgencyManager : LevelManager
     public void SetTutorials(Toggle toggle)
     {
         gameManager.tutorialsEnabled = toggle.isOn;
+    }
+
+
+
+    void IDataPersistence.LoadData(GameData data)
+    {
+        currency = data.currency;
+    }
+
+    void IDataPersistence.SaveData(ref GameData data)
+    {
+        data.currency = currency;
     }
 }
