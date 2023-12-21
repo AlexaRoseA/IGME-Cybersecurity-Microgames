@@ -14,6 +14,7 @@ public enum GameMode
 public class GameManager : MonoBehaviour
 {
     public int earnedCurrency;
+    public List<MinigameResult> minigameResults;
 
     public int playerLevel;
     public GameMode currentGameMode;
@@ -58,7 +59,7 @@ public class GameManager : MonoBehaviour
         WorkstationData next = playlist.Peek();
         string nextSceneName = next.minigameScene;
 
-        if (next.fresh && tutorialsEnabled)
+        if (next.saveData.fresh && tutorialsEnabled)
         {
             if (next.tutorialScene != "")
             {
@@ -99,9 +100,9 @@ public class GameManager : MonoBehaviour
 
         foreach(WorkstationData tile in workstations)
         {
-            if((tile.inPlaylist || gameMode != GameMode.shuffle) && !tile.isOutline)
+            if((tile.saveData.inPlaylist || gameMode != GameMode.shuffle) && !tile.isOutline)
             {
-                if(tile.fresh && useFreshness)
+                if(tile.saveData.fresh && useFreshness)
                 {
                     //if its fresh, its first in the playlist and will show up later. 
                     playlist.Enqueue(tile);
@@ -150,7 +151,7 @@ public class GameManager : MonoBehaviour
 
         lastScore = score;
         lastMinigame = playlist.Peek();
-        lastMinigame.fresh = false;
+        lastMinigame.saveData.fresh = false;
 
         ClearScenes();
         SceneManager.LoadSceneAsync("MinigameScore", LoadSceneMode.Additive);

@@ -14,44 +14,30 @@ public class WorkstationData : ScriptableObject
     public int price = 2000;
     public bool isOutline = true;
     public int[] starThresholds = { int.MinValue, 1000, 3000, 6000, 10000 };
-    //how many times does the minigame have to be played before the player can challenge?
-    public int challengeCooldown = 3;
-
-    public int highscore = 0;
-    public int agentLevel = 0;
-
     public string tutorialScene;
 
-    //if the workstation is new and unplayed, it will be first in the playlist. 
-    public bool fresh = true;
-    public int timesPlayed = 0;
-    public bool inPlaylist = false;
-
-    public int Highscore { get { return highscore; } }
-
-
-
+    public WorkstationSaveData saveData;
 
     public void FinishMinigame(int score, GameMode gameMode)
     {
-        timesPlayed++;
-        fresh = false;
-        if (highscore < score)
+        saveData.timesPlayed++;
+        saveData.fresh = false;
+        if (saveData.highscore < score)
         {
-            highscore = score;
+            saveData.highscore = score;
         }
 
         if(gameMode == GameMode.challenge)
         {
-            if(score > starThresholds[agentLevel])
+            if(score > starThresholds[saveData.agentLevel])
             {
                 //challenge beaten
-                agentLevel++;
+                saveData.agentLevel++;
             }
-            challengeCooldown = 0;
+            saveData.challengeCooldown = 0;
             return;
         }
-        challengeCooldown++;
+        saveData.challengeCooldown++;
     }
 
     /// <summary>
@@ -62,7 +48,7 @@ public class WorkstationData : ScriptableObject
     {
         string title = "";
         
-        switch(agentLevel)
+        switch(saveData.agentLevel)
         {
             case 0:
                 title = "Rookie ";

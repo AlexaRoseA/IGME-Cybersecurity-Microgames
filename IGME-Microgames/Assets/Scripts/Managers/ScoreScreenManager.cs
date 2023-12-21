@@ -34,7 +34,7 @@ public class ScoreScreenManager : LevelManager
         }
 
         minigameName.text = minigame.minigameName;
-        highscore.text = "Highscore: " + minigame.highscore;
+        highscore.text = "Highscore: " + minigame.saveData.highscore;
         scoreText.text = score.ToString();
         
     }

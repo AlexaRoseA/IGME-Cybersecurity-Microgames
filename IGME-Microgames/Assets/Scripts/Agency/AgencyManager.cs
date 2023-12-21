@@ -299,9 +299,6 @@ public class AgencyManager : LevelManager, IDataPersistence
                 purchaseButton.interactable = false;
                 break;
         }
-
-        Debug.Log("interactable: " + purchaseButton.interactable);
-        Debug.Log("img: " + purchaseButtonDisplay);
         purchaseButtonDisplay.color = purchaseButton.interactable ? new Color(0f, 1f, 0f) : new Color(0f, .5f, 0f);
     }
 
@@ -318,7 +315,6 @@ public class AgencyManager : LevelManager, IDataPersistence
 
     private void FinalizePlacement(int shopIndex)
     {
-        currency++;
         tutorial.ShowTip("PlayGame");
         purchaseStates[shopIndex] = PurchaseState.Placed;
         UpdatePurchaseStateDisplay(shopIndex);
@@ -350,10 +346,42 @@ public class AgencyManager : LevelManager, IDataPersistence
         currency += gameManager.earnedCurrency;
         gameManager.earnedCurrency = 0;
         UpdateCurrency();
+
+        Debug.Log("Loading workstations: " + data.workstationSaveDatas.Length);
+        if(data.workstationSaveDatas != null)
+        {
+            for (int i = 0; i < workstations.Length; i++)
+            {
+                if (data.workstationSaveDatas[i] != null)
+                    workstations[i].saveData = data.workstationSaveDatas[i];
+
+                //TODO: place workstations
+                else
+                    workstations[i].saveData = new WorkstationSaveData();
+
+                Debug.Log("Loaded workstation " + i + ": " + data.workstationSaveDatas[i].fresh);
+            }
+        }
     }
 
     void IDataPersistence.SaveData(ref GameData data)
     {
         data.currency = currency;
+
+        data.purchaseStates = new int[purchaseStates.Length];
+        for(int i = 0; i < purchaseStates.Length; i++)
+        {
+            data.purchaseStates[i] = (int)purchaseStates[i];
+            UpdatePurchaseStateDisplay(i);
+        }
+
+        data.workstationSaveDatas = new WorkstationSaveData[workstations.Length];
+        Debug.Log("Saving Workstations: " + workstations.Length);
+        for(int i = 0; i < workstations.Length; i++)
+        {
+            Debug.Log("Save Workstation: " + workstations[i].saveData.fresh);
+            data.workstationSaveDatas[i] = workstations[i].saveData;
+        }
+        
     }
 }

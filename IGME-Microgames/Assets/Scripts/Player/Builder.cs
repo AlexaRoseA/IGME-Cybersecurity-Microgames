@@ -237,7 +237,7 @@ public class Builder : InputHandler, IDataPersistence
         finalize(placingShopIndex);
 
         placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.isOutline = false;
-        placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.inPlaylist = true;
+        placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.saveData.inPlaylist = true;
 
         UpdateWorkstationColor(floor.WorldToCell(placingWorkstation.gameObject.transform.position));
 
