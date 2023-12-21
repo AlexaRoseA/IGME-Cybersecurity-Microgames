@@ -11530,7 +11530,8 @@ MonoBehaviour:
   - {fileID: 501949401}
   builder: {fileID: 501949401}
   tutorial: {fileID: 1100963899}
-  currency: 0
+  currency: 2000
+  currencyText: {fileID: 387374548}
   workstationPrefab: {fileID: 949492836694267894, guid: 51f70b1e62bd23748993c217aef4735b, type: 3}
   workstations:
   - {fileID: 11400000, guid: ffcff1cea97f13d4ca074ebdd3a68a18, type: 2}

@@ -25,6 +25,7 @@ public class AgencyManager : LevelManager, IDataPersistence
     public AgencyTutorial tutorial;
 
     public int currency;
+    public TMP_Text currencyText;
 
     public GameObject workstationPrefab;
     public WorkstationData[] workstations;
@@ -116,7 +117,7 @@ public class AgencyManager : LevelManager, IDataPersistence
     /// </summary>
     public void UpdateProfileInformation()
     {
-        GameObject.Find("CurrencyTxtProfile").GetComponent<TextMeshProUGUI>().text = gameManager.currency.ToString();
+        GameObject.Find("CurrencyTxtProfile").GetComponent<TextMeshProUGUI>().text = currency.ToString();
         GameObject.Find("LevelProfile").GetComponent<TextMeshProUGUI>().text = "Level " + gameManager.playerLevel.ToString();
         
         // Add update to google profile (username, image) information here if not populated
@@ -224,18 +225,26 @@ public class AgencyManager : LevelManager, IDataPersistence
     /// <param name="prefabIndex">index of the workstation to buy</param>
     public void Purchase(int prefabIndex)
     {
-        if (workstations[prefabIndex].price > gameManager.currency) return;
+        if (workstations[prefabIndex].price > currency) return;
 
-        gameManager.currency -= workstations[prefabIndex].price;
+        currency -= workstations[prefabIndex].price;
         purchaseStates[prefabIndex] = PurchaseState.Purchased;
 
-        gameManager.UpdateCurrency();
+        UpdateCurrency();
 
         for(int i = 0; i < workstations.Length; i++)
             UpdatePurchaseStateDisplay(i);
 
         Place(prefabIndex);
     }
+
+    void UpdateCurrency()
+    {
+        currencyText.text = currency.ToString();
+    }
+
+
+
 
     public void Place(int prefabIndex)
     {
@@ -266,6 +275,7 @@ public class AgencyManager : LevelManager, IDataPersistence
     {
         Transform cardBG = workstationCards[i].transform;
         Button purchaseButton = cardBG.gameObject.GetComponent<Button>();
+        Image purchaseButtonDisplay = cardBG.Find("PurchaseButton").GetComponent<Image>();
         TMP_Text purchaseText = cardBG.Find("PurchaseButton").Find("GridGroup").Find("Text (TMP)").gameObject.GetComponent<TMP_Text>();
         
         purchaseButton.onClick.RemoveAllListeners();
@@ -275,7 +285,7 @@ public class AgencyManager : LevelManager, IDataPersistence
             case PurchaseState.ForSale:
                 purchaseText.text = "$" + workstations[i].price;
                 purchaseButton.onClick.AddListener(() => Purchase(i));
-                purchaseButton.interactable = gameManager.currency >= workstations[i].price;
+                purchaseButton.interactable = currency >= workstations[i].price;
                 break;
 
             case PurchaseState.Purchased:
@@ -289,7 +299,10 @@ public class AgencyManager : LevelManager, IDataPersistence
                 purchaseButton.interactable = false;
                 break;
         }
-        
+
+        Debug.Log("interactable: " + purchaseButton.interactable);
+        Debug.Log("img: " + purchaseButtonDisplay);
+        purchaseButtonDisplay.color = purchaseButton.interactable ? new Color(0f, 1f, 0f) : new Color(0f, .5f, 0f);
     }
 
     private void UpdatePlayButton()
@@ -332,6 +345,11 @@ public class AgencyManager : LevelManager, IDataPersistence
     void IDataPersistence.LoadData(GameData data)
     {
         currency = data.currency;
+
+        //earned currency is what the player has earned since the load
+        currency += gameManager.earnedCurrency;
+        gameManager.earnedCurrency = 0;
+        UpdateCurrency();
     }
 
     void IDataPersistence.SaveData(ref GameData data)

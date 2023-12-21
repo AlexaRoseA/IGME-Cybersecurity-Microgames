@@ -27,6 +27,7 @@ public class GooglePlaySaveHandler
     {
         Debug.Log("Initializing GPGS Saving");
         clientConfig = new PlayGamesClientConfiguration.Builder().EnableSavedGames().Build();
+
     }
 
     /// <summary>
@@ -93,9 +94,12 @@ public class GooglePlaySaveHandler
     {
         if (useGPGS)
         {
-            loadCallback = callback;
-            PlayGamesPlatform.Instance.SavedGame.
-                OpenWithAutomaticConflictResolution("agency", DataSource.ReadCacheOrNetwork, ConflictResolutionStrategy.UseLongestPlaytime, LoadOpened);
+            PlayGamesPlatform.Instance.RequestPermission("https://www.googleapis.com/auth/drive.appdata", permissionResult => {
+                Debug.Log(permissionResult);
+                loadCallback = callback;
+                PlayGamesPlatform.Instance.SavedGame.
+                    OpenWithAutomaticConflictResolution("agency", DataSource.ReadCacheOrNetwork, ConflictResolutionStrategy.UseLongestPlaytime, LoadOpened);
+            });
         }
     }
 

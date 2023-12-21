@@ -27,6 +27,7 @@ public class DataPersistenceManager : MonoBehaviour
     {
         dataPersistenceObjects = FindAllDataPersistenceObjects();
         googlePlayHandler = new GooglePlaySaveHandler();
+
         LoadGame();
     }
 

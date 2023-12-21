@@ -305,29 +305,72 @@ public class Builder : InputHandler, IDataPersistence
     void IDataPersistence.LoadData(GameData data)
     {
         Debug.Log("Loading Tilemap...");
-        for (int x = -9; x < 19; x++)
+        Debug.Log("Tiles: " + data.isFloor.ToString());
+        Debug.Log("Tile Count: " + data.isFloor.Length);
+
+        bool[,] newArray = Make2DArray<bool>(data.isFloor, 18, 14);
+
+        for (int x = -9; x < 9; x++)
         {
             for (int y = -8; y < 6; y++)
             {
-                bool thisTile = false;
-                data.isFloor.TryGetValue(new Vector3Int(x, y), out thisTile);
+                bool thisTile = newArray[x + 9, y + 8];
+                
+
+                Debug.Log("Tile At: " + x + ", " + y + " : " + thisTile);
                 interactionMode = thisTile ? InteractionMode.Floor : InteractionMode.Wall;
 
-                Debug.Log("Tile At: " + x + ", " + y + " Type: " + interactionMode);
-                SetTileAtWorldPos(new Vector3Int(x, y));
+                //Debug.Log("Tile At: " + x + ", " + y + " Type: " + interactionMode);
+                SetTileAtWorldPos(floor.CellToWorld(new Vector3Int(x, y)));
             }
         }
+        interactionMode = InteractionMode.Move;
     }
 
     void IDataPersistence.SaveData(ref GameData data)
     {
         Debug.Log("Saving Tilemap...");
-        for (int x = -9; x < 19; x++)
+        bool[,] arr = new bool[18, 14];
+        for (int x = -9; x < 9; x++)
         {
             for(int y = -8; y < 6; y++)
             {
-                data.isFloor[new Vector3Int(x, y)] = floor.GetTile(new Vector3Int(x, y)) != null;
+
+                Debug.Log("Tile At: " + x + ", " + y + ": " + floor.GetTile(new Vector3Int(x, y)));
+                arr[x + 9, y + 8] = floor.GetTile(new Vector3Int(x, y)) != null;
             }
         }
+        data.isFloor = Make1DArray<bool>(arr);
+    }
+
+    private T[,] Make2DArray<T>(T[] input, int width, int height)
+    {
+        T[,] output = new T[width, height];
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                output[i, j] = input[i * height + j];
+            }
+        }
+        return output;
+    }
+
+    private T[] Make1DArray<T>(T[,] input)
+    {
+        int width = input.GetLength(0);
+        int height = input.GetLength(1);
+
+        T[] output = new T[input.Length];
+        int newIndex = 0;
+        for(int i = 0; i < width; i++)
+        {
+            for(int j = 0; j < height; j++)
+            {
+                output[newIndex] = input[i, j];
+                newIndex++;
+            }
+        }
+        return output;
     }
 }

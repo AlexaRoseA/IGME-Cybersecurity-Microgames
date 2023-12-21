@@ -6,13 +6,13 @@ using UnityEngine;
 public class GameData
 {
     public int currency;
-    public Dictionary<Vector3Int, bool> isFloor;
+    public bool[] isFloor;
 
     public GameData()
     {
-        //floor is 18*13
+        //floor is 18*14
         //true means floor, false means wall
-        isFloor = new Dictionary<Vector3Int, bool>();
-        currency = 0;
+        isFloor = new bool[252];
+        currency = 5000;
     }
 }
