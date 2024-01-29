@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class HelpfulButtonScripts : MonoBehaviour
 {
     private AudioSource _audioSource;
+    private GameObject pause;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,24 @@ public class HelpfulButtonScripts : MonoBehaviour
     public void PlaySoundButton(string name)
     {
         _audioSource.gameObject.GetComponent<MusicPlayer>().ChangeClipAndPlay(name);
+    }
+
+    public void PauseUnPause(bool status)
+    {
+        if(status)
+        {
+            pause.SetActive(true);
+            Time.timeScale = 0f;
+        } else
+        {
+            Time.timeScale = 1;
+            pause.SetActive(false);
+        }
+    }
+
+    public void SetPauseMenu(GameObject pauseObj)
+    {
+        pause = pauseObj;
     }
 
 }
