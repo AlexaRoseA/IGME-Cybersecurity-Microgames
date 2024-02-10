@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        minigameResults = new List<MinigameResult>();
         if(SceneManager.sceneCount < 2)
         {
             SceneManager.LoadScene("Agency", LoadSceneMode.Additive);
@@ -138,6 +139,7 @@ public class GameManager : MonoBehaviour
         finishedGame.FinishMinigame(score, currentGameMode);
         earnedCurrency += ScoreToStars(score, finishedGame) * 100;
 
+        minigameResults.Add(new MinigameResult(finishedGame.saveData.shopIndex, score));
         lastScore = score;
         lastMinigame = finishedGame;
 

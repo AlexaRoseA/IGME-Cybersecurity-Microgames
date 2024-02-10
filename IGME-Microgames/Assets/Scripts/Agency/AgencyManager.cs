@@ -30,14 +30,14 @@ public class AgencyManager : LevelManager, IDataPersistence
     public GameObject workstationPrefab;
     public WorkstationData[] workstations;
 
-    private PurchaseState[] purchaseStates; // purchase state for each shop item
+    //private PurchaseState[] purchaseStates; // purchase state for each shop item
     private GameObject[] workstationCards; // shop ui element for each shop item
 
     protected override void Start()
     {
         base.Start();
 
-        purchaseStates = new PurchaseState[workstations.Length];
+        //purchaseStates = new PurchaseState[workstations.Length];
 
 
         InitShop();
@@ -228,7 +228,7 @@ public class AgencyManager : LevelManager, IDataPersistence
         if (workstations[prefabIndex].price > currency) return;
 
         currency -= workstations[prefabIndex].price;
-        purchaseStates[prefabIndex] = PurchaseState.Purchased;
+        workstations[prefabIndex].saveData.purchaseState = (int)PurchaseState.Purchased;
 
         UpdateCurrency();
 
@@ -258,7 +258,7 @@ public class AgencyManager : LevelManager, IDataPersistence
         GameObject newWorkstation = Instantiate(workstationPrefab);
         newWorkstation.GetComponent<PlacedWorkstation>().minigameData = Instantiate(workstations[prefabIndex]);
 
-        newWorkstation.GetComponent<PlacedWorkstation>().shopIndex = prefabIndex;
+        newWorkstation.GetComponent<PlacedWorkstation>().minigameData.saveData.shopIndex = prefabIndex;
 
         //attach the new workstation to the agency so that it is added to the playlist
         newWorkstation.transform.parent = agencyParent.transform;
@@ -280,21 +280,21 @@ public class AgencyManager : LevelManager, IDataPersistence
         
         purchaseButton.onClick.RemoveAllListeners();
 
-        switch (purchaseStates[i])
+        switch (workstations[i].saveData.purchaseState)
         {
-            case PurchaseState.ForSale:
+            case (int)PurchaseState.ForSale:
                 purchaseText.text = "$" + workstations[i].price;
                 purchaseButton.onClick.AddListener(() => Purchase(i));
                 purchaseButton.interactable = currency >= workstations[i].price;
                 break;
 
-            case PurchaseState.Purchased:
+            case (int)PurchaseState.Purchased:
                 purchaseText.text = "Place";
                 purchaseButton.onClick.AddListener(() => Place(i));
                 purchaseButton.interactable = true;
                 break;
 
-            case PurchaseState.Placed:
+            case (int)PurchaseState.Placed:
                 purchaseText.text = "Placed";
                 purchaseButton.interactable = false;
                 break;
@@ -305,9 +305,9 @@ public class AgencyManager : LevelManager, IDataPersistence
     private void UpdatePlayButton()
     {
         bool canPlay = false;
-        for (int i = 0; i < purchaseStates.Length; i++)
+        for (int i = 0; i < workstations.Length; i++)
         {
-            if (purchaseStates[i] == PurchaseState.Placed) canPlay = true;
+            if (workstations[i].saveData.purchaseState == (int)PurchaseState.Placed) canPlay = true;
         }
         GameObject.Find("PlayGameButton").GetComponent<Button>().interactable = canPlay;
     }
@@ -316,17 +316,17 @@ public class AgencyManager : LevelManager, IDataPersistence
     private void FinalizePlacement(int shopIndex)
     {
         tutorial.ShowTip("PlayGame");
-        purchaseStates[shopIndex] = PurchaseState.Placed;
+        workstations[shopIndex].saveData.purchaseState = (int)PurchaseState.Placed;
         UpdatePurchaseStateDisplay(shopIndex);
         UpdatePlayButton();
     }
 
     public void ReturnToShop(PlacedWorkstation workstation)
     {
-        int shopIndex = workstation.shopIndex;
+        int shopIndex = workstation.minigameData.saveData.shopIndex;
         workstations[shopIndex] = workstation.minigameData;
         Destroy(workstation.gameObject);
-        purchaseStates[shopIndex] = PurchaseState.Purchased;
+        workstations[shopIndex].saveData.purchaseState = (int)PurchaseState.Purchased;
         UpdatePurchaseStateDisplay(shopIndex);
         UpdatePlayButton();
     }
@@ -343,24 +343,27 @@ public class AgencyManager : LevelManager, IDataPersistence
         currency = data.currency;
 
         //earned currency is what the player has earned since the load
+        /*
         currency += gameManager.earnedCurrency;
         gameManager.earnedCurrency = 0;
-        UpdateCurrency();
+        UpdateCurrency();*/
 
-        Debug.Log("Loading workstations: " + data.workstationSaveDatas.Length);
-        if(data.workstationSaveDatas != null)
+        Debug.Log("Loading " + data.workstationSaveDatas.Length + " Workstations");
+        for(int i = 0; i < data.workstationSaveDatas.Length; i++)
         {
-            for (int i = 0; i < workstations.Length; i++)
+            if (data.workstationSaveDatas[i] != null)
             {
-                if (data.workstationSaveDatas[i] != null)
-                    workstations[i].saveData = data.workstationSaveDatas[i];
-
-                //TODO: place workstations
-                else
-                    workstations[i].saveData = new WorkstationSaveData();
-
-                Debug.Log("Loaded workstation " + i + ": " + data.workstationSaveDatas[i].fresh);
+                workstations[i].saveData = data.workstationSaveDatas[i];
+                if(workstations[i].saveData.purchaseState == (int)PurchaseState.Placed)
+                {
+                    Place(i);
+                    Debug.Log("Loading workstation at: x: " + workstations[i].saveData.x + " y: " + workstations[i].saveData.y);
+                    builder.placingWorkstation.transform.position = builder.floor.CellToWorld(new Vector3Int(workstations[i].saveData.x, workstations[i].saveData.y));
+                    builder.FinalizePlace();
+                }
             }
+            else
+                workstations[i].saveData = new WorkstationSaveData();
         }
     }
 
@@ -368,19 +371,35 @@ public class AgencyManager : LevelManager, IDataPersistence
     {
         data.currency = currency;
 
-        data.purchaseStates = new int[purchaseStates.Length];
-        for(int i = 0; i < purchaseStates.Length; i++)
-        {
-            data.purchaseStates[i] = (int)purchaseStates[i];
-            UpdatePurchaseStateDisplay(i);
-        }
+        //data.purchaseStates = new int[purchaseStates.Length];
+        //for(int i = 0; i < purchaseStates.Length; i++)
+        //{
+        //    data.purchaseStates[i] = (int)purchaseStates[i];
+        //    UpdatePurchaseStateDisplay(i);
+        //}
 
+
+        PlacedWorkstation[] placed = FindObjectsByType<PlacedWorkstation>(FindObjectsSortMode.InstanceID);
         data.workstationSaveDatas = new WorkstationSaveData[workstations.Length];
-        Debug.Log("Saving Workstations: " + workstations.Length);
+        Debug.Log("Saving " + workstations.Length + " Workstations");
         for(int i = 0; i < workstations.Length; i++)
         {
-            Debug.Log("Save Workstation: " + workstations[i].saveData.fresh);
+            Debug.Log("Save Workstation At: " + workstations[i].saveData.x + ", " + workstations[i].saveData.y);
             data.workstationSaveDatas[i] = workstations[i].saveData;
+            foreach(PlacedWorkstation placedWorkstation in placed)
+            {
+                //iterate through placed workstations, if the placed workstation is this workstation, save its position
+                if(placedWorkstation.minigameData == workstations[i])
+                {
+                    //set position (x&y) of saveData
+                    
+                    data.workstationSaveDatas[i].x = builder.floor.WorldToCell(placedWorkstation.transform.position).x;
+                    data.workstationSaveDatas[i].y = builder.floor.WorldToCell(placedWorkstation.transform.position).y;
+
+                    Debug.Log("Workstation " + i + " is placed at: " + data.workstationSaveDatas[i].x + ", " + data.workstationSaveDatas[i].y);
+                }
+
+            }
         }
         
     }

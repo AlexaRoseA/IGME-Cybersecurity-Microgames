@@ -11,7 +11,7 @@ public class PlacedWorkstation : MonoBehaviour
     public WorkstationData minigameData;
 
     GameObject tapui;
-    public int shopIndex;
+    
 
     // Start is called before the first frame update
     void Start()

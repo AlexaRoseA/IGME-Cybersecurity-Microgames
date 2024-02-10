@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "Workstation", menuName = "ScriptableObjects/MinigameWorkstation", order = 1)]
+///ScriptableObject that contains the information necessary to run a minigame. 
 public class WorkstationData : ScriptableObject
 {
     public string minigameScene;
@@ -18,6 +19,11 @@ public class WorkstationData : ScriptableObject
 
     public WorkstationSaveData saveData;
 
+    /// <summary>
+    /// updates the minigame stats after completing. 
+    /// </summary>
+    /// <param name="score"></param>
+    /// <param name="gameMode"></param>
     public void FinishMinigame(int score, GameMode gameMode)
     {
         saveData.timesPlayed++;

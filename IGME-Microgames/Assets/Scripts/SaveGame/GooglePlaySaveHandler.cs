@@ -51,8 +51,8 @@ public class GooglePlaySaveHandler
     /// <param name="meta"></param>
     private void SaveOpened(SavedGameRequestStatus reqStatus, ISavedGameMetadata meta)
     {
-        Debug.Log(reqStatus);
-        Debug.Log(meta);
+        //Debug.Log(reqStatus);
+        //Debug.Log(meta);
         if (reqStatus == SavedGameRequestStatus.Success)
         {
             Debug.Log("Attempting save...");
@@ -95,7 +95,7 @@ public class GooglePlaySaveHandler
         if (useGPGS)
         {
             PlayGamesPlatform.Instance.RequestPermission("https://www.googleapis.com/auth/drive.appdata", permissionResult => {
-                Debug.Log(permissionResult);
+                //Debug.Log(permissionResult);
                 loadCallback = callback;
                 PlayGamesPlatform.Instance.SavedGame.
                     OpenWithAutomaticConflictResolution("agency", DataSource.ReadCacheOrNetwork, ConflictResolutionStrategy.UseLongestPlaytime, LoadOpened);
@@ -110,8 +110,8 @@ public class GooglePlaySaveHandler
     /// <param name="meta"></param>
     private void LoadOpened(SavedGameRequestStatus reqStatus, ISavedGameMetadata meta)
     {
-        Debug.Log(reqStatus);
-        Debug.Log(meta);
+        //Debug.Log(reqStatus);
+        //Debug.Log(meta);
         if (reqStatus == SavedGameRequestStatus.Success)
         {
             Debug.Log("Attempting load...");

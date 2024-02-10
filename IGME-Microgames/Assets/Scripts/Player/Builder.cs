@@ -42,7 +42,7 @@ public class Builder : InputHandler, IDataPersistence
     public GameObject furniturePrefab;
 
     //workstation placement stuff
-    private GameObject placingWorkstation; //workstation that is currently being placed
+    public GameObject placingWorkstation; //workstation that is currently being placed
     private bool fingerDragging = false; //is the finger down?
     private bool moving = false; //has the workstation been moved in this instance of the finger being down?
     private int placingShopIndex;
@@ -236,6 +236,13 @@ public class Builder : InputHandler, IDataPersistence
         //shop card-> placed
         finalize(placingShopIndex);
 
+        //Save placement
+        Debug.Log("setting save position to: " + floor.WorldToCell(placingWorkstation.transform.position));
+        placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.saveData.x = floor.WorldToCell(placingWorkstation.transform.position).x;
+        placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.saveData.y = floor.WorldToCell(placingWorkstation.transform.position).y;
+        Debug.Log("workstation X: " + placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.saveData.x);
+        Debug.Log("workstation Y: " + placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.saveData.y);
+
         placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.isOutline = false;
         placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.saveData.inPlaylist = true;
 
@@ -305,7 +312,6 @@ public class Builder : InputHandler, IDataPersistence
     void IDataPersistence.LoadData(GameData data)
     {
         Debug.Log("Loading Tilemap...");
-        Debug.Log("Tiles: " + data.isFloor.ToString());
         Debug.Log("Tile Count: " + data.isFloor.Length);
 
         bool[,] newArray = Make2DArray<bool>(data.isFloor, 18, 14);
@@ -317,7 +323,7 @@ public class Builder : InputHandler, IDataPersistence
                 bool thisTile = newArray[x + 9, y + 8];
                 
 
-                Debug.Log("Tile At: " + x + ", " + y + " : " + thisTile);
+                //Debug.Log("Tile At: " + x + ", " + y + " : " + thisTile);
                 interactionMode = thisTile ? InteractionMode.Floor : InteractionMode.Wall;
 
                 //Debug.Log("Tile At: " + x + ", " + y + " Type: " + interactionMode);
@@ -335,8 +341,6 @@ public class Builder : InputHandler, IDataPersistence
         {
             for(int y = -8; y < 6; y++)
             {
-
-                Debug.Log("Tile At: " + x + ", " + y + ": " + floor.GetTile(new Vector3Int(x, y)));
                 arr[x + 9, y + 8] = floor.GetTile(new Vector3Int(x, y)) != null;
             }
         }
