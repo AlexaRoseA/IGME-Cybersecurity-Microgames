@@ -195,6 +195,7 @@ public class AgencyManager : LevelManager
         {
 
             workstationCards[i] = GameObject.Find("CardBG (" + i + ")");
+            Debug.Log(workstationCards[i]);
 
             //if there isn't a prefab for this card, disable the card
             if (i >= workstations.Length)
