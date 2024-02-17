@@ -34,6 +34,8 @@ public class ExfilFileManager : InputHandler
 
         alreadyUsedFileIndexes = new List<int>();
         NextFile();
+
+        Time.timeScale = 1f;
     }
 
     // Update is called once per frame
