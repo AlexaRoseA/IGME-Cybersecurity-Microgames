@@ -1,5 +1,5 @@
-# IGME-Cybersecurity-Microgames
-IGME 2023 NSA Grant
+# H4CKB0X
+IGME and Cybersecurity 2023 - 2024
 Rochester Institute of Technology
 School of Interactive Games & Media
 
