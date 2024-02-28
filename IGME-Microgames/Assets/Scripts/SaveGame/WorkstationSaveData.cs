@@ -23,7 +23,7 @@ public class WorkstationSaveData
 
     public WorkstationSaveData()
     {
-        challengeCooldown = 2;
+        challengeCooldown = 0;
         highscore = 0;
         agentLevel = 0;
         fresh = true;

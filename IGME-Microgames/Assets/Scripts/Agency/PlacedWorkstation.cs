@@ -103,6 +103,7 @@ public class PlacedWorkstation : MonoBehaviour
     /// </summary>
     public void Practice()
     {
+        DataPersistenceManager.instance.SaveGame();
         agencyManager.gameManager.BuildPlaylist(new WorkstationData[] { minigameData }, 5, true, GameMode.practice);
     }
 
@@ -113,6 +114,7 @@ public class PlacedWorkstation : MonoBehaviour
     {
         if(minigameData.saveData.challengeCooldown >= Mathf.Pow(2, minigameData.saveData.agentLevel))
         {
+            DataPersistenceManager.instance.SaveGame();
             agencyManager.gameManager.BuildPlaylist(new WorkstationData[] { minigameData }, 1, false, GameMode.challenge);
         }
     }

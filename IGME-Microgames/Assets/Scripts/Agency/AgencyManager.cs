@@ -256,7 +256,7 @@ public class AgencyManager : LevelManager, IDataPersistence
         FinishPlacementDelegate finalize = FinalizePlacement;
         
         GameObject newWorkstation = Instantiate(workstationPrefab);
-        newWorkstation.GetComponent<PlacedWorkstation>().minigameData = Instantiate(workstations[prefabIndex]);
+        newWorkstation.GetComponent<PlacedWorkstation>().minigameData = workstations[prefabIndex];
 
         newWorkstation.GetComponent<PlacedWorkstation>().minigameData.saveData.shopIndex = prefabIndex;
 
@@ -357,14 +357,16 @@ public class AgencyManager : LevelManager, IDataPersistence
                 if(workstations[i].saveData.purchaseState == (int)PurchaseState.Placed)
                 {
                     Place(i);
-                    Debug.Log("Loading workstation at: x: " + workstations[i].saveData.x + " y: " + workstations[i].saveData.y);
-                    builder.placingWorkstation.transform.position = builder.floor.CellToWorld(new Vector3Int(workstations[i].saveData.x, workstations[i].saveData.y));
+                    //Debug.Log("Loading placed workstation #" + i + " at: x: " + workstations[i].saveData.x + " y: " + workstations[i].saveData.y);
+                    builder.placingWorkstation.transform.position = builder.floor.GetCellCenterWorld(new Vector3Int(workstations[i].saveData.x, workstations[i].saveData.y));
                     builder.FinalizePlace();
                 }
             }
             else
                 workstations[i].saveData = new WorkstationSaveData();
         }
+        currency += gameManager.ScoreMinigames(this);
+        UpdateCurrency();
     }
 
     void IDataPersistence.SaveData(ref GameData data)
@@ -380,12 +382,12 @@ public class AgencyManager : LevelManager, IDataPersistence
 
 
         PlacedWorkstation[] placed = FindObjectsByType<PlacedWorkstation>(FindObjectsSortMode.InstanceID);
+        Debug.Log("Saving " + placed.Length + " placed workstations");
         data.workstationSaveDatas = new WorkstationSaveData[workstations.Length];
-        Debug.Log("Saving " + workstations.Length + " Workstations");
         for(int i = 0; i < workstations.Length; i++)
         {
-            Debug.Log("Save Workstation At: " + workstations[i].saveData.x + ", " + workstations[i].saveData.y);
             data.workstationSaveDatas[i] = workstations[i].saveData;
+
             foreach(PlacedWorkstation placedWorkstation in placed)
             {
                 //iterate through placed workstations, if the placed workstation is this workstation, save its position
@@ -396,9 +398,8 @@ public class AgencyManager : LevelManager, IDataPersistence
                     data.workstationSaveDatas[i].x = builder.floor.WorldToCell(placedWorkstation.transform.position).x;
                     data.workstationSaveDatas[i].y = builder.floor.WorldToCell(placedWorkstation.transform.position).y;
 
-                    Debug.Log("Workstation " + i + " is placed at: " + data.workstationSaveDatas[i].x + ", " + data.workstationSaveDatas[i].y);
+                    //Debug.Log("Workstation " + i + " is placed at: " + data.workstationSaveDatas[i].x + ", " + data.workstationSaveDatas[i].y);
                 }
-
             }
         }
         

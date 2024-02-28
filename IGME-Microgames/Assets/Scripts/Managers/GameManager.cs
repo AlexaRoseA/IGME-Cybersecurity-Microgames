@@ -136,10 +136,9 @@ public class GameManager : MonoBehaviour
     public void EndMinigame(int score)
     {
         WorkstationData finishedGame = playlist.Dequeue();
-        finishedGame.FinishMinigame(score, currentGameMode);
-        earnedCurrency += ScoreToStars(score, finishedGame) * 100;
+        //finishedGame.FinishMinigame(score, currentGameMode);
 
-        minigameResults.Add(new MinigameResult(finishedGame.saveData.shopIndex, score));
+        minigameResults.Add(new MinigameResult(finishedGame.saveData.shopIndex, score, currentGameMode));
         lastScore = score;
         lastMinigame = finishedGame;
 
@@ -150,10 +149,11 @@ public class GameManager : MonoBehaviour
 
     public void EndTutorial(int score)
     {
-
+        WorkstationData finishedGame = playlist.Peek();
         lastScore = score;
         lastMinigame = playlist.Peek();
         lastMinigame.saveData.fresh = false;
+        minigameResults.Add(new MinigameResult(finishedGame.saveData.shopIndex, 0, currentGameMode));
 
         ClearScenes();
         SceneManager.LoadSceneAsync("MinigameScore", LoadSceneMode.Additive);
@@ -205,7 +205,7 @@ public class GameManager : MonoBehaviour
 
     private void PopulateScoreScreen(Scene scene, LoadSceneMode mode)
     {
-        FindObjectOfType<ScoreScreenManager>().InitScoreScreen(lastScore, ScoreToStars(lastScore, lastMinigame), lastMinigame);
+        FindObjectOfType<ScoreScreenManager>().InitScoreScreen(lastScore, lastMinigame.ScoreToStars(lastScore), lastMinigame);
         SceneManager.sceneLoaded -= PopulateScoreScreen;
     }
 
@@ -215,17 +215,18 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded -= PopulateTutorialScoreScreen;
     }
 
-    private int ScoreToStars(int score, WorkstationData game)
+    /// <summary>
+    /// calls score minigame on each minigame the game manager is holding results for. clears minigame results.
+    /// </summary>
+    /// <returns>total currency earned from scored games</returns>
+    public int ScoreMinigames(AgencyManager agency)
     {
-        int starCount = -1;
-        for (int i = game.starThresholds.Length - 1; i >= 0; i--)
+        int currencyEarned = 0;
+        foreach (MinigameResult result in minigameResults) 
         {
-            if (score >= game.starThresholds[i])
-            {
-                starCount = i + 1;
-                break;
-            }
+            currencyEarned += agency.workstations[result.workstationIndex].ScoreMinigame(result);
         }
-        return starCount;
+        minigameResults.Clear();
+        return currencyEarned;
     }
 }

@@ -24,26 +24,37 @@ public class WorkstationData : ScriptableObject
     /// </summary>
     /// <param name="score"></param>
     /// <param name="gameMode"></param>
-    public void FinishMinigame(int score, GameMode gameMode)
+    /// <returns>currency earned from this minigame</returns>
+    public int ScoreMinigame(MinigameResult result)
     {
-        saveData.timesPlayed++;
-        saveData.fresh = false;
-        if (saveData.highscore < score)
+        if(result.workstationIndex != saveData.shopIndex)
         {
-            saveData.highscore = score;
+            Debug.LogError("Attempted to score minigame #" + result.workstationIndex + " as minigame #" + saveData.shopIndex);
+            return 0;
+        }
+        Debug.Log("Scoring minigame #" + result.workstationIndex + "... ");
+        saveData.timesPlayed++;
+
+        saveData.fresh = false;
+        if (saveData.highscore < result.score)
+        {
+            saveData.highscore = result.score;
         }
 
-        if(gameMode == GameMode.challenge)
+        if(result.gamemode == GameMode.challenge)
         {
-            if(score > starThresholds[saveData.agentLevel])
+            if(result.score > starThresholds[saveData.agentLevel])
             {
                 //challenge beaten
                 saveData.agentLevel++;
+                saveData.challengeCooldown = 0;
+                return ScoreToStars(result.score) * 200;
             }
-            saveData.challengeCooldown = 0;
-            return;
+            saveData.challengeCooldown--;
+            return 0;
         }
         saveData.challengeCooldown++;
+        return ScoreToStars(result.score) * 100;
     }
 
     /// <summary>
@@ -73,5 +84,20 @@ public class WorkstationData : ScriptableObject
 
         return title;
 
+    }
+
+    ///converts a score value to the number of stars earned with that score in this minigame.
+    public int ScoreToStars(int score)
+    {
+        int starCount = -1;
+        for (int i = starThresholds.Length - 1; i >= 0; i--)
+        {
+            if (score >= starThresholds[i])
+            {
+                starCount = i + 1;
+                break;
+            }
+        }
+        return starCount;
     }
 }

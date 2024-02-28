@@ -42,7 +42,6 @@ public class DataPersistenceManager : MonoBehaviour
         {
             obj.SaveData(ref gameData);
         }
-        Debug.Log("saved " + gameData.currency);
         googlePlayHandler.Save(gameData);
         
     }
@@ -69,6 +68,11 @@ public class DataPersistenceManager : MonoBehaviour
     }
 
     private void OnApplicationQuit()
+    {
+        SaveGame();
+    }
+
+    private void OnApplicationPause()
     {
         SaveGame();
     }

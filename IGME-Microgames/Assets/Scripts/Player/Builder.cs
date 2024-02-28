@@ -237,11 +237,9 @@ public class Builder : InputHandler, IDataPersistence
         finalize(placingShopIndex);
 
         //Save placement
-        Debug.Log("setting save position to: " + floor.WorldToCell(placingWorkstation.transform.position));
         placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.saveData.x = floor.WorldToCell(placingWorkstation.transform.position).x;
         placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.saveData.y = floor.WorldToCell(placingWorkstation.transform.position).y;
-        Debug.Log("workstation X: " + placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.saveData.x);
-        Debug.Log("workstation Y: " + placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.saveData.y);
+        //Debug.Log("Workstation " + placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.saveData.shopIndex + " placement finalized at: " + placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.saveData.x + ", " + placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.saveData.y);
 
         placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.isOutline = false;
         placingWorkstation.GetComponent<PlacedWorkstation>().minigameData.saveData.inPlaylist = true;
