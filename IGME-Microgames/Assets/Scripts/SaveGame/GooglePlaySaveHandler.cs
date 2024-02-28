@@ -101,6 +101,10 @@ public class GooglePlaySaveHandler
                     OpenWithAutomaticConflictResolution("agency", DataSource.ReadCacheOrNetwork, ConflictResolutionStrategy.UseLongestPlaytime, LoadOpened);
             });
         }
+        else
+        {
+            callback(null);
+        }
     }
 
     /// <summary>
