@@ -1843,6 +1843,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NeedAgentToPlay
       objectReference: {fileID: 0}
+    - target: {fileID: 6178712619459457676, guid: a032b5699b6324344bd900512f64ace7, type: 3}
+      propertyPath: retriggerable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6887616222290371283, guid: a032b5699b6324344bd900512f64ace7, type: 3}
       propertyPath: m_text
       value: You have to hire an agent to play!
@@ -2383,6 +2387,7 @@ MonoBehaviour:
   furnitureTemplate: {fileID: 11400000, guid: ae34280453d9c394ba27ea55da7ffa02, type: 2}
   ceilingTemplate: {fileID: 11400000, guid: a1273918a9e2c9f469a98fb964a04518, type: 2}
   furniturePrefab: {fileID: 949492836694267894, guid: de719a90911e96b4e8e352418bdb15b9, type: 3}
+  placingWorkstation: {fileID: 0}
 --- !u!1 &526265303
 GameObject:
   m_ObjectHideFlags: 0

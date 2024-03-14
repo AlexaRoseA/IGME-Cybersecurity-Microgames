@@ -79,7 +79,6 @@ public class AgencyManager : LevelManager, IDataPersistence
 
         if(playlistLength == 0)
         {
-            tutorial.RefreshTip("NeedAgentToPlay");
             tutorial.ShowTip("NeedAgentToPlay");
         }
             
