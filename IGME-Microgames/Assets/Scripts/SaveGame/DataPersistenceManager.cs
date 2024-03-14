@@ -7,6 +7,8 @@ public class DataPersistenceManager : MonoBehaviour
 {
     public static DataPersistenceManager instance { get; private set; }
 
+    public GameObject loadingScreen;
+
     private GameData gameData;
 
     private List<IDataPersistence> dataPersistenceObjects;
@@ -49,6 +51,7 @@ public class DataPersistenceManager : MonoBehaviour
     public void LoadGame()
     {
         googlePlayHandler.Load(GameLoaded);
+
     }
 
     private void GameLoaded(GameData data)
@@ -64,7 +67,7 @@ public class DataPersistenceManager : MonoBehaviour
         {
             obj.LoadData(gameData);
         }
-        Debug.Log("loaded " + gameData.currency);
+        loadingScreen.SetActive(false);
     }
 
     private void OnApplicationQuit()

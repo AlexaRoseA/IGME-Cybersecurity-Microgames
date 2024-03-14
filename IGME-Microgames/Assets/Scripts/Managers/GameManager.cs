@@ -221,6 +221,7 @@ public class GameManager : MonoBehaviour
     /// <returns>total currency earned from scored games</returns>
     public int ScoreMinigames(AgencyManager agency)
     {
+        if(minigameResults == null) { return 0; }
         int currencyEarned = 0;
         foreach (MinigameResult result in minigameResults) 
         {
