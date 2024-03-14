@@ -45,6 +45,7 @@ Library: C:\Users\horsa\Documents\NSA\IGME-Cybersecurity-Microgames\IGME-Microga
 --assembly-defines=YarnSpinner.Unity;
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\horsa\Documents\NSA\IGME-Cybersecurity-Microgames\IGME-Microgames\Temp\Burst
+--debug=LineOnly
 --key-folder=C:/Program Files/Unity/Hub/Editor/2022.3.6f1/Editor/Data/PlaybackEngines/AndroidPlayer
 --decode-folder=C:\Users\horsa\Documents\NSA\IGME-Cybersecurity-Microgames\IGME-Microgames\Library\Burst
 --output=C:\Users\horsa\Documents\NSA\IGME-Cybersecurity-Microgames\IGME-Microgames\Temp\BurstOutput\tempburstlibs\armeabi-v7a\lib_burst_generated

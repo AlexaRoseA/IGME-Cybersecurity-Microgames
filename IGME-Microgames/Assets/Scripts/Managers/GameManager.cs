@@ -13,7 +13,9 @@ public enum GameMode
 
 public class GameManager : MonoBehaviour
 {
-    public int currency = 2500;
+    public int earnedCurrency;
+    public List<MinigameResult> minigameResults;
+
     public int playerLevel;
     public GameMode currentGameMode;
     private Queue<WorkstationData> playlist;
@@ -25,18 +27,16 @@ public class GameManager : MonoBehaviour
     //how many times will each minigame show up in the queue?
     public int minigameDuplicates = 2;
 
-    //TODO: load data
     void Start()
     {
+        minigameResults = new List<MinigameResult>();
         if(SceneManager.sceneCount < 2)
         {
             SceneManager.LoadScene("Agency", LoadSceneMode.Additive);
             //SceneManager.SetActiveScene(SceneManager.GetSceneByName("Agency"));
-            UpdateCurrency();
         }
         else
         {
-            UpdateCurrency();
         }
     }
 
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
         WorkstationData next = playlist.Peek();
         string nextSceneName = next.minigameScene;
 
-        if (next.fresh && tutorialsEnabled)
+        if (next.saveData.fresh && tutorialsEnabled)
         {
             if (next.tutorialScene != "")
             {
@@ -101,9 +101,9 @@ public class GameManager : MonoBehaviour
 
         foreach(WorkstationData tile in workstations)
         {
-            if((tile.inPlaylist || gameMode != GameMode.shuffle) && !tile.isOutline)
+            if((tile.saveData.inPlaylist || gameMode != GameMode.shuffle) && !tile.isOutline)
             {
-                if(tile.fresh && useFreshness)
+                if(tile.saveData.fresh && useFreshness)
                 {
                     //if its fresh, its first in the playlist and will show up later. 
                     playlist.Enqueue(tile);
@@ -136,29 +136,28 @@ public class GameManager : MonoBehaviour
     public void EndMinigame(int score)
     {
         WorkstationData finishedGame = playlist.Dequeue();
-        finishedGame.FinishMinigame(score, currentGameMode);
-        currency += ScoreToStars(score, finishedGame) * 100;
+        //finishedGame.FinishMinigame(score, currentGameMode);
 
+        minigameResults.Add(new MinigameResult(finishedGame.saveData.shopIndex, score, currentGameMode));
         lastScore = score;
         lastMinigame = finishedGame;
 
         ClearScenes();
         SceneManager.LoadSceneAsync("MinigameScore", LoadSceneMode.Additive);
         SceneManager.sceneLoaded += PopulateScoreScreen;
-        SceneManager.sceneLoaded += UpdateCurrency;
     }
 
     public void EndTutorial(int score)
     {
-
+        WorkstationData finishedGame = playlist.Peek();
         lastScore = score;
         lastMinigame = playlist.Peek();
-        lastMinigame.fresh = false;
+        lastMinigame.saveData.fresh = false;
+        minigameResults.Add(new MinigameResult(finishedGame.saveData.shopIndex, 0, currentGameMode));
 
         ClearScenes();
         SceneManager.LoadSceneAsync("MinigameScore", LoadSceneMode.Additive);
         SceneManager.sceneLoaded += PopulateTutorialScoreScreen;
-        SceneManager.sceneLoaded += UpdateCurrency;
     }
 
     /// <summary>
@@ -186,7 +185,6 @@ public class GameManager : MonoBehaviour
     public void EndStreak()
     {
         ClearScenes();
-        SceneManager.sceneLoaded += UpdateCurrency;
         SceneManager.LoadSceneAsync("Agency", LoadSceneMode.Additive);
         
     }
@@ -207,7 +205,7 @@ public class GameManager : MonoBehaviour
 
     private void PopulateScoreScreen(Scene scene, LoadSceneMode mode)
     {
-        FindObjectOfType<ScoreScreenManager>().InitScoreScreen(lastScore, ScoreToStars(lastScore, lastMinigame), lastMinigame);
+        FindObjectOfType<ScoreScreenManager>().InitScoreScreen(lastScore, lastMinigame.ScoreToStars(lastScore), lastMinigame);
         SceneManager.sceneLoaded -= PopulateScoreScreen;
     }
 
@@ -217,32 +215,18 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded -= PopulateTutorialScoreScreen;
     }
 
-    private void UpdateCurrency(Scene scene, LoadSceneMode mode)
+    /// <summary>
+    /// calls score minigame on each minigame the game manager is holding results for. clears minigame results.
+    /// </summary>
+    /// <returns>total currency earned from scored games</returns>
+    public int ScoreMinigames(AgencyManager agency)
     {
-        UpdateCurrency();
-        SceneManager.sceneLoaded -= UpdateCurrency;
-    }
-
-    public void UpdateCurrency()
-    {
-        GameObject currencyText = GameObject.Find("Currency");
-        if (currencyText == null) return;
-
-
-        currencyText.GetComponent<TMP_Text>().text = currency.ToString();
-    }
-
-    private int ScoreToStars(int score, WorkstationData game)
-    {
-        int starCount = -1;
-        for (int i = game.starThresholds.Length - 1; i >= 0; i--)
+        int currencyEarned = 0;
+        foreach (MinigameResult result in minigameResults) 
         {
-            if (score >= game.starThresholds[i])
-            {
-                starCount = i + 1;
-                break;
-            }
+            currencyEarned += agency.workstations[result.workstationIndex].ScoreMinigame(result);
         }
-        return starCount;
+        minigameResults.Clear();
+        return currencyEarned;
     }
 }

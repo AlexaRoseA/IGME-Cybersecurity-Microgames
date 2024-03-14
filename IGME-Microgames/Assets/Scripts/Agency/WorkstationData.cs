@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "Workstation", menuName = "ScriptableObjects/MinigameWorkstation", order = 1)]
+///ScriptableObject that contains the information necessary to run a minigame. 
 public class WorkstationData : ScriptableObject
 {
     public string minigameScene;
@@ -14,44 +15,46 @@ public class WorkstationData : ScriptableObject
     public int price = 2000;
     public bool isOutline = true;
     public int[] starThresholds = { int.MinValue, 1000, 3000, 6000, 10000 };
-    //how many times does the minigame have to be played before the player can challenge?
-    public int challengeCooldown = 3;
-
-    public int highscore = 0;
-    public int agentLevel = 0;
-
     public string tutorialScene;
 
-    //if the workstation is new and unplayed, it will be first in the playlist. 
-    public bool fresh = true;
-    public int timesPlayed = 0;
-    public bool inPlaylist = false;
+    public WorkstationSaveData saveData;
 
-    public int Highscore { get { return highscore; } }
-
-
-
-
-    public void FinishMinigame(int score, GameMode gameMode)
+    /// <summary>
+    /// updates the minigame stats after completing. 
+    /// </summary>
+    /// <param name="score"></param>
+    /// <param name="gameMode"></param>
+    /// <returns>currency earned from this minigame</returns>
+    public int ScoreMinigame(MinigameResult result)
     {
-        timesPlayed++;
-        fresh = false;
-        if (highscore < score)
+        if(result.workstationIndex != saveData.shopIndex)
         {
-            highscore = score;
+            Debug.LogError("Attempted to score minigame #" + result.workstationIndex + " as minigame #" + saveData.shopIndex);
+            return 0;
+        }
+        Debug.Log("Scoring minigame #" + result.workstationIndex + "... ");
+        saveData.timesPlayed++;
+
+        saveData.fresh = false;
+        if (saveData.highscore < result.score)
+        {
+            saveData.highscore = result.score;
         }
 
-        if(gameMode == GameMode.challenge)
+        if(result.gamemode == GameMode.challenge)
         {
-            if(score > starThresholds[agentLevel])
+            if(result.score > starThresholds[saveData.agentLevel])
             {
                 //challenge beaten
-                agentLevel++;
+                saveData.agentLevel++;
+                saveData.challengeCooldown = 0;
+                return ScoreToStars(result.score) * 200;
             }
-            challengeCooldown = 0;
-            return;
+            saveData.challengeCooldown--;
+            return 0;
         }
-        challengeCooldown++;
+        saveData.challengeCooldown++;
+        return ScoreToStars(result.score) * 100;
     }
 
     /// <summary>
@@ -62,7 +65,7 @@ public class WorkstationData : ScriptableObject
     {
         string title = "";
         
-        switch(agentLevel)
+        switch(saveData.agentLevel)
         {
             case 0:
                 title = "Rookie ";
@@ -81,5 +84,20 @@ public class WorkstationData : ScriptableObject
 
         return title;
 
+    }
+
+    ///converts a score value to the number of stars earned with that score in this minigame.
+    public int ScoreToStars(int score)
+    {
+        int starCount = -1;
+        for (int i = starThresholds.Length - 1; i >= 0; i--)
+        {
+            if (score >= starThresholds[i])
+            {
+                starCount = i + 1;
+                break;
+            }
+        }
+        return starCount;
     }
 }
