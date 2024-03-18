@@ -3,16 +3,28 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Timer
+  - Score
+  - Spot
+  - DialogCharacter
+  - Boundary
+  - Piece
+  - Wall
+  - Bullet
+  - Enemy
+  - Phase
+  - BulletBoundary
+  - Music
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
+  - DialogCharacter
+  - PlayerMainModel
   - 
   - 
   - 
@@ -40,4 +52,19 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 1843179065
+    locked: 0
+  - name: NPC
+    uniqueID: 1506162987
+    locked: 0
+  - name: Player
+    uniqueID: 2470997597
+    locked: 0
+  - name: Foreground
+    uniqueID: 1771382309
+    locked: 0
+  - name: UIUX
+    uniqueID: 3031315361
     locked: 0

@@ -1,0 +1,101 @@
+﻿title: FuzzBuzz_Phase1
+tags:
+---
+<<if $currentPhase is "application">>
+
+<<ShowAllCharacters CharacterDialogDisplayer>>
+<<SetBool CharacterDialogDisplayer 0 excited true>>
+
+Poet: WELCOME TO FUZZ BUZZ, <color=red>ORACLE!</color>
+Poet: MY NAME IS POET, AND WE'RE GOING TO <color=red>FUZZ TEST THIS PROGRAM WITH SPAM!</color>
+
+<<SetBool CharacterDialogDisplayer 0 thinking true>>
+<<SetBool CharacterDialogDisplayer 0 excited false>>
+
+Poet: <i>Tap letters in the correct order to solve the word puzzle!<i>
+Poet: <i>Drag the slider to the correct value at the top!<i>
+Poet: <i>Close out that annoying spam message... why does it keep coming back!?<i>
+
+<<SetBool CharacterDialogDisplayer 0 devious true>>
+<<SetBool CharacterDialogDisplayer 0 thinking false>>
+
+Poet: WARNING: INVALID INPUTS UNBOUNDED! GO GO GO!
+
+<<HideAllCharacters CharacterDialogDisplayer>>
+<<set $currentPhase to "application">>
+
+<<endif>>
+
+<<if $currentPhase is "file">>
+
+<<ShowAllCharacters CharacterDialogDisplayer>>
+<<SetBool CharacterDialogDisplayer 0 excited true>>
+
+Poet: WELCOME TO FUZZ BUZZ, <color=red>ORACLE!</color>
+Poet: MY NAME IS POET, AND WE'RE GOING TO <color=red>FUZZ TEST THIS PROGRAM!</color>
+
+<<SetBool CharacterDialogDisplayer 0 thinking true>>
+<<SetBool CharacterDialogDisplayer 0 excited false>>
+
+Poet: WHAT HAPPENS WHEN YOU UPLOAD <color=red>ANY KIND OF FILE</color> TO THE SYSTEM?
+
+<<SetBool CharacterDialogDisplayer 0 devious true>>
+<<SetBool CharacterDialogDisplayer 0 thinking false>>
+
+Poet: LET'S FIND OUT! HEHE!
+<<SetBool CharacterDialogDisplayer 0 devious false>>
+Poet: <i>Click on the images as fast as you can!<i>
+Poet: <i>Multipliers can appear which give you more points!<i>
+Poet: <i>Multipliers only stay for a limited amount of time, so press them quick!<i>
+<<set $currentPhase to "file">>
+<<HideAllCharacters CharacterDialogDisplayer>>
+<<endif>>
+
+<<set $timeRemaining to 30>>
+===
+
+title: FuzzBuzz_Phase2
+tags:
+---
+<<if $currentPhase is "whitebox">>
+    <<ShowAllCharacters CharacterDialogDisplayer>>
+    <<SetBool CharacterDialogDisplayer 0 excited true>>
+    Poet: TESTS CREATED, TIME TO SHINE <color=red>ORACLE!</color> 
+    Poet: FOLLOW ALL THE PATHS...
+
+    <<SetBool CharacterDialogDisplayer 0 devious true>>
+    <<SetBool CharacterDialogDisplayer 0 excited false>>
+    Poet: STOP THOSE PESKY BUGS AT EVERY NOOK!
+
+    <<SetBool CharacterDialogDisplayer 0 thinking true>>
+    <<SetBool CharacterDialogDisplayer 0 devious false>>
+    Poet: CHECK THIS OUT...
+    <<HideAllCharacters CharacterDialogDisplayer>>
+    <<SetBool CharacterDialogDisplayer 0 thinking false>>
+    <<StartCameraMovement GridChooser>>
+
+<<elseif  $currentPhase is "blackbox">>
+    <<ShowAllCharacters CharacterDialogDisplayer>>
+    <<SetBool CharacterDialogDisplayer 0 excited true>>
+    Poet: TESTS CREATED, TIME TO SHINE <color=red>ORACLE!</color> 
+
+    <<SetBool CharacterDialogDisplayer 0 thinking true>>
+    <<SetBool CharacterDialogDisplayer 0 excited false>>
+    Poet: THE VOID IS HUNGRY TODAY!
+    Poet: SEEMS LIKE THERE'S <color=red>UNWANTED VISITORS</color> FROM OUR TESTING! 
+
+    <<SetBool CharacterDialogDisplayer 0 devious true>>
+    <<SetBool CharacterDialogDisplayer 0 thinking false>>
+    Poet: <color=red>TIME TO CLEAN THIS MESS!</color> 
+    <<set $timeRemaining to 120>>
+
+    <<HideAllCharacters CharacterDialogDisplayer>>
+    <<SetBool CharacterDialogDisplayer 0 devious false>>
+
+    <<ChangeDialogStatus SpaceFloats true>>
+<<else>>
+<<endif>>
+
+<<set $timeRemaining to 120>>
+
+===

@@ -1,0 +1,94 @@
+{
+    "name": "TouchInputs",
+    "maps": [
+        {
+            "name": "TouchMain",
+            "id": "d5bba1db-78fe-4cc8-9dc9-1ce8cb4feb4e",
+            "actions": [
+                {
+                    "name": "TouchMovement",
+                    "type": "Value",
+                    "id": "32ea8312-f875-4c09-b608-0b2489f319da",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "TouchDouble",
+                    "type": "Button",
+                    "id": "65ccef35-e980-4612-ac04-aba46d07d516",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "TouchPress",
+                    "type": "Button",
+                    "id": "22e1e315-860f-430f-8f02-ab5521cc4d74",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "JoystickMovement",
+                    "type": "Value",
+                    "id": "077351ba-f2e2-4e3a-80a9-47b4cd033485",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "44020ec1-f19e-43a6-a939-db6e21f47474",
+                    "path": "<Touchscreen>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchMovement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "38256a8f-1537-423b-a259-5f21e94799fa",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "45b1c0c9-d703-453a-a5a0-b7aa7d1d1e8b",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "JoystickMovement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e8b6755e-76f4-4c41-b48d-53d979094516",
+                    "path": "<Touchscreen>/touch*/Press",
+                    "interactions": "MultiTap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchDouble",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

@@ -1,0 +1,71 @@
+﻿title: PacketPanic_Phase1
+---
+<<ShowAllCharacters CharacterDialogDisplayer>>
+
+Packet: Welcome to <color=red>Packet Panic</color>!
+Packet: Defend the network by tapping on the malicious packets. 
+
+Packet: Malicious packets are <color=red>red</color>.
+Packet: Antivirus packets are <color=blue>blue</color>.
+
+<<SetBool CharacterDialogDisplayer 0 determined true>>
+Packet: Here comes an attack! Get ready to defend!
+
+<<set $timeRemaining to 30>>
+<<SetBool CharacterDialogDisplayer 0 determined false>>
+<<HideAllCharacters CharacterDialogDisplayer>>
+===
+
+title: PacketPanic_Phase2
+---
+<<ShowAllCharacters CharacterDialogDisplayer>>
+Packet: We've isolated a malicious packet.
+
+<<SetBool CharacterDialogDisplayer 0 determined true>>
+Packet: Capturing the packet will let us learn more about this attack, and our network's integrity will increase!
+
+Packet: Rotate the network pathways by <color=red>tapping on the connection point</color> to let the antivirus capture it.
+
+<<set $timeRemaining to 25>>
+<<SetBool CharacterDialogDisplayer 0 determined false>>
+<<HideAllCharacters CharacterDialogDisplayer>>
+===
+
+title: PacketPanic_Phase3
+---
+
+<<ShowAllCharacters CharacterDialogDisplayer>>
+<<if $capturedPacket>>
+    Packet: Great! You captured the packet!  
+<<else>>
+    Packet: looks like the malicious packet escaped...
+<<endif>>
+<<SetBool CharacterDialogDisplayer 0 determined true>>
+Packet: Here comes another attack! Defend the network by tapping on the malicious packets!
+<<set $timeRemaining to 25>>
+<<SetBool CharacterDialogDisplayer 0 determined false>>
+<<HideAllCharacters CharacterDialogDisplayer>>
+
+===
+
+title: GameOver
+---
+<<ShowAllCharacters CharacterDialogDisplayer>>
+Packet: The network is overloaded. 
+
+<<HideAllCharacters CharacterDialogDisplayer>>
+<<EndGame MinigameManager>>
+
+===
+
+title: Victory
+---
+<<ShowAllCharacters CharacterDialogDisplayer>>
+<<SetBool CharacterDialogDisplayer 0 excited true>>
+
+Packet: Well done! The attack has been held at bay. 
+<<EndGame MinigameManager>>
+<<SetBool CharacterDialogDisplayer 0 excited false>>
+<<HideAllCharacters CharacterDialogDisplayer>>
+
+===

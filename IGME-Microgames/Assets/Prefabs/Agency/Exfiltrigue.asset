@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24289b6dcc8b44f47bbdf21c1f275954, type: 3}
+  m_Name: Exfiltrigue
+  m_EditorClassIdentifier: 
+  minigameScene: Exfiltrigue
+  jobTitle: Cyber Operator
+  minigameName: EXFILTRIGUE
+  workstationIdle: {fileID: 9100000, guid: 4b20f98790105954488b99ebd3940029, type: 2}
+  shopSprite: {fileID: 21300000, guid: e35cd8b67235634488cfae89833262f9, type: 3}
+  price: 2000
+  isOutline: 1
+  starThresholds: 00000080b80b00008813000070170000401f0000
+  challengeCooldown: 0
+  highscore: 0
+  agentLevel: 3
+  tutorialScene: Exfiltrigue_T
+  fresh: 1
+  timesPlayed: 0
+  inPlaylist: 0
