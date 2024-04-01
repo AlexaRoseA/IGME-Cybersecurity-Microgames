@@ -20,7 +20,7 @@ public class LocalSaveHandler
 
     }
 
-    public void Load(Action<GameData> callback)
+    public GameData Load()
     {
 
         string path = Path.Combine(Application.persistentDataPath, "agency.save");
@@ -31,6 +31,6 @@ public class LocalSaveHandler
         GameData data = (GameData)formatter.Deserialize(stream);
         stream.Close();
 
-        callback(data);
+        return data;
     }
 }

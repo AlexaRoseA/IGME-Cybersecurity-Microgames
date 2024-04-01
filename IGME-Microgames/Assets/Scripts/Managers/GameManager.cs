@@ -27,8 +27,11 @@ public class GameManager : MonoBehaviour
     //how many times will each minigame show up in the queue?
     public int minigameDuplicates = 2;
 
+    public System.DateTime timeOfLastSave;
+
     void Start()
     {
+        timeOfLastSave = System.DateTime.Now;
         minigameResults = new List<MinigameResult>();
         if(SceneManager.sceneCount < 2)
         {

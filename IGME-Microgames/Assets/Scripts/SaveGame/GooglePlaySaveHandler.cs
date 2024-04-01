@@ -15,7 +15,6 @@ public class GooglePlaySaveHandler
 
     GameData data;
     Action<GameData> loadCallback;
-    Action<bool> saveCallback;
 
     public GooglePlaySaveHandler()
     {
@@ -36,15 +35,12 @@ public class GooglePlaySaveHandler
     /// async method. callback will be called true if the save was successful, or false if it failed.
     /// </summary>
     /// <param name="data"></param>
-    public void Save(GameData data, Action<bool> saveCallback)
+    public void Save(GameData data)
     {
         if(!useGPGS)
         {
-            saveCallback(false);
             return;
         }
-
-        this.saveCallback = saveCallback;
         this.data = data;
         PlayGamesPlatform.Instance.SavedGame.
             OpenWithAutomaticConflictResolution("agency", DataSource.ReadCacheOrNetwork, ConflictResolutionStrategy.UseLongestPlaytime, SaveOpened);
@@ -71,7 +67,6 @@ public class GooglePlaySaveHandler
         }
         else
         {
-            saveCallback(false);
             Debug.LogError("Failed to find Save");
         }
     }
@@ -86,11 +81,9 @@ public class GooglePlaySaveHandler
         if(status == SavedGameRequestStatus.Success)
         {
             Debug.Log("Successfully saved!");
-            saveCallback(true);
         }
         else
         {
-            saveCallback(false);
             Debug.Log("Failed save");
         }
     }
