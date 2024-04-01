@@ -13,7 +13,9 @@ public class DataPersistenceManager : MonoBehaviour
 
     private List<IDataPersistence> dataPersistenceObjects;
 
+    //prioritize google play hamdler, but if it fails or isn't available use local
     GooglePlaySaveHandler googlePlayHandler;
+    LocalSaveHandler localSaveHandler;
 
     /// <summary>
     /// singleton
@@ -29,6 +31,7 @@ public class DataPersistenceManager : MonoBehaviour
     {
         dataPersistenceObjects = FindAllDataPersistenceObjects();
         googlePlayHandler = new GooglePlaySaveHandler();
+        localSaveHandler = new LocalSaveHandler();
 
         LoadGame();
     }
@@ -44,7 +47,7 @@ public class DataPersistenceManager : MonoBehaviour
         {
             obj.SaveData(ref gameData);
         }
-        googlePlayHandler.Save(gameData);
+        googlePlayHandler.Save(gameData, GameSaved);
         
     }
 
@@ -68,6 +71,14 @@ public class DataPersistenceManager : MonoBehaviour
             obj.LoadData(gameData);
         }
         loadingScreen.SetActive(false);
+    }
+
+    private void GameSaved(bool isSuccessfulSave)
+    {
+        if(!isSuccessfulSave) 
+        {
+            localSaveHandler.Save(gameData);
+        }
     }
 
     private void OnApplicationQuit()
