@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24289b6dcc8b44f47bbdf21c1f275954, type: 3}
+  m_Name: Jumper
+  m_EditorClassIdentifier: 
+  minigameScene: Jumper
+  jobTitle: Penetration Tester
+  minigameName: Jumper
+  workstationIdle: {fileID: 9100000, guid: 36819be8f605dc94198783c8eeb808da, type: 2}
+  shopSprite: {fileID: 21300000, guid: 6d3bf5016c165bd49add48cff9a87bb6, type: 3}
+  price: 2000
+  isOutline: 1
+  starThresholds: 00000080e8030000b80b00007017000010270000
+  challengeCooldown: 3
+  highscore: 0
+  agentLevel: 0
+  tutorialScene: 
+  fresh: 1
+  timesPlayed: 0
+  inPlaylist: 0
