@@ -2383,6 +2383,7 @@ MonoBehaviour:
   furnitureTemplate: {fileID: 11400000, guid: ae34280453d9c394ba27ea55da7ffa02, type: 2}
   ceilingTemplate: {fileID: 11400000, guid: a1273918a9e2c9f469a98fb964a04518, type: 2}
   furniturePrefab: {fileID: 949492836694267894, guid: de719a90911e96b4e8e352418bdb15b9, type: 3}
+  placingWorkstation: {fileID: 0}
 --- !u!1 &526265303
 GameObject:
   m_ObjectHideFlags: 0
@@ -11538,6 +11539,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 384530a71125cf54fad2d812761947b8, type: 2}
   - {fileID: 11400000, guid: 5a89a255c2c75c8468b417a9e2f22c10, type: 2}
   - {fileID: 11400000, guid: d2c571e43de980942879dc3609c9d6dd, type: 2}
+  - {fileID: 11400000, guid: 69dd5865870568f4cbd5ca2bce8fc8c0, type: 2}
 --- !u!4 &2017908819
 Transform:
   m_ObjectHideFlags: 0
