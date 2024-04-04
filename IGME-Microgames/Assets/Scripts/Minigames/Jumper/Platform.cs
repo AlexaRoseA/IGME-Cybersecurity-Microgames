@@ -7,7 +7,6 @@ public class Platform : MonoBehaviour
 {
     public float jumpForce = 5f;
 
-    Animator m_animator;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

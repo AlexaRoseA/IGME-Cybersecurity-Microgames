@@ -16,6 +16,7 @@ TagManager:
   - Phase
   - BulletBoundary
   - Music
+  - Platform
   layers:
   - Default
   - TransparentFX
