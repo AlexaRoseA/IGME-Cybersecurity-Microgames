@@ -14,6 +14,7 @@ public class DataPersistenceManager : LevelManager
 
     private List<IDataPersistence> dataPersistenceObjects;
 
+    private bool hasLoaded = false;
     //prioritize google play handler, but if it fails or isn't available use local
     GooglePlaySaveHandler googlePlayHandler;
     LocalSaveHandler localSaveHandler;
@@ -100,6 +101,7 @@ public class DataPersistenceManager : LevelManager
         {
             obj.LoadData(gameData);
         }
+        hasLoaded = true;
         loadingScreen.SetActive(false);
     }
 
@@ -110,11 +112,9 @@ public class DataPersistenceManager : LevelManager
 
     private void OnApplicationPause()
     {
-#if UNITY_ANDROID
         //Often on android, OnApplicationQuit will never be called, only OnApplicationPause.
         //However, in the editor this will lead to an error because it starts the game paused, and tries to save before the save objects are initialized.
-        if(EditorUserBuildSettings.exportAsGoogleAndroidProject) SaveGame();
-#endif
+        if(hasLoaded) SaveGame();
     }
 
     private List<IDataPersistence> FindAllDataPersistenceObjects()

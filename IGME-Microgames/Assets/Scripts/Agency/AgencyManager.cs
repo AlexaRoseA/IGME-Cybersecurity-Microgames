@@ -284,7 +284,7 @@ public class AgencyManager : LevelManager, IDataPersistence
         switch (workstations[i].saveData.purchaseState)
         {
             case (int)PurchaseState.ForSale:
-                purchaseText.text = "$" + workstations[i].price;
+                purchaseText.text = "" + workstations[i].price;
                 purchaseButton.onClick.AddListener(() => Purchase(i));
                 purchaseButton.interactable = currency >= workstations[i].price;
                 break;
