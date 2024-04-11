@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BirdGood
+  m_Controller: {fileID: 9100000, guid: 9cf3dfa05b1327a4e9f62a3ae2b26ebc, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 55c95115c1a67c942a9eb466acca5d92, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4d0dbcd8d994b35429577e86e95fdec8, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: e2b9affaed258534da3e4cec6db5214a, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d0aa99a764732154e9eff3b23608b388, type: 2}
