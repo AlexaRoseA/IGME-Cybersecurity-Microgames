@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5795998096612957688}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: 1_Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 56374571798805184}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: 1_Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3865215689178476641}
   - component: {fileID: 5860056858620214926}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,8 +132,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -143565137
-  m_SortingLayer: 2
+  m_SortingLayerID: -1823969699
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -395890607, guid: 01c6cd63a071f8e45a17cae371127160, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -158,7 +158,7 @@ GameObject:
   - component: {fileID: 5256847050863541505}
   - component: {fileID: 3214204415198142980}
   - component: {fileID: 6068382011149732446}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}

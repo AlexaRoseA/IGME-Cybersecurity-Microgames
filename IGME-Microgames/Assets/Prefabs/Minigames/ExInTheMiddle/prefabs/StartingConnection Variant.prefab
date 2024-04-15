@@ -85,4 +85,4 @@ MonoBehaviour:
   endLine: {fileID: 0}
   channelLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 256

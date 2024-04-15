@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 753240872, guid: 01c6cd63a071f8e45a17cae371127160, type: 3}
+    - target: {fileID: 6885813120412221201, guid: 95b7a50abbf3e3a42a17b94786281593, type: 3}
+      propertyPath: channelLayer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     - target: {fileID: 7096199996422826017, guid: 95b7a50abbf3e3a42a17b94786281593, type: 3}
       propertyPath: m_Name
       value: Portal_Yellow_A

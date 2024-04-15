@@ -25,6 +25,7 @@ public class connectionManager : MonoBehaviour
     {
         lRenderer = GetComponent<LineRenderer>();
         gm = FindObjectOfType<EITMGameManager>();
+        lRenderer.sortingLayerName = "Foreground";
     }
 
     // Update is called once per frame

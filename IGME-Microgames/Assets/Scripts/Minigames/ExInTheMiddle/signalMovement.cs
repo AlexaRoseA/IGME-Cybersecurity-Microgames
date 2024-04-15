@@ -13,7 +13,7 @@ public class signalMovement : MonoBehaviour
     public bool moving = false;
     private bool movingAcrossConnection = false;
 
-    private Vector3 targetPosition;
+    public Vector3 targetPosition;
     private GameObject connectionOn;
 
     private EITMGameManager gm;
@@ -52,6 +52,7 @@ public class signalMovement : MonoBehaviour
 
     public void SetupMovement(Vector3 target, float speedModifier)
     {
+        Debug.Log("Targeting" + target);
         connectionsTraveled = new List<GameObject>();
         speed = baseSpeed * speedModifier;
         targetPosition = target;

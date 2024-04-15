@@ -16,6 +16,10 @@ TagManager:
   - Phase
   - BulletBoundary
   - Music
+  - Alice
+  - Connection
+  - Portal
+  - NoDraw
   layers:
   - Default
   - TransparentFX
@@ -25,10 +29,10 @@ TagManager:
   - UI
   - DialogCharacter
   - PlayerMainModel
-  - 
-  - 
-  - 
-  - 
+  - Channel
+  - Signal
+  - Connection
+  - NoDraw
   - 
   - 
   - 
