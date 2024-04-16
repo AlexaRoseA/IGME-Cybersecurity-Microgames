@@ -15,7 +15,7 @@ MonoBehaviour:
   minigameScene: Jumper
   jobTitle: Penetration Tester
   minigameName: Jumper
-  workstationIdle: {fileID: 9100000, guid: 36819be8f605dc94198783c8eeb808da, type: 2}
+  workstationIdle: {fileID: 9100000, guid: 0f4360fc635657642946782eca46d694, type: 2}
   shopSprite: {fileID: 21300000, guid: 6d3bf5016c165bd49add48cff9a87bb6, type: 3}
   price: 2000
   isOutline: 1
@@ -23,7 +23,7 @@ MonoBehaviour:
   challengeCooldown: 3
   highscore: 0
   agentLevel: 0
-  tutorialScene: 
+  tutorialScene: Jumper
   fresh: 1
   timesPlayed: 0
   inPlaylist: 0
