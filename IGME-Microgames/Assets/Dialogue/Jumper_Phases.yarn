@@ -1,7 +1,6 @@
 ﻿title: Jumper_Phase1
 tags:
 ---
-<<if $currentPhase is "tutorial">>
 <<ShowAllCharacters CharacterDialogDisplayer>>
 
 Jumpy: WELCOME TO <color=orange>JUMPER!</color>
@@ -10,5 +9,5 @@ Jumpy: MY NAME IS JUMPY AND WE'RE GOING TO DO A <color=orange>PENETRATION TEST</
 Jumpy: <i>Land on Platforms to Jump higher, and collect powerups to win!<i>
 Jumpy: <i>Get to the top to get <color=orange>Domain Administrator</color> and complete the pen test!<i> 
 <<HideAllCharacters CharacterDialogDisplayer>>
-<<endif>>
+<<set $nextPhase to "startGame">>
 ===

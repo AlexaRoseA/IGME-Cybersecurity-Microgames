@@ -8,7 +8,8 @@ public class ScreenWrap : MonoBehaviour
     bool isWrappingX = false;
     Transform[] ghosts = new Transform[2];
     Vector3 screenWidth;
-    
+    private MinigameManager helper;
+
 
     // Start is called before the first frame update
     void Start()
@@ -16,6 +17,7 @@ public class ScreenWrap : MonoBehaviour
         renderers = GetComponentsInChildren<Renderer>();
 
         screenWidth = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+        helper = GameObject.FindObjectOfType<MinigameManager>();
         //CreateGhostShips();
 
     }
@@ -50,7 +52,7 @@ public class ScreenWrap : MonoBehaviour
 
         if (!isWrappingX && (viewportPosition.x >= 1 || viewportPosition.x <= 0))
         {
-            newPosition.x = -newPosition.x;
+            newPosition.x = -(newPosition.x+3f);
             isWrappingX = true;
         }
         transform.position = newPosition;
@@ -88,6 +90,9 @@ public class ScreenWrap : MonoBehaviour
         void Update()
     {
         //PositionGhostShips();
-        WrapFromScreen();
+        if (helper.currentPhase == "startGame")
+        {
+            WrapFromScreen();
+        }
     }
 }

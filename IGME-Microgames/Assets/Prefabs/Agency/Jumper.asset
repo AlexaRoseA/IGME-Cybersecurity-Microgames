@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24289b6dcc8b44f47bbdf21c1f275954, type: 3}
   m_Name: Jumper
   m_EditorClassIdentifier: 
-  minigameScene: Jumper
+  minigameScene: Jumper_T
   jobTitle: Penetration Tester
   minigameName: Jumper
   workstationIdle: {fileID: 9100000, guid: 0f4360fc635657642946782eca46d694, type: 2}
@@ -23,7 +23,7 @@ MonoBehaviour:
   challengeCooldown: 3
   highscore: 0
   agentLevel: 0
-  tutorialScene: Jumper
+  tutorialScene: Jumper_T
   fresh: 1
   timesPlayed: 0
   inPlaylist: 0

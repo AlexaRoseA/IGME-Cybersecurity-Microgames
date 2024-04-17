@@ -13,7 +13,7 @@ public class MinigameManager : LevelManager
     private TextMeshProUGUI timeText;
 
     // Keep track of the current phase name
-    private string currentPhase;
+    public string currentPhase;
 
     // Keep track of the current phase index and game title
     private int phaseNum = 1;

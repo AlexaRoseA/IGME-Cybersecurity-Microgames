@@ -5,13 +5,23 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public Transform target;
+    private MinigameManager helper;
+
+    private void Start()
+    {
+
+        helper = GameObject.FindObjectOfType<MinigameManager>();
+    }
 
     private void LateUpdate()
     {
-        if (target.position.y > transform.position.y)
+        if (helper.currentPhase == "startGame")
         {
-            Vector3 newPosition = new Vector3(transform.position.x, target.position.y, transform.position.z);
-            transform.position = newPosition;
+            if (target.position.y > transform.position.y)
+            {
+                Vector3 newPosition = new Vector3(transform.position.x, target.position.y, transform.position.z);
+                transform.position = newPosition;
+            }
         }
     }
 }

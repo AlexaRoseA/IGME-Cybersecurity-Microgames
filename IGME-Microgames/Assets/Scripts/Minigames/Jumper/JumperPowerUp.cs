@@ -12,6 +12,11 @@ public class JumperPowerUp : MonoBehaviour
     Transform jumpy;
     MinigameManager helper;
     // Start is called before the first frame update
+    private void Start()
+    {
+        helper = GameObject.FindObjectOfType<MinigameManager>();
+        helper.UpdateScoreText();
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //helper = GameObject.FindObjectOfType<MinigameManager>();
@@ -36,7 +41,7 @@ public class JumperPowerUp : MonoBehaviour
             }
             GetComponent<SpriteRenderer>().enabled = false;
             GetComponent<Collider2D>().enabled = false;
-
+            helper.UpdateScore(100);
             //wait x seconds
             yield return new WaitForSeconds(duration);
 
@@ -48,21 +53,51 @@ public class JumperPowerUp : MonoBehaviour
         }
         else if (gameObject.name.Contains("BackdoorPowerup"))
         {
-            print("Door picked up");
+            helper.UpdateScore(2000);
 
             jumpy = GameObject.Find("Jumpy").transform;
             Vector3 bar = jumpy.position;
             bar.y = bar.y + 75;
             GameObject effect2 = Instantiate(pickupEffect, bar, Quaternion.identity);
-            effect.transform.localScale = new Vector3((float)1, (float)1, 8);
+            effect2.transform.localScale = new Vector3((float)1, (float)1, 8);
             jumpy.position = bar;
             yield return new WaitForSeconds(duration);
-            
-            
-            print("all done");
-        }
-      
 
+        }
+        else if (gameObject.name.Contains("DomainAdministrator"))
+        {
+            GetComponent<SpriteRenderer>().enabled = false;
+            GetComponent<Collider2D>().enabled = false;
+            helper.UpdateScore(5000);
+            yield return new WaitForSeconds(duration);
+            helper.EndGame();
+        }
+        else if (gameObject.name.Contains("standardUser"))
+        {
+            GetComponent<SpriteRenderer>().enabled = false;
+            GetComponent<Collider2D>().enabled = false;
+            helper.UpdateScore(100);
+            yield return new WaitForSeconds(duration);
+        }
+        else if (gameObject.name.Contains("localAdminUser"))
+        {
+            GetComponent<SpriteRenderer>().enabled = false;
+            GetComponent<Collider2D>().enabled = false;
+            helper.UpdateScore(1000);
+            yield return new WaitForSeconds(duration);
+        }
+        else if (gameObject.name.Contains("SystemUser"))
+        {
+            platforms = GameObject.FindGameObjectsWithTag("Platform");
+            foreach (GameObject platform in platforms)
+            {
+                platform.GetComponent<Platform>().jumpForce *= multiplier;
+            }
+            GetComponent<SpriteRenderer>().enabled = false;
+            GetComponent<Collider2D>().enabled = false;
+            helper.UpdateScore(4000);
+            yield return new WaitForSeconds(duration);
+        }
 
 
         // remove powerup object

@@ -922,6 +922,46 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2042827879044587244, guid: 8117ca8ecfd7eae478df8f80b2133932, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2042827879044587244, guid: 8117ca8ecfd7eae478df8f80b2133932, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2042827879044587244, guid: 8117ca8ecfd7eae478df8f80b2133932, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2042827879044587244, guid: 8117ca8ecfd7eae478df8f80b2133932, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2042827879044587244, guid: 8117ca8ecfd7eae478df8f80b2133932, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2707225307999855068, guid: 8117ca8ecfd7eae478df8f80b2133932, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2707225307999855068, guid: 8117ca8ecfd7eae478df8f80b2133932, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2707225307999855068, guid: 8117ca8ecfd7eae478df8f80b2133932, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2707225307999855068, guid: 8117ca8ecfd7eae478df8f80b2133932, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2707225307999855068, guid: 8117ca8ecfd7eae478df8f80b2133932, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5090382829438328452, guid: 8117ca8ecfd7eae478df8f80b2133932, type: 3}
       propertyPath: m_Name
       value: Jumper_Phase1_EntryPhase
