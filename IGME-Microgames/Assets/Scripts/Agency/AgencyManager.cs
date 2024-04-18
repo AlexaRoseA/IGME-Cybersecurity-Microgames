@@ -79,7 +79,6 @@ public class AgencyManager : LevelManager, IDataPersistence
 
         if(playlistLength == 0)
         {
-            tutorial.RefreshTip("NeedAgentToPlay");
             tutorial.ShowTip("NeedAgentToPlay");
         }
             
@@ -199,6 +198,7 @@ public class AgencyManager : LevelManager, IDataPersistence
         {
 
             workstationCards[i] = GameObject.Find("CardBG (" + i + ")");
+            Debug.Log(workstationCards[i]);
 
             //if there isn't a prefab for this card, disable the card
             if (i >= workstations.Length)
@@ -215,6 +215,10 @@ public class AgencyManager : LevelManager, IDataPersistence
             jobTitle.text = workstations[i].jobTitle;
             UpdatePurchaseStateDisplay(i);
         }
+
+        //set up shop close button
+        GameObject.Find("StoreCloseButton").GetComponent<Button>().onClick.AddListener(() => CloseShop());
+
         shopUI.SetActive(false); //hide the shop until it is shown
         UpdatePlayButton();
     }
@@ -242,9 +246,6 @@ public class AgencyManager : LevelManager, IDataPersistence
     {
         currencyText.text = currency.ToString();
     }
-
-
-
 
     public void Place(int prefabIndex)
     {
@@ -283,7 +284,7 @@ public class AgencyManager : LevelManager, IDataPersistence
         switch (workstations[i].saveData.purchaseState)
         {
             case (int)PurchaseState.ForSale:
-                purchaseText.text = "$" + workstations[i].price;
+                purchaseText.text = "" + workstations[i].price;
                 purchaseButton.onClick.AddListener(() => Purchase(i));
                 purchaseButton.interactable = currency >= workstations[i].price;
                 break;
@@ -340,14 +341,10 @@ public class AgencyManager : LevelManager, IDataPersistence
 
     void IDataPersistence.LoadData(GameData data)
     {
+        //load currency. this will not include any of the player's winnings from the minigames they played before last in the agency.
         currency = data.currency;
 
-        //earned currency is what the player has earned since the load
-        /*
-        currency += gameManager.earnedCurrency;
-        gameManager.earnedCurrency = 0;
-        UpdateCurrency();*/
-
+        //load workstations
         Debug.Log("Loading " + data.workstationSaveDatas.Length + " Workstations");
         for(int i = 0; i < data.workstationSaveDatas.Length; i++)
         {
@@ -365,6 +362,10 @@ public class AgencyManager : LevelManager, IDataPersistence
             else
                 workstations[i].saveData = new WorkstationSaveData();
         }
+        //placing workstations can change the builder's interaction mode, so switch it back to default when we're done. 
+        builder.SwitchInteractionMode(InteractionMode.Move);
+
+        //adds the currency earned by playing minigames since last in the agency. 
         currency += gameManager.ScoreMinigames(this);
         UpdateCurrency();
     }
@@ -372,14 +373,6 @@ public class AgencyManager : LevelManager, IDataPersistence
     void IDataPersistence.SaveData(ref GameData data)
     {
         data.currency = currency;
-
-        //data.purchaseStates = new int[purchaseStates.Length];
-        //for(int i = 0; i < purchaseStates.Length; i++)
-        //{
-        //    data.purchaseStates[i] = (int)purchaseStates[i];
-        //    UpdatePurchaseStateDisplay(i);
-        //}
-
 
         PlacedWorkstation[] placed = FindObjectsByType<PlacedWorkstation>(FindObjectsSortMode.InstanceID);
         Debug.Log("Saving " + placed.Length + " placed workstations");

@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using Yarn.Unity;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class MinigameManager : LevelManager
 {
@@ -13,7 +14,7 @@ public class MinigameManager : LevelManager
     private TextMeshProUGUI timeText;
 
     // Keep track of the current phase name
-    private string currentPhase;
+    public string currentPhase;
 
     // Keep track of the current phase index and game title
     private int phaseNum = 1;
@@ -32,6 +33,10 @@ public class MinigameManager : LevelManager
     private int score;
     private TextMeshProUGUI scoreText;
     public int scoreAnimationThreshold = 100; //how much does the score have to change by to play the animation?
+
+    private GameObject subphaseContainer;
+    private List<GameObject> subphases;
+    private GameObject currentSubPhase = null;
 
     #region Start/Middle/End General Methods
 
@@ -53,6 +58,17 @@ public class MinigameManager : LevelManager
         currentPhase = "none";
 
         SetPhase(false);
+
+        subphaseContainer = GameObject.Find("Subphases");
+        if(subphaseContainer != null)
+        {
+            subphases = new List<GameObject>();
+            foreach (Transform child in subphaseContainer.transform)
+            {
+                subphases.Add(child.gameObject);
+                subphases[subphases.Count - 1].gameObject.SetActive(false);
+            }
+        }
     }
 
     /// <summary>
@@ -327,6 +343,54 @@ public class MinigameManager : LevelManager
     public string GetPriorPhase()
     {
         return priorPhase;
+    }
+
+    #endregion
+
+    #region Subphases
+
+    /// <summary>
+    /// Sets the subphase based on index or name
+    /// Disables the previous subphase and sets the current subphase to new one
+    /// </summary>
+    /// <param name="index">Index of the phase. If using name, put any number here.</param>
+    /// <param name="name">Name of phase, does not matter casing as long as everything else is same.</param>
+    public void SetSubphase(int index, string name = "n/a")
+    {
+        GameObject sb = GetSubphase(index, name);
+
+        if(sb != null)
+        {
+            if(currentSubPhase != null)
+            {
+                currentSubPhase.SetActive(false);
+            }
+
+            currentSubPhase = sb;
+            currentSubPhase.SetActive(true);
+        }
+    }
+
+    /// <summary>
+    /// Looks for a subphase either by index or optionally by phase name.
+    /// </summary>
+    /// <param name="index">Index of the phase. If using name, put any number here.</param>
+    /// <param name="name">Name of phase, does not matter casing as long as everything else is same.</param>
+    /// <returns></returns>
+    private GameObject GetSubphase(int index, string name = "n/a")
+    {
+        if (name != "n/a")
+        {
+            foreach(GameObject obj in subphases)
+            {
+                if(obj.name.ToLower() == name.ToLower())
+                {
+                    return obj;
+                }
+            }
+        } 
+
+        return subphases.ElementAtOrDefault(index);
     }
 
     #endregion

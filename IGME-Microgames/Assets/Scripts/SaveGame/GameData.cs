@@ -9,6 +9,8 @@ public class GameData
     public bool[] isFloor;
     public int[] purchaseStates;
     public WorkstationSaveData[] workstationSaveDatas;
+    public bool[] triggeredTips;
+    public double playTime;
 
     public GameData()
     {
@@ -18,5 +20,7 @@ public class GameData
         currency = 5000;
         purchaseStates = new int[4];
         workstationSaveDatas = new WorkstationSaveData[4];
+        triggeredTips = new bool[5];
+        playTime = 0f;
     }
 }

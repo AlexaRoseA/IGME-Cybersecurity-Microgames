@@ -32,16 +32,18 @@ public class GooglePlaySaveHandler
 
     /// <summary>
     /// opens the longest playtime save game in GPGS, and overwrites the data with the passed data.
+    /// async method. callback will be called true if the save was successful, or false if it failed.
     /// </summary>
     /// <param name="data"></param>
     public void Save(GameData data)
     {
-        if(useGPGS)
+        if(!useGPGS)
         {
-            this.data = data;
-            PlayGamesPlatform.Instance.SavedGame.
-                OpenWithAutomaticConflictResolution("agency", DataSource.ReadCacheOrNetwork, ConflictResolutionStrategy.UseLongestPlaytime, SaveOpened);
+            return;
         }
+        this.data = data;
+        PlayGamesPlatform.Instance.SavedGame.
+            OpenWithAutomaticConflictResolution("agency", DataSource.ReadCacheOrNetwork, ConflictResolutionStrategy.UseLongestPlaytime, SaveOpened);
     }
 
     /// <summary>
