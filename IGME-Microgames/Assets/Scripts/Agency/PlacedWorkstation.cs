@@ -11,7 +11,7 @@ public class PlacedWorkstation : MonoBehaviour
     public WorkstationData minigameData;
 
     GameObject tapui;
-    public int shopIndex;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -78,7 +78,7 @@ public class PlacedWorkstation : MonoBehaviour
         tapuiBG.transform.Find("FitInParentCharacter").transform.GetComponent<Animator>().runtimeAnimatorController = Instantiate(minigameData.workstationIdle);
 
         //workstation is max level
-        if (minigameData.agentLevel >= 3)
+        if (minigameData.saveData.agentLevel >= 3)
         {
             tapuiBG.transform.Find("ChallengeProgressText").GetComponent<TMP_Text>().text = "Max Level";
             tapuiBG.transform.Find("ChallengeProgress").GetComponent<Slider>().value = 1f;
@@ -87,10 +87,10 @@ public class PlacedWorkstation : MonoBehaviour
             return;
         }
         //workstation isn't max level
-        tapuiBG.transform.Find("ChallengeProgressText").GetComponent<TMP_Text>().text = minigameData.challengeCooldown + "/" + Mathf.Pow(2, minigameData.agentLevel + 1);
-        tapuiBG.transform.Find("ChallengeProgress").GetComponent<Slider>().value = minigameData.challengeCooldown / Mathf.Pow(2f, minigameData.agentLevel + 1f);
+        tapuiBG.transform.Find("ChallengeProgressText").GetComponent<TMP_Text>().text = minigameData.saveData.challengeCooldown + "/" + Mathf.Pow(2, minigameData.saveData.agentLevel + 1);
+        tapuiBG.transform.Find("ChallengeProgress").GetComponent<Slider>().value = minigameData.saveData.challengeCooldown / Mathf.Pow(2f, minigameData.saveData.agentLevel + 1f);
 
-        if(minigameData.challengeCooldown / Mathf.Pow(2f, minigameData.agentLevel + 1f) < 1f)
+        if(minigameData.saveData.challengeCooldown / Mathf.Pow(2f, minigameData.saveData.agentLevel + 1f) < 1f)
         {
             //challenge bar isnt full
             tapuiBG.transform.Find("ChallengeButton").GetComponent<Button>().interactable = false;
@@ -103,6 +103,7 @@ public class PlacedWorkstation : MonoBehaviour
     /// </summary>
     public void Practice()
     {
+        DataPersistenceManager.instance.SaveGame();
         agencyManager.gameManager.BuildPlaylist(new WorkstationData[] { minigameData }, 5, true, GameMode.practice);
     }
 
@@ -111,8 +112,9 @@ public class PlacedWorkstation : MonoBehaviour
     /// </summary>
     public void Challenge()
     {
-        if(minigameData.challengeCooldown >= Mathf.Pow(2, minigameData.agentLevel))
+        if(minigameData.saveData.challengeCooldown >= Mathf.Pow(2, minigameData.saveData.agentLevel))
         {
+            DataPersistenceManager.instance.SaveGame();
             agencyManager.gameManager.BuildPlaylist(new WorkstationData[] { minigameData }, 1, false, GameMode.challenge);
         }
     }
@@ -122,10 +124,10 @@ public class PlacedWorkstation : MonoBehaviour
     /// </summary>
     public void ToggleActive()
     {
-        minigameData.inPlaylist = !minigameData.inPlaylist;
+        minigameData.saveData.inPlaylist = !minigameData.saveData.inPlaylist;
 
         tapUICanvas.transform.Find("Buttons").Find("TapUIBG").Find("DeactivateButton").Find("Text (TMP)").
-            gameObject.GetComponent<TMP_Text>().text = minigameData.inPlaylist ? "Remove from playlist" : "Add to playlist";
+            gameObject.GetComponent<TMP_Text>().text = minigameData.saveData.inPlaylist ? "Remove from playlist" : "Add to playlist";
     }
 
     /// <summary>

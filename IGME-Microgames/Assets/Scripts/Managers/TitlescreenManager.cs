@@ -10,9 +10,11 @@ using GooglePlayGames.BasicApi.SavedGame;
 
 public class TitlescreenManager : MonoBehaviour
 {
-
+ 
     public void Start()
     {
+  
+
         PlayGamesPlatform.Instance.Authenticate(SignInInteractivity.CanPromptAlways, (code) =>
         {
             Debug.Log(code);
@@ -34,4 +36,6 @@ public class TitlescreenManager : MonoBehaviour
             }
         });
     }
+
+
 }

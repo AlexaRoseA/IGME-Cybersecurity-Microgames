@@ -36,9 +36,11 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
     [SerializeField] TextMeshProUGUI percentUI;
 
     // Finalized pieces array made of blocks
+    [SerializeField]
     private List<GameObject> totalPieces;
 
     private Canvas[] canvasElements;
+    private GameObject[] taggedBlocks;
 
     #region Start/Middle/End General Methods and Helpers
 
@@ -49,7 +51,7 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
     {
         totalPieces = new List<GameObject>();
         minigameManager = GameObject.Find("MinigameManager").GetComponent<MinigameManager>();
-        GameObject[] taggedBlocks = GameObject.FindGameObjectsWithTag("Piece");
+        taggedBlocks = GameObject.FindGameObjectsWithTag("Piece");
 
         foreach (GameObject block in taggedBlocks)
         {
@@ -68,7 +70,7 @@ public class FireDefense_FirewallCreationLogic : MonoBehaviour
 
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if(!gameStarted)
         {

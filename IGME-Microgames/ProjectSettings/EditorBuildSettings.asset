@@ -48,7 +48,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Tutorials/Jumper_T.unity
     guid: d6a7af908f5125340b17b660ab4d335a
   m_configObjects:
-    com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: 9b7207890d5839f4dac347afe34b8b14, type: 2}
+    com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: 1ce5ee42bc2d1194a8b6b5caf29fd630, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 574a8680e3ddb14438daf87735ba1268, type: 2}
-    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 3998293e34f0ed2458a4185362883971, type: 2}
+    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: f017972960fb4ed45a1585694dcb0df6, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 2cbdbb955274c5046a6d469f86b70d17, type: 2}
