@@ -1,0 +1,23 @@
+﻿title: ForcePhase
+tags:
+
+title: ForcePhase1
+---
+<<ForcePhase MinigameManager CookieCrafter_Phase1_Order>>
+<<set $currentPhase to "CookieCrafter_Phase1_Order">>
+===
+title: ForcePhase2
+---
+<<ForcePhase MinigameManager CookieCrafter_Phase2_Dough>>
+<<set $currentPhase to "CookieCrafter_Phase2_Dough">>
+===
+title: ForcePhase3
+---
+<<ForcePhase MinigameManager CookieCrafter_Phase3_Oven>>
+<<set $currentPhase to "CookieCrafter_Phase3_Oven">>
+===
+title: ForcePhase4
+---
+<<ForcePhase MinigameManager CookieCrafter_Phase4_Toppings>>
+<<set $currentPhase to "CookieCrafter_Phase4_Toppings">>
+===

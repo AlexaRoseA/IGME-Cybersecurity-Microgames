@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class OrderCookieManager : MonoBehaviour
 {
+    /*
     // Start is called before the first frame update
     void Start()
     {
@@ -118,4 +119,5 @@ public class OrderCookieManager : MonoBehaviour
         return cookie;
 
     }
+    */
 }
