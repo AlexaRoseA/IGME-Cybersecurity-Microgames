@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class CookieGameManager : MonoBehaviour
 {
-    private MinigameManager helper;
+    public MinigameManager helper;
+    //public Subphases subphases;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        helper = new MinigameManager();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        helper.SetSubphase(2);
+        //helper.EndGame();
     }
 }

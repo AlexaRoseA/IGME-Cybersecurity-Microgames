@@ -425,6 +425,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2804876071144062016, guid: b6abf6827bad51549ae4c498753a852f, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2804876071144062016, guid: b6abf6827bad51549ae4c498753a852f, type: 3}
+      propertyPath: currentPhase
+      value: CookieCrafter_Phase0_Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 2804876071144062016, guid: b6abf6827bad51549ae4c498753a852f, type: 3}
       propertyPath: dialogueRunner
       value: 
       objectReference: {fileID: 1703192009}
@@ -639,6 +647,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd82f89ea8c3a1e4199149a203988222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  helper: {fileID: 2804876071144062016, guid: b6abf6827bad51549ae4c498753a852f, type: 3}
 --- !u!4 &1244971736
 Transform:
   m_ObjectHideFlags: 0
@@ -783,6 +792,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7aa4c875915e694ba29d6e1f51ee2c3, type: 3}
+--- !u!1001 &1645936193
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5370224922864452597, guid: c41a0c456a65e1149b06c869f83b5fff, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5370224922864452597, guid: c41a0c456a65e1149b06c869f83b5fff, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5370224922864452597, guid: c41a0c456a65e1149b06c869f83b5fff, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5370224922864452597, guid: c41a0c456a65e1149b06c869f83b5fff, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5370224922864452597, guid: c41a0c456a65e1149b06c869f83b5fff, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5370224922864452597, guid: c41a0c456a65e1149b06c869f83b5fff, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5370224922864452597, guid: c41a0c456a65e1149b06c869f83b5fff, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5370224922864452597, guid: c41a0c456a65e1149b06c869f83b5fff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5370224922864452597, guid: c41a0c456a65e1149b06c869f83b5fff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5370224922864452597, guid: c41a0c456a65e1149b06c869f83b5fff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8444273407677108279, guid: c41a0c456a65e1149b06c869f83b5fff, type: 3}
+      propertyPath: m_Name
+      value: CookieCrafter_Phase0_Manager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c41a0c456a65e1149b06c869f83b5fff, type: 3}
 --- !u!114 &1703192008 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3831113771892455813, guid: 7f29e5f7ffdea4a6793cefb278b61f0c, type: 3}
@@ -815,3 +881,4 @@ SceneRoots:
   - {fileID: 489605938}
   - {fileID: 1302215708}
   - {fileID: 1125465269}
+  - {fileID: 1645936193}
