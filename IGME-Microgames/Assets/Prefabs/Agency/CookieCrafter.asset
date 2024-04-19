@@ -20,7 +20,7 @@ MonoBehaviour:
   price: 2000
   isOutline: 1
   starThresholds: 00000080e8030000b80b00007017000010270000
-  tutorialScene: 
+  tutorialScene: CookieCrafter
   saveData:
     shopIndex: 0
     challengeCooldown: 0

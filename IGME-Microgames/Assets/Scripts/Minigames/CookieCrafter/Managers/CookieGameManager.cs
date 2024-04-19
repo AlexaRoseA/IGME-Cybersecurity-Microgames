@@ -10,7 +10,7 @@ public class CookieGameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        helper = new MinigameManager();
+        //helper = new MinigameManager();
     }
 
     void Update()

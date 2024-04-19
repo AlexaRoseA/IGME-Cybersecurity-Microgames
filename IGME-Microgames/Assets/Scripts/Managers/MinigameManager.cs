@@ -35,6 +35,7 @@ public class MinigameManager : LevelManager
     public int scoreAnimationThreshold = 100; //how much does the score have to change by to play the animation?
 
     private GameObject subphaseContainer;
+    [SerializeField]
     private List<GameObject> subphases;
     private GameObject currentSubPhase = null;
 
