@@ -17,13 +17,18 @@ MonoBehaviour:
   minigameName: PACKET PANIC
   workstationIdle: {fileID: 9100000, guid: 33df6cae26341a34088aa3e1a8419856, type: 2}
   shopSprite: {fileID: 21300000, guid: a7500de68e0c2bc4ea04c4077570a5e4, type: 3}
-  price: 2000
+  price: 0
   isOutline: 1
   starThresholds: 00000080a00f000070170000581b000034210000
-  challengeCooldown: 1
-  highscore: 0
-  agentLevel: 0
   tutorialScene: 
-  fresh: 1
-  timesPlayed: 0
-  inPlaylist: 0
+  saveData:
+    shopIndex: 0
+    challengeCooldown: 0
+    highscore: 0
+    agentLevel: 0
+    fresh: 1
+    timesPlayed: 0
+    inPlaylist: 1
+    x: 0
+    y: 0
+    purchaseState: 0

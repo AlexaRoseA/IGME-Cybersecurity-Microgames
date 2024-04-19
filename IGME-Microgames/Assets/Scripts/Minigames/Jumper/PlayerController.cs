@@ -26,13 +26,13 @@ public class PlayerController : MonoBehaviour
             {
                 movex = Input.GetAxis("Horizontal") * moveSpeed;
             }
-        }
-        else if (Input.acceleration.x != 0)
-        {
+        
+            else if (Input.acceleration.x != 0)
+            {
 
-            movex = Input.acceleration.x * moveSpeed;
+                movex = Input.acceleration.x * moveSpeed;
+            }
         }
-
 
     }
 
