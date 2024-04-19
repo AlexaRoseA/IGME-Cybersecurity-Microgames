@@ -41,6 +41,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tutorials/FireDefense_T.unity
     guid: c6c135a790ecd0640a3c7e6cf4fbb385
+  - enabled: 1
+    path: Assets/Scenes/Minigames/Jumper.unity
+    guid: 936d4f7b66ad03c4599bbe07c4eeecae
+  - enabled: 1
+    path: Assets/Scenes/Tutorials/Jumper_T.unity
+    guid: d6a7af908f5125340b17b660ab4d335a
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: 1ce5ee42bc2d1194a8b6b5caf29fd630, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 574a8680e3ddb14438daf87735ba1268, type: 2}

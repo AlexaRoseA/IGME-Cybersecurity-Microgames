@@ -1,0 +1,28 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Platform : MonoBehaviour
+{
+    public float jumpForce = 5f;
+
+
+    //if the player collides with the platform
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        
+        if (collision.relativeVelocity.y <= 0f)
+        {
+            Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
+            if (rb != null )
+            {
+                //changes the velocity of the player to be the jumpforce
+                Vector2 velocity = rb.velocity;
+                velocity.y = jumpForce;
+                rb.velocity = velocity;
+                GameObject.Find("Jumpy").GetComponent<Animator>().Play("Jumping", 0, 0f);
+
+            }
+        }
+    }
+}
