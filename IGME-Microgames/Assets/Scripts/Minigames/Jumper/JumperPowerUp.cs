@@ -32,17 +32,22 @@ public class JumperPowerUp : MonoBehaviour
 
         // apply effect to player
         print(gameObject.name);
+
+        //this checks to see what powerup the player ran into and plays the corresponding effect
         if (gameObject.name.Contains("JumpHigherPowerup"))
         {
+            //gets all platforms and increases the jump height multiplier on all of them
             platforms = GameObject.FindGameObjectsWithTag("Platform");
             foreach (GameObject platform in platforms)
             {
                 platform.GetComponent<Platform>().jumpForce *= multiplier;
             }
+            //removes the powerup from the game
             GetComponent<SpriteRenderer>().enabled = false;
             GetComponent<Collider2D>().enabled = false;
+            //updates score
             helper.UpdateScore(10);
-            //wait x seconds
+            //wait for the duration (seconds)
             yield return new WaitForSeconds(duration);
 
             //reverse effect on player
@@ -53,8 +58,11 @@ public class JumperPowerUp : MonoBehaviour
         }
         else if (gameObject.name.Contains("BackdoorPowerup"))
         {
+            //updates score
             helper.UpdateScore(1000);
 
+            //teleports the player up 75 units (I think world space) 
+            //this powerup cannot spawn close to game height to prevent teleportation out of the game
             jumpy = GameObject.Find("Jumpy").transform;
             Vector3 bar = jumpy.position;
             bar.y = bar.y + 75;
@@ -66,12 +74,17 @@ public class JumperPowerUp : MonoBehaviour
         }
         else if (gameObject.name.Contains("DomainAdministrator"))
         {
+            //the way to win the game
+            //domain admin is the final goal so it gives you the points needed for 5 starts if somehow you didn't get there already
             GetComponent<SpriteRenderer>().enabled = false;
             GetComponent<Collider2D>().enabled = false;
             helper.UpdateScore(10000);
             yield return new WaitForSeconds(duration);
+            //ends the game
             helper.EndGame();
         }
+        //these three are collectables. In pentesting you need lateral movement to successfully get DA so this simulates that
+        //standard users gives you some points and are more common throughout the level
         else if (gameObject.name.Contains("standardUser"))
         {
             GetComponent<SpriteRenderer>().enabled = false;
@@ -79,6 +92,7 @@ public class JumperPowerUp : MonoBehaviour
             helper.UpdateScore(100);
             yield return new WaitForSeconds(duration);
         }
+        //admin users are less common and more helpful for a pentest -> more points rewarded
         else if (gameObject.name.Contains("localAdminUser"))
         {
             GetComponent<SpriteRenderer>().enabled = false;
@@ -86,6 +100,8 @@ public class JumperPowerUp : MonoBehaviour
             helper.UpdateScore(500);
             yield return new WaitForSeconds(duration);
         }
+        //I'm calling this a system user because idk what else to call it. basically a user with system level priviledges which is amazing for a pentest
+        //this powerup spawns every 100 games or so and is incredibly rare. if they find it, they get a perminant jump boost and 4k points
         else if (gameObject.name.Contains("SystemUser"))
         {
             platforms = GameObject.FindGameObjectsWithTag("Platform");

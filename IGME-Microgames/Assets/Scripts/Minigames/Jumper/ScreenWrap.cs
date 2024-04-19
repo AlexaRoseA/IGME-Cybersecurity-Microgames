@@ -14,13 +14,14 @@ public class ScreenWrap : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //finds things rendering the screen
         renderers = GetComponentsInChildren<Renderer>();
 
         screenWidth = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
         helper = GameObject.FindObjectOfType<MinigameManager>();
-        //CreateGhostShips();
 
     }
+    //used to checking if the player is currently being rendered
     bool CheckRenderers()
     {
         foreach(var renderer in renderers)
@@ -33,6 +34,7 @@ public class ScreenWrap : MonoBehaviour
         return false;
     }
 
+    //fun thing to have player wrap from one side of screen to the other
     void WrapFromScreen()
     {
         var isVisible = CheckRenderers();
@@ -49,42 +51,16 @@ public class ScreenWrap : MonoBehaviour
         var cam = Camera.main;
         var viewportPosition = cam.WorldToViewportPoint(transform.position);
         var newPosition = transform.position;
-
+        //makes player wrap. 
         if (!isWrappingX && (viewportPosition.x >= 1 || viewportPosition.x <= 0))
         {
+            //for some reason this needs to be +3f because of how hackbox has the objects positioned.
+            //(if you need to change this value also change it in the jumper game manager for when it creates platforms based off of screen width).
             newPosition.x = -(newPosition.x+3f);
             isWrappingX = true;
         }
         transform.position = newPosition;
     }
-
-    void CreateGhostShips()
-    {
-        for (int i = 0; i < 2; i++)
-        {
-            ghosts[i] = Instantiate(transform, Vector3.zero, Quaternion.identity) as Transform;
-            DestroyImmediate(ghosts[i].GetComponent(typeof(Component)));
-        }
-    }
-    void PositionGhostShips()
-    {
-        // All ghost positions will be relative to the ships (this) transform,
-        // so let's star with that.
-        var ghostPosition = transform.position;
-        // We're positioning the ghosts clockwise behind the edges of the screen.
-        // Let's start with the far right.
-        ghostPosition.x = transform.position.x + screenWidth.x;
-        ghostPosition.y = transform.position.y;
-        ghosts[0].position = ghostPosition;
-        ghosts[0].rotation = transform.rotation;
-
-        // Left
-        ghostPosition.x = transform.position.x - screenWidth.x;
-        ghostPosition.y = transform.position.y;
-        ghosts[1].position = ghostPosition;
-        ghosts[1].rotation = transform.rotation;
-    }
-
 
         // Update is called once per frame
         void Update()

@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        //gets the player and minigame manager.
         rb = GetComponent<Rigidbody2D>();
         helper = GameObject.FindObjectOfType<MinigameManager>();
     }
@@ -34,12 +35,10 @@ public class PlayerController : MonoBehaviour
     {
         if (helper.currentPhase == "startGame")
         {
+            //sets the velocity to the one gathered from device tilt.
             Vector2 velocity = rb.velocity;
             velocity.x = movex;
             rb.velocity = velocity;
         }
-
-        //Vector3 movement = new Vector3(Input.acceleration.x, 0.0f, 0.0f);
-        //rb.velocity = movement * moveSpeed;
     }
 }
