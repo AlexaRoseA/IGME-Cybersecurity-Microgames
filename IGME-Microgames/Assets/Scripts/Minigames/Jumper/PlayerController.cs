@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    public float moveSpeed = 8f;
     public Rigidbody2D rb;
-    bool finger = false;
     private MinigameManager helper;
 
     private float movex;
@@ -22,16 +21,11 @@ public class PlayerController : MonoBehaviour
     {
         if (helper.currentPhase == "startGame")
         {
-            if (Input.GetAxis("Horizontal") != 0)
-            {
-                movex = Input.GetAxis("Horizontal") * moveSpeed;
-            }
-        
-            else if (Input.acceleration.x != 0)
-            {
+            //this does nothing because of the movex = Input.acceleration line below. if you want to test gameplay using the keyboard without loading to file, uncomment below and comment the other movex line
+            //movex = Input.GetAxis("Horizontal") * moveSpeed;
 
-                movex = Input.acceleration.x * moveSpeed;
-            }
+            //comment this out if you want to test on computer in "game" mode (not simulator)
+            movex = Input.acceleration.x * moveSpeed;
         }
 
     }

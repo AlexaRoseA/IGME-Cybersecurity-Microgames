@@ -41,7 +41,7 @@ public class JumperPowerUp : MonoBehaviour
             }
             GetComponent<SpriteRenderer>().enabled = false;
             GetComponent<Collider2D>().enabled = false;
-            helper.UpdateScore(100);
+            helper.UpdateScore(10);
             //wait x seconds
             yield return new WaitForSeconds(duration);
 
@@ -53,7 +53,7 @@ public class JumperPowerUp : MonoBehaviour
         }
         else if (gameObject.name.Contains("BackdoorPowerup"))
         {
-            helper.UpdateScore(2000);
+            helper.UpdateScore(1000);
 
             jumpy = GameObject.Find("Jumpy").transform;
             Vector3 bar = jumpy.position;
@@ -68,7 +68,7 @@ public class JumperPowerUp : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().enabled = false;
             GetComponent<Collider2D>().enabled = false;
-            helper.UpdateScore(5000);
+            helper.UpdateScore(10000);
             yield return new WaitForSeconds(duration);
             helper.EndGame();
         }
@@ -83,7 +83,7 @@ public class JumperPowerUp : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().enabled = false;
             GetComponent<Collider2D>().enabled = false;
-            helper.UpdateScore(1000);
+            helper.UpdateScore(500);
             yield return new WaitForSeconds(duration);
         }
         else if (gameObject.name.Contains("SystemUser"))
