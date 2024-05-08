@@ -1,0 +1,11 @@
+title: CookieCrafter_Phase1_Order
+---
+<<ShowAllCharacters CharacterDialogDisplayer>>
+
+Cookie: Welcome to <color=red>Cookie Crafter</color>!
+Cookie: Create cookies according to what customers order.
+Cookie: Accept the orders of good customers. Deny the orders of evil customers.
+Cookie: </color>Complete all orders to win!</color>
+
+<<HideAllCharacters CharacterDialogDisplayer>>
+===

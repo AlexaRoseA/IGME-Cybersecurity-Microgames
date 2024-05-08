@@ -8,12 +8,19 @@ public class Toppings : MonoBehaviour
     private string type = "Chocolate Chips";
     private GameObject icon;
 
-    // Constructor with a parameter.
+    // Constructor with two parameters
     public Toppings(string type, GameObject icon)
     {
         // Call the Type property's setter.
         this.Type = type;
         this.Icon = icon;
+    }
+
+    // Constructor with one parameter
+    public Toppings(string type)
+    {
+        // Call the Type property's setter.
+        this.Type = type;
     }
 
     // Property for 'type' with custom logic in the setter.

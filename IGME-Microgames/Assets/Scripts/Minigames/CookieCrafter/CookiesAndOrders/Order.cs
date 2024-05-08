@@ -8,17 +8,27 @@ public class Order : MonoBehaviour
     private int state;
     private int score;
     private bool isBad;
+    private GameObject customer;
+    private int completeness;
 
-    // Constructor to initialize a new Cookie with default values
-    public Order(Cookie cookie, int state, bool isBad)
+    // Constructor to initialize a new Order with default values
+    public Order(Cookie cookie, int state, bool isBad, GameObject customer)
     {
-        this.Cookie = cookie; // Assign the passed parameter to the field
-        this.State = state; // Assign the passed parameter to the field
+        this.Cookie = cookie;
+        this.State = state;
         this.IsBad = isBad;
+        this.Customer = customer;
         score = 1000;
+        completeness = 0;
     }
 
-    public Cookie Cookie
+    // Constructor overload for Order for creations
+    public Order(Cookie cookie)
+    {
+        this.Cookie = cookie;
+    }
+
+    public Cookie Cookie // The cookie the order is requesting
     {
         get => cookie;
         set => cookie = value;
@@ -36,10 +46,22 @@ public class Order : MonoBehaviour
         set => score = value;
     }
 
-    public bool IsBad
+    public bool IsBad // If the order is evil
     {
         get => isBad;
         set => isBad = value;
+    }
+
+    public GameObject Customer // Drawing of the customer
+    {
+        get => customer;
+        set => customer = value;
+    }
+
+    public int Completeness // needsDough = 0, needsHeat=1, needsStopHeat = 2, needsToppings=3, done=4
+    {
+        get => completeness;
+        set => completeness = value;
     }
 
 }
