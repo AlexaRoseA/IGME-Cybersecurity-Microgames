@@ -666,6 +666,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1743675803787192495, guid: 4d7ea2c4610c46b4dbc893d5a1c5dc17, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 584.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 1743675803787192495, guid: 4d7ea2c4610c46b4dbc893d5a1c5dc17, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 108.464
+      objectReference: {fileID: 0}
+    - target: {fileID: 1743675803787192495, guid: 4d7ea2c4610c46b4dbc893d5a1c5dc17, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -667.6884
+      objectReference: {fileID: 0}
+    - target: {fileID: 1743675803787192495, guid: 4d7ea2c4610c46b4dbc893d5a1c5dc17, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1398.0673
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840057026272691203, guid: 4d7ea2c4610c46b4dbc893d5a1c5dc17, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5905918352471357777, guid: 4d7ea2c4610c46b4dbc893d5a1c5dc17, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -925,6 +945,10 @@ PrefabInstance:
     - target: {fileID: 3784942329567192807, guid: 550f0c85a6882db4f9700e2bea6d0a57, type: 3}
       propertyPath: m_Name
       value: Timer_TopLeft
+      objectReference: {fileID: 0}
+    - target: {fileID: 8250089738402772372, guid: 550f0c85a6882db4f9700e2bea6d0a57, type: 3}
+      propertyPath: m_Color.a
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

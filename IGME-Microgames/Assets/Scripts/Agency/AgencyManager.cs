@@ -346,7 +346,7 @@ public class AgencyManager : LevelManager, IDataPersistence
 
         //load workstations
         Debug.Log("Loading " + data.workstationSaveDatas.Length + " Workstations");
-        for(int i = 0; i < data.workstationSaveDatas.Length; i++)
+        for(int i = 0; i < Mathf.Min(data.workstationSaveDatas.Length, workstations.Length); i++)
         {
             if (data.workstationSaveDatas[i] != null)
             {
